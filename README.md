@@ -8,7 +8,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge)](https://opensource.org/licenses/MIT)
 [![Flutter](https://img.shields.io/badge/Flutter-3.10+-02569B?style=for-the-badge&logo=flutter&logoColor=white)](https://flutter.dev)
 [![Platform](https://img.shields.io/badge/Platform-All-blueviolet?style=for-the-badge)](https://flutter.dev)
-[![Live Demo](https://img.shields.io/badge/🚀_Live_Demo-View_Online-success?style=for-the-badge)](https://GeniusSystems24.github.io/super_dialog/)
+[![Live Demo](https://img.shields.io/badge/🚀_Live_Demo-View_Online-success?style=for-the-badge)](https://geniussystems24.github.io/super_dialog/index.html)
 
 *A powerful, flexible, and beautifully animated dialog toolkit for Flutter.*  
 *Create stunning dialogs with smooth slide, scale, and fade animations.*
@@ -74,7 +74,7 @@ Add to your `pubspec.yaml`:
 
 ```yaml
 dependencies:
-  super_dialog: ^0.2.0
+  super_dialog: ^0.2.1
 ```
 
 ```bash
@@ -374,7 +374,7 @@ SuperDialog.showAnimatedAdaptiveDialog(
 
 ### 🌐 Live Demo
 
-**[👉 Try it online: https://GeniusSystems24.github.io/super_dialog/](https://GeniusSystems24.github.io/super_dialog/)**
+**[👉 Try it online: https://geniussystems24.github.io/super_dialog/index.html](https://geniussystems24.github.io/super_dialog/index.html)**
 
 The package includes a comprehensive example app with:
 

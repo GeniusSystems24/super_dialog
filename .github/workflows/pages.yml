@@ -5,6 +5,7 @@ on:
     branches: ["main"]
     paths:
       - "docs/**"
+      - "example/**"
       - ".github/workflows/pages.yml"
   workflow_dispatch:
 
@@ -27,25 +28,22 @@ jobs:
         uses: subosito/flutter-action@v2
         with:
           channel: stable
-      # (subosito/flutter-action هو الأكثر شيوعًا لتجهيز Flutter على GitHub Actions) :contentReference[oaicite:2]{index=2}
 
       - name: Get dependencies
-        working-directory: demo
+        working-directory: example
         run: flutter pub get
 
       - name: Build web
-        working-directory: demo
+        working-directory: example
         run: flutter build web --release --base-href "/${{ github.event.repository.name }}/"
-        # مهم لأن GitHub Pages للريبو يكون تحت مسار /<repo>/ وليس الجذر :contentReference[oaicite:3]{index=3}
 
       - name: Disable Jekyll
-        run: touch demo/build/web/.nojekyll
+        run: touch example/build/web/.nojekyll
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v4
         with:
-          path: demo/build/web
-        # upload-pages-artifact@v4 موصى به في توثيق GitHub Pages :contentReference[oaicite:4]{index=4}
+          path: example/build/web
 
   deploy:
     needs: build
