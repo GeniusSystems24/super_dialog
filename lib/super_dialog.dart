@@ -31,5 +31,6 @@ import 'package:flutter/material.dart';
 // Parts
 part 'src/config/super_dialog_config.dart';
 part 'src/enums/dialog_animation.dart';
+part 'src/enums/dialog_position.dart';
 part 'src/transitions/dialog_transitions.dart';
 part 'src/super_dialog.dart';

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import '../../theme/app_theme.dart';
 
 class RoadmapCard extends StatelessWidget {
@@ -56,7 +55,7 @@ class RoadmapCard extends StatelessWidget {
                 const SizedBox(width: 16),
                 Text(
                   'Roadmap checkpoints',
-                  style: GoogleFonts.inter(
+                  style: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.w700,
                     color: textColor,
@@ -148,7 +147,7 @@ class _RoadmapStep extends StatelessWidget {
               children: [
                 Text(
                   label,
-                  style: GoogleFonts.inter(
+                  style: TextStyle(
                     fontSize: 14,
                     fontWeight: FontWeight.w600,
                     color: textColor,
@@ -157,7 +156,7 @@ class _RoadmapStep extends StatelessWidget {
                 const SizedBox(height: 4),
                 Text(
                   eta,
-                  style: GoogleFonts.inter(fontSize: 12, color: secondaryColor),
+                  style: TextStyle(fontSize: 12, color: secondaryColor),
                 ),
               ],
             ),
@@ -170,7 +169,7 @@ class _RoadmapStep extends StatelessWidget {
             ),
             child: Text(
               statusLabel,
-              style: GoogleFonts.inter(
+              style: TextStyle(
                 fontSize: 11,
                 fontWeight: FontWeight.w600,
                 color: statusColor,

@@ -1,6 +1,6 @@
 name: super_dialog
 description: "A powerful, flexible, and beautifully animated dialog toolkit for Flutter. Create stunning dialogs with smooth slide, scale, and fade animations."
-version: 0.1.0
+version: 0.2.0
 homepage: https://github.com/GeniusSystems24/super_dialog
 repository: https://github.com/GeniusSystems24/super_dialog
 issue_tracker: https://github.com/GeniusSystems24/super_dialog/issues
@@ -12,6 +12,14 @@ topics:
   - ui
   - modal
   - popup
+
+platforms:
+  android:
+  ios:
+  linux:
+  macos:
+  web:
+  windows:
 
 environment:
   sdk: ^3.10.3

@@ -5,6 +5,33 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.2.0] - 2025-12-24T19:52:58+03:00
+
+### Added
+
+- **DialogPosition** enum with 10 positions for fine-grained control:
+  - `topStart`, `topCenter`, `topEnd`
+  - `centerStart`, `center`, `centerEnd`
+  - `bottomStart`, `bottomCenter`, `bottomEnd`
+  - `offScreen` - For slide-in from outside the screen
+
+- **showPositionedDialog()** - New method for custom position transitions:
+  - Define exact start and end positions on a 3x3 grid
+  - Multiple transition types: slide, fade, scale, or combinations
+
+- **PositionedTransitionType** enum:
+  - `slide`, `slideFade`, `slideScale`, `slideFadeScale`
+  - `fade`, `scale`, `scaleFade`
+
+- **DialogPositionExtension** - Utility extension methods:
+  - `toAlignment()` - Convert to Alignment
+  - `toAlignmentDirectional()` - Convert to AlignmentDirectional (RTL-aware)
+  - `toSlideOffset()` - Convert to Offset for sliding
+  - `displayName` - Human-readable name
+  - `isTop`, `isBottom`, `isStart`, `isEnd`, etc.
+
+- **PositionedDialogTransitionBuilder** - Reusable builder for positioned transitions
+
 ## [0.1.0] - 2025-12-24T19:22:21+03:00
 
 ### Added
@@ -63,3 +90,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Initial project setup
 - Basic animated dialog implementation (as AnimatedDialog)
+

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import '../../theme/app_theme.dart';
 
 class CenterReminderCard extends StatelessWidget {
@@ -59,9 +58,9 @@ class CenterReminderCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Text(
+                  const Text(
                     'Quick Reminder',
-                    style: GoogleFonts.inter(
+                    style: TextStyle(
                       fontSize: 11,
                       fontWeight: FontWeight.w600,
                       color: AppColors.accent,
@@ -71,7 +70,7 @@ class CenterReminderCard extends StatelessWidget {
                   const SizedBox(height: 6),
                   Text(
                     'Finalize the September staffing plan before approving new PTO requests.',
-                    style: GoogleFonts.inter(
+                    style: TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.w500,
                       color: textColor,

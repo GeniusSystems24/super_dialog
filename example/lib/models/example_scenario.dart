@@ -16,6 +16,7 @@ class ExampleScenario {
     this.barrierColor,
     this.barrierBlur,
     this.onDismissed,
+    this.codeSnippet,
   });
 
   final String title;
@@ -32,5 +33,36 @@ class ExampleScenario {
   final double? barrierBlur;
   final void Function(BuildContext context)? onDismissed;
 
+  /// The code snippet to display/copy for this example.
+  final String? codeSnippet;
+
   String get animationLabel => animation.toString().split('.').last;
+
+  /// Generates a code snippet automatically based on the scenario parameters.
+  String get generatedCodeSnippet {
+    if (codeSnippet != null) return codeSnippet!;
+
+    final buffer = StringBuffer();
+    buffer.writeln('SuperDialog.showAnimatedDialog<void>(');
+    buffer.writeln('  context,');
+    buffer.writeln('  (context) => const MyDialog(),');
+    buffer.writeln('  animation: DialogAnimation.$animationLabel,');
+
+    if (constraints != null) {
+      buffer.writeln(
+        '  constraints: const BoxConstraints(maxWidth: ${constraints!.maxWidth.toInt()}),',
+      );
+    }
+
+    if (barrierDismissible != null) {
+      buffer.writeln('  barrierDismissible: $barrierDismissible,');
+    }
+
+    if (barrierBlur != null) {
+      buffer.writeln('  barrierBlur: $barrierBlur,');
+    }
+
+    buffer.write(');');
+    return buffer.toString();
+  }
 }

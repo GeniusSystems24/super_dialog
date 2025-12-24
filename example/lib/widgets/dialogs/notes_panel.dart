@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import '../../theme/app_theme.dart';
 
 class NotesPanel extends StatelessWidget {
@@ -62,7 +61,7 @@ class NotesPanel extends StatelessWidget {
                 Expanded(
                   child: Text(
                     title,
-                    style: GoogleFonts.inter(
+                    style: TextStyle(
                       fontSize: 17,
                       fontWeight: FontWeight.w700,
                       color: textColor,
@@ -90,7 +89,7 @@ class NotesPanel extends StatelessWidget {
                     Expanded(
                       child: Text(
                         item,
-                        style: GoogleFonts.inter(
+                        style: TextStyle(
                           fontSize: 14,
                           color: secondaryColor,
                           height: 1.4,

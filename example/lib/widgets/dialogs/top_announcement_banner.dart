@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import '../../theme/app_theme.dart';
 
 class TopAnnouncementBanner extends StatelessWidget {
@@ -77,7 +76,7 @@ class TopAnnouncementBanner extends StatelessWidget {
                           children: [
                             Text(
                               'Quarterly blackout reminder',
-                              style: GoogleFonts.inter(
+                              style: TextStyle(
                                 fontSize: 17,
                                 fontWeight: FontWeight.w700,
                                 color: textColor,
@@ -86,7 +85,7 @@ class TopAnnouncementBanner extends StatelessWidget {
                             const SizedBox(height: 8),
                             Text(
                               'Please review PTO requests submitted between Sep 20 - Sep 30 before the blackout period begins.',
-                              style: GoogleFonts.inter(
+                              style: TextStyle(
                                 fontSize: 14,
                                 color: secondaryColor,
                                 height: 1.5,

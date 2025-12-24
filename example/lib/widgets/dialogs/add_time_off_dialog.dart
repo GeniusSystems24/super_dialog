@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import '../../theme/app_theme.dart';
 
 class AddTimeOffDialog extends StatelessWidget {
@@ -88,7 +87,7 @@ class AddTimeOffDialog extends StatelessWidget {
                                 children: [
                                   Text(
                                     'James Black',
-                                    style: GoogleFonts.inter(
+                                    style: TextStyle(
                                       fontSize: 17,
                                       fontWeight: FontWeight.w700,
                                       color: textColor,
@@ -97,7 +96,7 @@ class AddTimeOffDialog extends StatelessWidget {
                                   const SizedBox(height: 4),
                                   Text(
                                     'Product Designer',
-                                    style: GoogleFonts.inter(
+                                    style: TextStyle(
                                       fontSize: 13,
                                       color: secondaryColor,
                                     ),
@@ -110,7 +109,7 @@ class AddTimeOffDialog extends StatelessWidget {
                               children: [
                                 Text(
                                   'Quota remaining',
-                                  style: GoogleFonts.inter(
+                                  style: TextStyle(
                                     fontSize: 11,
                                     color: secondaryColor,
                                   ),
@@ -127,9 +126,9 @@ class AddTimeOffDialog extends StatelessWidget {
                                     ),
                                     borderRadius: BorderRadius.circular(8),
                                   ),
-                                  child: Text(
+                                  child: const Text(
                                     '46:06:24',
-                                    style: GoogleFonts.monoton(
+                                    style: TextStyle(
                                       fontSize: 14,
                                       fontWeight: FontWeight.w700,
                                       color: AppColors.success,
@@ -144,7 +143,7 @@ class AddTimeOffDialog extends StatelessWidget {
                         // Time off types
                         Text(
                           'Time off type',
-                          style: GoogleFonts.inter(
+                          style: TextStyle(
                             fontSize: 13,
                             fontWeight: FontWeight.w500,
                             color: secondaryColor,
@@ -210,7 +209,7 @@ class AddTimeOffDialog extends StatelessWidget {
                           children: [
                             Text(
                               'Current pay period',
-                              style: GoogleFonts.inter(
+                              style: TextStyle(
                                 fontSize: 12,
                                 color: secondaryColor,
                               ),
@@ -230,9 +229,9 @@ class AddTimeOffDialog extends StatelessWidget {
                           ],
                         ),
                         const SizedBox(height: 12),
-                        Text(
+                        const Text(
                           'July 2022',
-                          style: GoogleFonts.inter(
+                          style: TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.w700,
                             color: AppColors.primary,
@@ -259,7 +258,7 @@ class AddTimeOffDialog extends StatelessWidget {
                             Expanded(
                               child: Text(
                                 'Duration: 4 days',
-                                style: GoogleFonts.inter(
+                                style: TextStyle(
                                   fontSize: 13,
                                   fontWeight: FontWeight.w600,
                                   color: secondaryColor,
@@ -280,7 +279,7 @@ class AddTimeOffDialog extends StatelessWidget {
                             Expanded(
                               child: Text(
                                 'Jul 01st - Jul 04th',
-                                style: GoogleFonts.inter(
+                                style: TextStyle(
                                   fontSize: 13,
                                   color: secondaryColor,
                                 ),
@@ -331,7 +330,7 @@ class _TypeTile extends StatelessWidget {
       ),
       child: Text(
         label,
-        style: GoogleFonts.inter(
+        style: TextStyle(
           fontSize: 13,
           fontWeight: FontWeight.w600,
           color: isPrimary ? Colors.white : AppColors.lightTextSecondary,
@@ -392,7 +391,7 @@ class _CheckboxRow extends StatelessWidget {
               children: [
                 Text(
                   label,
-                  style: GoogleFonts.inter(
+                  style: TextStyle(
                     fontSize: 12,
                     fontWeight: FontWeight.w600,
                     color: checked ? AppColors.primary : secondaryColor,
@@ -401,7 +400,7 @@ class _CheckboxRow extends StatelessWidget {
                 const SizedBox(height: 4),
                 Text(
                   details,
-                  style: GoogleFonts.inter(
+                  style: TextStyle(
                     fontSize: 13,
                     fontWeight: FontWeight.w500,
                     color: textColor,
@@ -449,7 +448,7 @@ class _CalendarGrid extends StatelessWidget {
                   child: Center(
                     child: Text(
                       label,
-                      style: GoogleFonts.inter(
+                      style: TextStyle(
                         fontSize: 11,
                         fontWeight: FontWeight.w600,
                         color: secondaryColor,
@@ -532,7 +531,7 @@ class _CalendarDay extends StatelessWidget {
       alignment: Alignment.center,
       child: Text(
         '$day',
-        style: GoogleFonts.inter(
+        style: TextStyle(
           fontSize: 11,
           fontWeight: FontWeight.w600,
           color: dayTextColor,

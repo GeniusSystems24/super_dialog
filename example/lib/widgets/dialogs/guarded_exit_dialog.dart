@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import '../../theme/app_theme.dart';
 
 class GuardedExitDialog extends StatelessWidget {
@@ -61,7 +60,7 @@ class GuardedExitDialog extends StatelessWidget {
                       children: [
                         Text(
                           'Protected View',
-                          style: GoogleFonts.inter(
+                          style: TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.w700,
                             color: textColor,
@@ -79,9 +78,9 @@ class GuardedExitDialog extends StatelessWidget {
                                 color: AppColors.error.withValues(alpha: 0.1),
                                 borderRadius: BorderRadius.circular(6),
                               ),
-                              child: Text(
+                              child: const Text(
                                 'GUARDED',
-                                style: GoogleFonts.inter(
+                                style: TextStyle(
                                   fontSize: 10,
                                   fontWeight: FontWeight.w700,
                                   color: AppColors.error,
@@ -119,7 +118,7 @@ class GuardedExitDialog extends StatelessWidget {
                         const SizedBox(width: 10),
                         Text(
                           'Try closing or tapping outside',
-                          style: GoogleFonts.inter(
+                          style: TextStyle(
                             fontSize: 14,
                             fontWeight: FontWeight.w600,
                             color: textColor,
@@ -130,7 +129,7 @@ class GuardedExitDialog extends StatelessWidget {
                     const SizedBox(height: 12),
                     Text(
                       'When this dialog is dismissed, onDismissed will trigger a confirmation dialog asking if you want to exit the screen.',
-                      style: GoogleFonts.inter(
+                      style: TextStyle(
                         fontSize: 13,
                         color: secondaryColor,
                         height: 1.5,

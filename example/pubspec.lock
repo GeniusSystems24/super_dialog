@@ -78,6 +78,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "6.0.0"
+  flutter_syntax_view:
+    dependency: "direct main"
+    description:
+      name: flutter_syntax_view
+      sha256: c5017bbedfdcf538daba765e16541fcb26434071655ca00cea7cbc205a70246a
+      url: "https://pub.dev"
+    source: hosted
+    version: "4.1.7"
   flutter_test:
     dependency: "direct dev"
     description: flutter
@@ -278,7 +286,7 @@ packages:
       path: ".."
       relative: true
     source: path
-    version: "0.1.0"
+    version: "0.2.0"
   term_glyph:
     dependency: transitive
     description:

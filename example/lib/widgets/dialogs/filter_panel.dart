@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import '../../theme/app_theme.dart';
 
 class FilterPanel extends StatelessWidget {
@@ -54,7 +53,7 @@ class FilterPanel extends StatelessWidget {
                 const SizedBox(width: 14),
                 Text(
                   'Filter team PTO',
-                  style: GoogleFonts.inter(
+                  style: TextStyle(
                     fontSize: 17,
                     fontWeight: FontWeight.w700,
                     color: textColor,
@@ -63,10 +62,10 @@ class FilterPanel extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 22),
-            Wrap(
+            const Wrap(
               spacing: 10,
               runSpacing: 10,
-              children: const [
+              children: [
                 _FilterPill(label: 'Pending', selected: true),
                 _FilterPill(label: 'Approved'),
                 _FilterPill(label: 'Rejected'),
@@ -94,10 +93,7 @@ class FilterPanel extends StatelessWidget {
                 Expanded(
                   child: Text(
                     'Current pay period - Jul 2022',
-                    style: GoogleFonts.inter(
-                      fontSize: 13,
-                      color: secondaryColor,
-                    ),
+                    style: TextStyle(fontSize: 13, color: secondaryColor),
                   ),
                 ),
               ],
@@ -146,7 +142,7 @@ class _FilterPill extends StatelessWidget {
       ),
       child: Text(
         label,
-        style: GoogleFonts.inter(
+        style: TextStyle(
           fontSize: 13,
           fontWeight: FontWeight.w600,
           color: selected ? Colors.white : AppColors.lightTextSecondary,

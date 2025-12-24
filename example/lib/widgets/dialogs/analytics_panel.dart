@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import '../../theme/app_theme.dart';
 
 class AnalyticsPanel extends StatelessWidget {
@@ -60,7 +59,7 @@ class AnalyticsPanel extends StatelessWidget {
                 const SizedBox(width: 16),
                 Text(
                   'Team Analytics',
-                  style: GoogleFonts.inter(
+                  style: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.w700,
                     color: textColor,
@@ -154,7 +153,7 @@ class _MetricRow extends StatelessWidget {
           Expanded(
             child: Text(
               label,
-              style: GoogleFonts.inter(fontSize: 13, color: secondaryColor),
+              style: TextStyle(fontSize: 13, color: secondaryColor),
             ),
           ),
           Container(
@@ -165,7 +164,7 @@ class _MetricRow extends StatelessWidget {
             ),
             child: Text(
               value,
-              style: GoogleFonts.inter(
+              style: TextStyle(
                 fontSize: 14,
                 fontWeight: FontWeight.w700,
                 color: accent,

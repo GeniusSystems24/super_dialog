@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:super_dialog/super_dialog.dart';
 import '../models/example_scenario.dart';
 import '../theme/app_theme.dart';
+import 'dialogs/code_viewer_dialog.dart';
 
 class ExampleCard extends StatefulWidget {
   const ExampleCard({super.key, required this.scenario, required this.onTap});
@@ -42,6 +43,24 @@ class _ExampleCardState extends State<ExampleCard>
   void _onTapUp(TapUpDetails details) => _controller.reverse();
   void _onTapCancel() => _controller.reverse();
 
+  void _showCodeDialog() {
+    final code = widget.scenario.generatedCodeSnippet;
+    if (code.isNotEmpty) {
+      SuperDialog.showAnimatedDialog<void>(
+        context,
+        (context) => CodeViewerDialog(
+          title: widget.scenario.title,
+          code: code,
+          accentColor: widget.scenario.accentColor,
+        ),
+        animation: DialogAnimation.centerScale,
+        barrierDismissible: true,
+        barrierColor: Colors.black.withValues(alpha: 0.6),
+        barrierBlur: 5,
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
@@ -51,6 +70,8 @@ class _ExampleCardState extends State<ExampleCard>
     final secondaryColor = isDark
         ? AppColors.darkTextSecondary
         : AppColors.lightTextSecondary;
+
+    final hasCode = widget.scenario.generatedCodeSnippet.isNotEmpty;
 
     return MouseRegion(
       onEnter: (_) => setState(() => _isHovered = true),
@@ -114,7 +135,7 @@ class _ExampleCardState extends State<ExampleCard>
                             Expanded(
                               child: Text(
                                 widget.scenario.title,
-                                style: GoogleFonts.inter(
+                                style: TextStyle(
                                   fontSize: 16,
                                   fontWeight: FontWeight.w600,
                                   color: textColor,
@@ -134,7 +155,7 @@ class _ExampleCardState extends State<ExampleCard>
                               ),
                               child: Text(
                                 widget.scenario.animationLabel,
-                                style: GoogleFonts.monoton(
+                                style: TextStyle(
                                   fontSize: 11,
                                   fontWeight: FontWeight.w600,
                                   color: widget.scenario.accentColor,
@@ -146,7 +167,7 @@ class _ExampleCardState extends State<ExampleCard>
                         const SizedBox(height: 6),
                         Text(
                           widget.scenario.description,
-                          style: GoogleFonts.inter(
+                          style: TextStyle(
                             fontSize: 13,
                             color: secondaryColor,
                             height: 1.4,
@@ -157,7 +178,39 @@ class _ExampleCardState extends State<ExampleCard>
                       ],
                     ),
                   ),
-                  const SizedBox(width: 12),
+                  const SizedBox(width: 8),
+                  // View Code Button
+                  if (hasCode)
+                    Material(
+                      color: Colors.transparent,
+                      child: Tooltip(
+                        message: 'View Code',
+                        child: InkWell(
+                          onTap: _showCodeDialog,
+                          borderRadius: BorderRadius.circular(10),
+                          child: AnimatedContainer(
+                            duration: const Duration(milliseconds: 200),
+                            padding: const EdgeInsets.all(8),
+                            decoration: BoxDecoration(
+                              color: _isHovered
+                                  ? widget.scenario.accentColor.withValues(
+                                      alpha: 0.1,
+                                    )
+                                  : Colors.transparent,
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: Icon(
+                              Icons.code_rounded,
+                              size: 20,
+                              color: _isHovered
+                                  ? widget.scenario.accentColor
+                                  : secondaryColor,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  const SizedBox(width: 4),
                   // Arrow
                   AnimatedContainer(
                     duration: const Duration(milliseconds: 200),

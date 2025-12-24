@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import '../../theme/app_theme.dart';
 
 class TopMiniAlert extends StatelessWidget {
@@ -41,9 +40,9 @@ class TopMiniAlert extends StatelessWidget {
               ),
             ),
             const SizedBox(width: 16),
-            Text(
+            const Text(
               'Only 3 review days left for Q4',
-              style: GoogleFonts.inter(
+              style: TextStyle(
                 color: Colors.white,
                 fontWeight: FontWeight.w600,
                 fontSize: 15,
@@ -56,9 +55,9 @@ class TopMiniAlert extends StatelessWidget {
                 color: Colors.white.withValues(alpha: 0.1),
                 borderRadius: BorderRadius.circular(8),
               ),
-              child: Text(
+              child: const Text(
                 'Urgent',
-                style: GoogleFonts.inter(
+                style: TextStyle(
                   color: AppColors.error,
                   fontWeight: FontWeight.w700,
                   fontSize: 12,

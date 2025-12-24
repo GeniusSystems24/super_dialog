@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import '../../theme/app_theme.dart';
 
 class TimeOffDetailsDialog extends StatelessWidget {
@@ -63,7 +62,7 @@ class TimeOffDetailsDialog extends StatelessWidget {
                     Expanded(
                       child: Text(
                         'Time off details',
-                        style: GoogleFonts.inter(
+                        style: TextStyle(
                           fontSize: 22,
                           fontWeight: FontWeight.w700,
                           color: textColor,
@@ -248,7 +247,7 @@ class _EmployeeSummary extends StatelessWidget {
               children: [
                 Text(
                   'Jack Dylen',
-                  style: GoogleFonts.inter(
+                  style: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.w700,
                     color: textColor,
@@ -257,7 +256,7 @@ class _EmployeeSummary extends StatelessWidget {
                 const SizedBox(height: 4),
                 Text(
                   'UI/UX Designer',
-                  style: GoogleFonts.inter(fontSize: 14, color: secondaryColor),
+                  style: TextStyle(fontSize: 14, color: secondaryColor),
                 ),
               ],
             ),
@@ -280,9 +279,9 @@ class _EmployeeSummary extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(width: 8),
-                Text(
+                const Text(
                   'Pending',
-                  style: GoogleFonts.inter(
+                  style: TextStyle(
                     fontSize: 12,
                     fontWeight: FontWeight.w600,
                     color: AppColors.accent,
@@ -328,7 +327,7 @@ class _InfoColumn extends StatelessWidget {
         const SizedBox(height: 12),
         Text(
           title,
-          style: GoogleFonts.inter(
+          style: TextStyle(
             fontSize: 12,
             fontWeight: FontWeight.w500,
             color: secondaryColor,
@@ -338,7 +337,7 @@ class _InfoColumn extends StatelessWidget {
         const SizedBox(height: 6),
         Text(
           value,
-          style: GoogleFonts.inter(
+          style: TextStyle(
             fontSize: 15,
             fontWeight: FontWeight.w600,
             color: textColor,
@@ -373,7 +372,7 @@ class _ReasonCard extends StatelessWidget {
       children: [
         Text(
           title,
-          style: GoogleFonts.inter(
+          style: TextStyle(
             fontSize: 12,
             fontWeight: FontWeight.w500,
             color: secondaryColor,
@@ -391,11 +390,7 @@ class _ReasonCard extends StatelessWidget {
           ),
           child: Text(
             value,
-            style: GoogleFonts.inter(
-              fontSize: 14,
-              color: textColor,
-              height: 1.5,
-            ),
+            style: TextStyle(fontSize: 14, color: textColor, height: 1.5),
           ),
         ),
       ],

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import '../../theme/app_theme.dart';
 
 class CenterCountdownCard extends StatelessWidget {
@@ -56,7 +55,7 @@ class CenterCountdownCard extends StatelessWidget {
             const SizedBox(height: 20),
             Text(
               'Next approval window',
-              style: GoogleFonts.inter(
+              style: TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.w700,
                 color: textColor,
@@ -65,7 +64,7 @@ class CenterCountdownCard extends StatelessWidget {
             const SizedBox(height: 8),
             Text(
               'Time remaining until deadline',
-              style: GoogleFonts.inter(fontSize: 13, color: secondaryColor),
+              style: TextStyle(fontSize: 13, color: secondaryColor),
             ),
             const SizedBox(height: 28),
             Row(
@@ -94,18 +93,18 @@ class CenterCountdownCard extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 24),
-            Row(
+            const Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                const Icon(
+                Icon(
                   Icons.info_outline_rounded,
                   size: 16,
                   color: AppColors.info,
                 ),
-                const SizedBox(width: 8),
+                SizedBox(width: 8),
                 Text(
                   'Auto-escalation enabled',
-                  style: GoogleFonts.inter(
+                  style: TextStyle(
                     fontSize: 12,
                     color: AppColors.info,
                     fontWeight: FontWeight.w500,
@@ -152,7 +151,7 @@ class _CountdownUnit extends StatelessWidget {
           child: Center(
             child: Text(
               value,
-              style: GoogleFonts.inter(
+              style: const TextStyle(
                 fontSize: 28,
                 fontWeight: FontWeight.w800,
                 color: AppColors.primary,
@@ -163,7 +162,7 @@ class _CountdownUnit extends StatelessWidget {
         const SizedBox(height: 8),
         Text(
           label,
-          style: GoogleFonts.inter(
+          style: TextStyle(
             fontSize: 12,
             fontWeight: FontWeight.w500,
             color: secondaryColor,
@@ -185,7 +184,7 @@ class _CountdownSeparator extends StatelessWidget {
       padding: const EdgeInsets.fromLTRB(12, 0, 12, 20),
       child: Text(
         ':',
-        style: GoogleFonts.inter(
+        style: TextStyle(
           fontSize: 28,
           fontWeight: FontWeight.w700,
           color: textColor.withValues(alpha: 0.3),

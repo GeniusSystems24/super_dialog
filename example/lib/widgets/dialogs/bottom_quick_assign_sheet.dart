@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import '../../theme/app_theme.dart';
 
 class BottomQuickAssignSheet extends StatelessWidget {
@@ -53,7 +52,7 @@ class BottomQuickAssignSheet extends StatelessWidget {
                 const SizedBox(width: 14),
                 Text(
                   'Quick assign reviewer',
-                  style: GoogleFonts.inter(
+                  style: TextStyle(
                     fontSize: 17,
                     fontWeight: FontWeight.w700,
                     color: textColor,
@@ -97,7 +96,7 @@ class BottomQuickAssignSheet extends StatelessWidget {
                       children: [
                         Text(
                           'Lisa Smalls',
-                          style: GoogleFonts.inter(
+                          style: TextStyle(
                             fontSize: 15,
                             fontWeight: FontWeight.w600,
                             color: textColor,
@@ -106,10 +105,7 @@ class BottomQuickAssignSheet extends StatelessWidget {
                         const SizedBox(height: 4),
                         Text(
                           'HR Manager',
-                          style: GoogleFonts.inter(
-                            fontSize: 12,
-                            color: secondaryColor,
-                          ),
+                          style: TextStyle(fontSize: 12, color: secondaryColor),
                         ),
                       ],
                     ),

@@ -251,6 +251,126 @@ abstract class SuperDialog {
       onDismissed: onDismissed,
     );
   }
+
+  /// Shows a dialog with custom start and end positions.
+  ///
+  /// This method provides fine-grained control over where the dialog
+  /// appears from and where it ends up. The positions are based on a 3x3 grid:
+  ///
+  /// ```
+  /// ┌─────────────┬─────────────┬─────────────┐
+  /// │  topStart   │  topCenter  │   topEnd    │
+  /// ├─────────────┼─────────────┼─────────────┤
+  /// │ centerStart │   center    │  centerEnd  │
+  /// ├─────────────┼─────────────┼─────────────┤
+  /// │ bottomStart │bottomCenter │  bottomEnd  │
+  /// └─────────────┴─────────────┴─────────────┘
+  /// ```
+  ///
+  /// ## Parameters
+  ///
+  /// - [startPosition]: Where the dialog starts (use [DialogPosition.offScreen]
+  ///   for slide-in from outside the screen)
+  /// - [endPosition]: Where the dialog ends (final resting position)
+  /// - [transitionType]: The type of transition effect (default: slideFade)
+  ///
+  /// ## Example
+  ///
+  /// ```dart
+  /// // Slide from top-right corner to center
+  /// SuperDialog.showPositionedDialog<void>(
+  ///   context,
+  ///   (context) => MyDialog(),
+  ///   startPosition: DialogPosition.topEnd,
+  ///   endPosition: DialogPosition.center,
+  /// );
+  ///
+  /// // Slide from off-screen to bottom-center
+  /// SuperDialog.showPositionedDialog<void>(
+  ///   context,
+  ///   (context) => BottomSheet(),
+  ///   startPosition: DialogPosition.offScreen,
+  ///   endPosition: DialogPosition.bottomCenter,
+  /// );
+  /// ```
+  static Future<T?> showPositionedDialog<T extends Object?>(
+    BuildContext context,
+    WidgetBuilder builder, {
+    required DialogPosition startPosition,
+    required DialogPosition endPosition,
+    PositionedTransitionType transitionType =
+        PositionedTransitionType.slideFade,
+    SuperDialogConfig? config,
+    BoxConstraints? constraints,
+    bool? useRootNavigator,
+    bool useSafeArea = true,
+    bool? barrierDismissible,
+    Color? barrierColor,
+    double? barrierBlur,
+    VoidCallback? onDismissed,
+  }) {
+    final bool resolvedUseRootNavigator = useRootNavigator ?? true;
+    final BuildContext navigatorContext = _resolveNavigatorContext(
+      context,
+      resolvedUseRootNavigator,
+    );
+    final navigator = Navigator.of(
+      navigatorContext,
+      rootNavigator: resolvedUseRootNavigator,
+    );
+    final SuperDialogConfig effectiveConfig = config ?? defaultConfig;
+    final String barrierLabel = MaterialLocalizations.of(
+      navigatorContext,
+    ).modalBarrierDismissLabel;
+
+    final transitionBuilder = PositionedDialogTransitionBuilder(
+      startPosition: startPosition,
+      endPosition: endPosition,
+      transitionType: transitionType,
+    );
+
+    Widget constrainedBuilder(BuildContext context) {
+      Widget dialog = builder(context);
+      if (constraints != null) {
+        dialog = ConstrainedBox(constraints: constraints, child: dialog);
+      }
+      if (useSafeArea) {
+        dialog = SafeArea(child: dialog);
+      }
+      return dialog;
+    }
+
+    final route = RawDialogRoute<T>(
+      pageBuilder: (context, animationController, secondaryAnimation) {
+        return constrainedBuilder(context);
+      },
+      transitionBuilder:
+          (context, animationController, secondaryAnimation, child) {
+            final curvedAnimation = CurvedAnimation(
+              parent: animationController,
+              curve: effectiveConfig.openCurve,
+              reverseCurve: effectiveConfig.closeCurve,
+            );
+            return transitionBuilder.build(
+              context,
+              curvedAnimation,
+              secondaryAnimation,
+              child,
+            );
+          },
+      transitionDuration: effectiveConfig.openDuration,
+      barrierDismissible: barrierDismissible ?? true,
+      barrierLabel: barrierLabel,
+      barrierColor: barrierColor ?? const Color(0xB3000000),
+      settings: const RouteSettings(name: 'super_dialog_positioned'),
+    );
+
+    final future = navigator.push<T>(route);
+    if (onDismissed != null) {
+      future.whenComplete(onDismissed);
+    }
+    return future;
+  }
 }
 
 /// Resolves the appropriate navigator context based on settings.

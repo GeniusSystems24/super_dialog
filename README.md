@@ -7,7 +7,8 @@
 [![pub package](https://img.shields.io/pub/v/super_dialog.svg?style=for-the-badge&logo=dart&logoColor=white&labelColor=0175C2&color=02569B)](https://pub.dev/packages/super_dialog)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge)](https://opensource.org/licenses/MIT)
 [![Flutter](https://img.shields.io/badge/Flutter-3.10+-02569B?style=for-the-badge&logo=flutter&logoColor=white)](https://flutter.dev)
-[![Platform](https://img.shields.io/badge/Platform-iOS%20%7C%20Android%20%7C%20Web%20%7C%20Desktop-blueviolet?style=for-the-badge)](https://flutter.dev)
+[![Platform](https://img.shields.io/badge/Platform-All-blueviolet?style=for-the-badge)](https://flutter.dev)
+[![Live Demo](https://img.shields.io/badge/🚀_Live_Demo-View_Online-success?style=for-the-badge)](https://GeniusSystems24.github.io/super_dialog/)
 
 *A powerful, flexible, and beautifully animated dialog toolkit for Flutter.*  
 *Create stunning dialogs with smooth slide, scale, and fade animations.*
@@ -35,21 +36,22 @@
 </td>
 <td width="50%">
 
-### ⚙️ Highly Configurable
-- Custom duration & curves
-- Barrier color & blur
-- Size constraints
-- Safe area handling
+### 📍 Positioned Dialogs
+- **9 screen positions** (3×3 grid)
+- Custom start & end positions
+- **7 transition types**
+- Fine-grained control
 
 </td>
 </tr>
 <tr>
 <td width="50%">
 
-### 📱 Platform Adaptive
-- Auto-adapts to iOS/Android
-- Material & Cupertino styles
-- Native-feeling interactions
+### ⚙️ Highly Configurable
+- Custom duration & curves
+- Barrier color & blur
+- Size constraints
+- Safe area handling
 
 </td>
 <td width="50%">
@@ -72,7 +74,7 @@ Add to your `pubspec.yaml`:
 
 ```yaml
 dependencies:
-  super_dialog: ^0.1.0
+  super_dialog: ^0.2.0
 ```
 
 ```bash
@@ -95,22 +97,15 @@ SuperDialog.showAnimatedDialog<void>(
 );
 ```
 
-### With Full Customization
+### Positioned Dialog (NEW in 0.2.0)
 
 ```dart
-SuperDialog.showAnimatedDialog<void>(
+SuperDialog.showPositionedDialog<void>(
   context,
-  (context) => const TimeOffDetailsDialog(),
-  animation: DialogAnimation.centerScale,
-  config: const SuperDialogConfig(
-    openDuration: Duration(milliseconds: 400),
-    openCurve: Curves.easeOutCubic,
-  ),
-  constraints: const BoxConstraints(maxWidth: 460),
-  barrierColor: Colors.black54,
-  barrierBlur: 8.0,
-  barrierDismissible: true,
-  onDismissed: () => print('Dialog closed'),
+  (context) => const MyDialog(),
+  startPosition: DialogPosition.topEnd,
+  endPosition: DialogPosition.center,
+  transitionType: PositionedTransitionType.slideFadeScale,
 );
 ```
 
@@ -158,11 +153,77 @@ SuperDialog.showAnimatedDialog<void>(
 
 ---
 
+## 📍 Positioned Dialogs (v0.2.0)
+
+Fine-grained control over dialog positioning with a 3×3 grid system:
+
+```
+┌─────────────┬─────────────┬─────────────┐
+│  topStart   │  topCenter  │   topEnd    │
+├─────────────┼─────────────┼─────────────┤
+│ centerStart │   center    │  centerEnd  │
+├─────────────┼─────────────┼─────────────┤
+│ bottomStart │bottomCenter │  bottomEnd  │
+└─────────────┴─────────────┴─────────────┘
+```
+
+### DialogPosition Enum
+
+| Position | Description |
+|:---------|:------------|
+| `topStart` | Top-left (RTL: top-right) |
+| `topCenter` | Top-center |
+| `topEnd` | Top-right (RTL: top-left) |
+| `centerStart` | Center-left (RTL: center-right) |
+| `center` | Center of screen |
+| `centerEnd` | Center-right (RTL: center-left) |
+| `bottomStart` | Bottom-left (RTL: bottom-right) |
+| `bottomCenter` | Bottom-center |
+| `bottomEnd` | Bottom-right (RTL: bottom-left) |
+| `offScreen` | Outside screen (for slide-in) |
+
+### PositionedTransitionType Enum
+
+| Type | Description |
+|:-----|:------------|
+| `slide` | Pure sliding motion |
+| `slideFade` | Slide with opacity fade |
+| `slideScale` | Slide with zoom effect |
+| `slideFadeScale` | All three combined |
+| `fade` | Opacity only (no movement) |
+| `scale` | Zoom only (no movement) |
+| `scaleFade` | Zoom with opacity (no movement) |
+
+### Usage Example
+
+```dart
+// Corner to center with all effects
+SuperDialog.showPositionedDialog<void>(
+  context,
+  (context) => MyDialog(),
+  startPosition: DialogPosition.bottomEnd,
+  endPosition: DialogPosition.center,
+  transitionType: PositionedTransitionType.slideFadeScale,
+  config: const SuperDialogConfig(
+    openDuration: Duration(milliseconds: 400),
+    openCurve: Curves.easeOutBack,
+  ),
+);
+
+// Slide from off-screen to bottom
+SuperDialog.showPositionedDialog<void>(
+  context,
+  (context) => BottomSheet(),
+  startPosition: DialogPosition.offScreen,
+  endPosition: DialogPosition.bottomCenter,
+);
+```
+
+---
+
 ## 📖 API Reference
 
-### SuperDialog
-
-The main class providing static methods for showing dialogs.
+### SuperDialog Methods
 
 ```dart
 // Standard dialog (barrier dismissible by default)
@@ -173,6 +234,9 @@ SuperDialog.showAnimatedGeneralDialog<T>(...);
 
 // Platform-adaptive dialog (iOS: bottom sheet style)
 SuperDialog.showAnimatedAdaptiveDialog<T>(...);
+
+// Positioned dialog with custom start/end positions (NEW)
+SuperDialog.showPositionedDialog<T>(...);
 ```
 
 ### SuperDialogConfig
@@ -188,7 +252,7 @@ const SuperDialogConfig({
 });
 ```
 
-### Parameters
+### Common Parameters
 
 | Parameter | Type | Default | Description |
 |:----------|:-----|:--------|:------------|
@@ -205,6 +269,14 @@ const SuperDialogConfig({
 | `onDismissed` | `VoidCallback?` | `null` | Dismissal callback |
 
 <sub>*Default varies by method and platform</sub>
+
+### Positioned Dialog Parameters
+
+| Parameter | Type | Default | Description |
+|:----------|:-----|:--------|:------------|
+| `startPosition` | `DialogPosition` | *required* | Start position |
+| `endPosition` | `DialogPosition` | *required* | End position |
+| `transitionType` | `PositionedTransitionType` | `slideFade` | Transition effect |
 
 ---
 
@@ -228,14 +300,43 @@ SuperDialog.showAnimatedDialog(
 </details>
 
 <details>
+<summary><b>📍 Positioned Corner Dialog</b></summary>
+
+```dart
+SuperDialog.showPositionedDialog(
+  context,
+  (context) => const NotificationCard(),
+  startPosition: DialogPosition.topEnd,
+  endPosition: DialogPosition.topEnd,
+  transitionType: PositionedTransitionType.slideFade,
+);
+```
+</details>
+
+<details>
+<summary><b>🔄 Corner to Center Transition</b></summary>
+
+```dart
+SuperDialog.showPositionedDialog(
+  context,
+  (context) => const ModalDialog(),
+  startPosition: DialogPosition.bottomStart,
+  endPosition: DialogPosition.center,
+  transitionType: PositionedTransitionType.slideFadeScale,
+);
+```
+</details>
+
+<details>
 <summary><b>📋 Bottom Action Sheet</b></summary>
 
 ```dart
-SuperDialog.showAnimatedDialog(
+SuperDialog.showPositionedDialog(
   context,
   (context) => const ActionSheet(),
-  animation: DialogAnimation.bottomToTop,
-  barrierDismissible: true,
+  startPosition: DialogPosition.offScreen,
+  endPosition: DialogPosition.bottomCenter,
+  transitionType: PositionedTransitionType.slideFade,
 );
 ```
 </details>
@@ -257,45 +358,9 @@ final confirmed = await SuperDialog.showAnimatedDialog<bool>(
 </details>
 
 <details>
-<summary><b>⚙️ Custom Animation Timing</b></summary>
-
-```dart
-SuperDialog.showAnimatedDialog(
-  context,
-  (context) => const SettingsPanel(),
-  config: const SuperDialogConfig(
-    openDuration: Duration(milliseconds: 400),
-    closeDuration: Duration(milliseconds: 200),
-    openCurve: Curves.easeOutBack,
-    closeCurve: Curves.easeIn,
-  ),
-);
-```
-</details>
-
-<details>
-<summary><b>🔔 Dismissal Callback</b></summary>
-
-```dart
-SuperDialog.showAnimatedDialog(
-  context,
-  (context) => const GuardedDialog(),
-  animation: DialogAnimation.centerFade,
-  onDismissed: () {
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('Dialog was dismissed')),
-    );
-  },
-);
-```
-</details>
-
-<details>
 <summary><b>📱 Platform Adaptive</b></summary>
 
 ```dart
-// Automatically uses bottomToTop + blur on iOS/macOS
-// Uses startToEnd on Android/Windows/Linux/Web
 SuperDialog.showAnimatedAdaptiveDialog(
   context,
   (context) => const CrossPlatformDialog(),
@@ -307,18 +372,23 @@ SuperDialog.showAnimatedAdaptiveDialog(
 
 ## 🧪 Demo App
 
-The package includes a comprehensive example app with **18 interactive scenarios**.
+### 🌐 Live Demo
+
+**[👉 Try it online: https://GeniusSystems24.github.io/super_dialog/](https://GeniusSystems24.github.io/super_dialog/)**
+
+The package includes a comprehensive example app with:
+
+- **18+ animation scenarios** (6 animation types × 3 variants)
+- **63 positioned combinations** (9 positions × 7 transition types)
+- Light/Dark theme support
+- Beautiful, modern UI
+
+### Run Locally
 
 ```bash
 cd example
 flutter run
 ```
-
-| Category | Animations | Scenarios |
-|:---------|:-----------|:----------|
-| **Slide** | `startToEnd`, `endToStart` | Drawers, panels, filters |
-| **Reveal** | `topToBottom`, `bottomToTop` | Banners, sheets, toasts |
-| **Transform** | `centerScale`, `centerFade` | Modals, confirmations |
 
 ---
 
@@ -328,7 +398,10 @@ flutter run
 |:------------|:--------|
 | Dart SDK | `≥3.10.3` |
 | Flutter | `≥1.17.0` |
-| Platforms | iOS, Android, Web, macOS, Windows, Linux |
+
+### Supported Platforms
+
+✅ Android • ✅ iOS • ✅ Web • ✅ Windows • ✅ macOS • ✅ Linux
 
 ---
 
@@ -351,6 +424,8 @@ copies or substantial portions of the Software.
 ```
 
 ---
+
+<div align="center">
 
 <sub>Built with ❤️ by <b>Genius Systems 24</b></sub>
 

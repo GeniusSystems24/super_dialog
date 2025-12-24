@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import '../../theme/app_theme.dart';
 
 class QuickApprovalDialog extends StatelessWidget {
@@ -64,9 +63,9 @@ class QuickApprovalDialog extends StatelessWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
+                          const Text(
                             'Approval Request',
-                            style: GoogleFonts.inter(
+                            style: TextStyle(
                               fontSize: 20,
                               fontWeight: FontWeight.w700,
                               color: Colors.white,
@@ -75,7 +74,7 @@ class QuickApprovalDialog extends StatelessWidget {
                           const SizedBox(height: 4),
                           Text(
                             'Review and approve time off',
-                            style: GoogleFonts.inter(
+                            style: TextStyle(
                               fontSize: 13,
                               color: Colors.white.withValues(alpha: 0.8),
                             ),
@@ -119,7 +118,7 @@ class QuickApprovalDialog extends StatelessWidget {
                             children: [
                               Text(
                                 'Jack Dylen',
-                                style: GoogleFonts.inter(
+                                style: TextStyle(
                                   fontSize: 16,
                                   fontWeight: FontWeight.w700,
                                   color: textColor,
@@ -128,7 +127,7 @@ class QuickApprovalDialog extends StatelessWidget {
                               const SizedBox(height: 4),
                               Text(
                                 'UI/UX Designer',
-                                style: GoogleFonts.inter(
+                                style: TextStyle(
                                   fontSize: 13,
                                   color: secondaryColor,
                                 ),
@@ -163,7 +162,7 @@ class QuickApprovalDialog extends StatelessWidget {
                               const SizedBox(width: 12),
                               Text(
                                 'Duration',
-                                style: GoogleFonts.inter(
+                                style: TextStyle(
                                   fontSize: 12,
                                   color: secondaryColor,
                                 ),
@@ -171,7 +170,7 @@ class QuickApprovalDialog extends StatelessWidget {
                               const Spacer(),
                               Text(
                                 '3 days',
-                                style: GoogleFonts.inter(
+                                style: TextStyle(
                                   fontSize: 14,
                                   fontWeight: FontWeight.w600,
                                   color: textColor,
@@ -192,7 +191,7 @@ class QuickApprovalDialog extends StatelessWidget {
                               const SizedBox(width: 12),
                               Text(
                                 'Dates',
-                                style: GoogleFonts.inter(
+                                style: TextStyle(
                                   fontSize: 12,
                                   color: secondaryColor,
                                 ),
@@ -200,7 +199,7 @@ class QuickApprovalDialog extends StatelessWidget {
                               const Spacer(),
                               Text(
                                 'Jul 01 - Jul 04, 2022',
-                                style: GoogleFonts.inter(
+                                style: TextStyle(
                                   fontSize: 14,
                                   fontWeight: FontWeight.w600,
                                   color: textColor,
@@ -251,10 +250,7 @@ class QuickApprovalDialog extends StatelessWidget {
                         const SizedBox(width: 8),
                         Text(
                           'Confirmation email will be sent automatically',
-                          style: GoogleFonts.inter(
-                            fontSize: 12,
-                            color: secondaryColor,
-                          ),
+                          style: TextStyle(fontSize: 12, color: secondaryColor),
                         ),
                       ],
                     ),

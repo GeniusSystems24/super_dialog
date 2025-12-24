@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import '../../theme/app_theme.dart';
 
 class StatusNotificationDialog extends StatelessWidget {
@@ -48,9 +47,9 @@ class StatusNotificationDialog extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
+                const Text(
                   'Request Approved',
-                  style: GoogleFonts.inter(
+                  style: TextStyle(
                     color: Colors.white,
                     fontWeight: FontWeight.w700,
                     fontSize: 16,
@@ -59,7 +58,7 @@ class StatusNotificationDialog extends StatelessWidget {
                 const SizedBox(height: 4),
                 Text(
                   'Jul 1st - Jul 4th PTO confirmed',
-                  style: GoogleFonts.inter(
+                  style: TextStyle(
                     color: Colors.white.withValues(alpha: 0.7),
                     fontSize: 13,
                   ),
@@ -73,18 +72,18 @@ class StatusNotificationDialog extends StatelessWidget {
                 color: AppColors.success.withValues(alpha: 0.2),
                 borderRadius: BorderRadius.circular(10),
               ),
-              child: Row(
+              child: const Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  const Icon(
+                  Icon(
                     Icons.flash_on_rounded,
                     size: 16,
                     color: AppColors.success,
                   ),
-                  const SizedBox(width: 6),
+                  SizedBox(width: 6),
                   Text(
                     'Auto',
-                    style: GoogleFonts.inter(
+                    style: TextStyle(
                       color: AppColors.success,
                       fontWeight: FontWeight.w600,
                       fontSize: 12,
