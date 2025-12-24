@@ -1,0 +1,60 @@
+name: Deploy Flutter demo to GitHub Pages
+
+on:
+  push:
+    branches: ["main"]
+    paths:
+      - "docs/**"
+      - ".github/workflows/pages.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+      # (subosito/flutter-action هو الأكثر شيوعًا لتجهيز Flutter على GitHub Actions) :contentReference[oaicite:2]{index=2}
+
+      - name: Get dependencies
+        working-directory: demo
+        run: flutter pub get
+
+      - name: Build web
+        working-directory: demo
+        run: flutter build web --release --base-href "/${{ github.event.repository.name }}/"
+        # مهم لأن GitHub Pages للريبو يكون تحت مسار /<repo>/ وليس الجذر :contentReference[oaicite:3]{index=3}
+
+      - name: Disable Jekyll
+        run: touch demo/build/web/.nojekyll
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: demo/build/web
+        # upload-pages-artifact@v4 موصى به في توثيق GitHub Pages :contentReference[oaicite:4]{index=4}
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+        # deploy-pages ينشر الـ artifact إلى Pages :contentReference[oaicite:5]{index=5}
