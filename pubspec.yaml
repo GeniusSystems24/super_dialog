@@ -9,7 +9,6 @@ documentation: https://github.com/GeniusSystems24/super_dialog#readme
 topics:
   - dialog
   - animation
-  - ui
   - modal
   - popup
 
@@ -22,7 +21,7 @@ platforms:
   windows:
 
 environment:
-  sdk: ^3.10.3
+  sdk: ^3.10.1
   flutter: ">=1.17.0"
 
 dependencies:
@@ -33,5 +32,3 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^6.0.0
-
-flutter:
