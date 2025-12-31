@@ -171,8 +171,15 @@ Widget _buildDialogTransition(
         opacity: animation,
         child: Align(
           alignment: Alignment.center,
-          child: ScaleTransition(
-            scaleY: animation.drive(Tween<double>(begin: 0.0, end: 1.0)),
+          child: AnimatedBuilder(
+            animation: animation,
+            builder: (context, child) {
+              return Transform.scale(
+                scaleY: animation.value,
+                scaleX: 1.0,
+                child: child,
+              );
+            },
             child: child,
           ),
         ),
@@ -183,8 +190,15 @@ Widget _buildDialogTransition(
         opacity: animation,
         child: Align(
           alignment: Alignment.center,
-          child: ScaleTransition(
-            scaleX: animation.drive(Tween<double>(begin: 0.0, end: 1.0)),
+          child: AnimatedBuilder(
+            animation: animation,
+            builder: (context, child) {
+              return Transform.scale(
+                scaleX: animation.value,
+                scaleY: 1.0,
+                child: child,
+              );
+            },
             child: child,
           ),
         ),
