@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:super_dialog/super_dialog.dart';
 import '../models/example_scenario.dart';
-import '../theme/app_theme.dart';
 import 'dialogs/code_viewer_dialog.dart';
 
 class ExampleCard extends StatefulWidget {
