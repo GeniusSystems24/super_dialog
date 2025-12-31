@@ -565,7 +565,7 @@ class TransformScenarios {
         description: 'Counter flip animation effect.',
         animation: DialogAnimation.flipHorizontal,
         category: 'Transform',
-        icon: Icons.123_rounded,
+        icon: Icons.timer_rounded,
         accentColor: const Color(0xFF8B5CF6),
         barrierColor: Colors.black.withValues(alpha: 0.32),
         barrierDismissible: true,
