@@ -545,6 +545,25 @@ enum PositionedTransitionType {
 
   /// Scale with fade (no movement).
   scaleFade,
+
+  /// Bounce effect with elastic curve.
+  ///
+  /// Creates a playful, springy entrance with overshoot.
+  /// Best for success messages and celebratory dialogs.
+  bounce,
+
+  /// Elastic scale with overshoot.
+  ///
+  /// Creates a spring-like, organic entrance.
+  /// Best for interactive dialogs and modern UIs.
+  elastic,
+
+  /// Zoom with overshoot effect.
+  ///
+  /// Scales from 0.88 to 1.0 with easeOutBack curve.
+  /// Creates a smooth, professional entrance with subtle bounce.
+  /// Best for standard dialogs and modals.
+  zoom,
 }
 
 /// Extension for [PositionedTransitionType].
@@ -561,7 +580,10 @@ extension PositionedTransitionTypeExtension on PositionedTransitionType {
       this == PositionedTransitionType.slideScale ||
       this == PositionedTransitionType.slideFadeScale ||
       this == PositionedTransitionType.scale ||
-      this == PositionedTransitionType.scaleFade;
+      this == PositionedTransitionType.scaleFade ||
+      this == PositionedTransitionType.bounce ||
+      this == PositionedTransitionType.elastic ||
+      this == PositionedTransitionType.zoom;
 
   /// Whether this transition includes slide.
   bool get hasSlide =>
@@ -569,6 +591,11 @@ extension PositionedTransitionTypeExtension on PositionedTransitionType {
       this == PositionedTransitionType.slideFade ||
       this == PositionedTransitionType.slideScale ||
       this == PositionedTransitionType.slideFadeScale;
+
+  /// Whether this transition uses elastic/bounce curves.
+  bool get isElastic =>
+      this == PositionedTransitionType.bounce ||
+      this == PositionedTransitionType.elastic;
 }
 
 /// A transition builder for positioned dialogs.
@@ -596,6 +623,55 @@ class PositionedDialogTransitionBuilder {
     Animation<double> secondaryAnimation,
     Widget child,
   ) {
+    // Handle special transition types
+    if (transitionType == PositionedTransitionType.bounce) {
+      return Align(
+        alignment: endPosition.toAlignmentDirectional(),
+        child: FadeTransition(
+          opacity: animation,
+          child: ScaleTransition(
+            scale: CurvedAnimation(
+              parent: animation,
+              curve: Curves.elasticOut,
+            ),
+            child: child,
+          ),
+        ),
+      );
+    }
+
+    if (transitionType == PositionedTransitionType.elastic) {
+      return Align(
+        alignment: endPosition.toAlignmentDirectional(),
+        child: FadeTransition(
+          opacity: animation,
+          child: ScaleTransition(
+            scale: CurvedAnimation(
+              parent: animation,
+              curve: Curves.easeOutBack,
+            ).drive(Tween<double>(begin: 0.5, end: 1.0)),
+            child: child,
+          ),
+        ),
+      );
+    }
+
+    if (transitionType == PositionedTransitionType.zoom) {
+      return Align(
+        alignment: endPosition.toAlignmentDirectional(),
+        child: FadeTransition(
+          opacity: animation,
+          child: ScaleTransition(
+            scale: CurvedAnimation(
+              parent: animation,
+              curve: Curves.easeOutBack,
+            ).drive(Tween<double>(begin: 0.88, end: 1.0)),
+            child: child,
+          ),
+        ),
+      );
+    }
+
     // Handle non-slide transitions
     if (!transitionType.hasSlide) {
       Widget result = child;

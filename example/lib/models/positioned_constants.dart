@@ -19,7 +19,7 @@ class PositionedConstants {
     DialogPosition.bottomEnd,
   ];
 
-  /// All 7 transition types.
+  /// All 10 transition types.
   static const List<PositionedTransitionType> allTransitionTypes = [
     PositionedTransitionType.slide,
     PositionedTransitionType.slideFade,
@@ -28,6 +28,9 @@ class PositionedConstants {
     PositionedTransitionType.fade,
     PositionedTransitionType.scale,
     PositionedTransitionType.scaleFade,
+    PositionedTransitionType.bounce,
+    PositionedTransitionType.elastic,
+    PositionedTransitionType.zoom,
   ];
 
   /// Gets the color for a given position.
@@ -73,6 +76,12 @@ class PositionedConstants {
         return Icons.zoom_out_map_rounded;
       case PositionedTransitionType.scaleFade:
         return Icons.filter_vintage_rounded;
+      case PositionedTransitionType.bounce:
+        return Icons.sports_basketball_rounded;
+      case PositionedTransitionType.elastic:
+        return Icons.settings_ethernet_rounded;
+      case PositionedTransitionType.zoom:
+        return Icons.zoom_out_rounded;
     }
   }
 
@@ -93,6 +102,12 @@ class PositionedConstants {
         return 'Scale Only';
       case PositionedTransitionType.scaleFade:
         return 'Scale + Fade';
+      case PositionedTransitionType.bounce:
+        return 'Bounce';
+      case PositionedTransitionType.elastic:
+        return 'Elastic';
+      case PositionedTransitionType.zoom:
+        return 'Zoom';
     }
   }
 

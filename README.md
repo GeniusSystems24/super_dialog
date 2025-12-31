@@ -39,7 +39,7 @@
 ### 📍 Positioned Dialogs
 - **9 screen positions** (3×3 grid)
 - Custom start & end positions
-- **7 transition types**
+- **10 transition types**
 - Fine-grained control
 
 </td>
@@ -340,6 +340,9 @@ Fine-grained control over dialog positioning with a 3×3 grid system:
 | `fade` | Opacity only (no movement) |
 | `scale` | Zoom only (no movement) |
 | `scaleFade` | Zoom with opacity (no movement) |
+| `bounce` | Bouncy entrance with elastic curve |
+| `elastic` | Elastic overshoot effect |
+| `zoom` | Smooth zoom with ease-out curve |
 
 ### Usage Example
 
@@ -589,7 +592,7 @@ SuperDialog.showAnimatedDialog(
 The package includes a comprehensive example app with:
 
 - **50+ animation demonstrations** (24 animation types)
-- **63 positioned combinations** (9 positions × 7 transition types)
+- **90 positioned combinations** (9 positions × 10 transition types)
 - Light/Dark theme support
 - Beautiful, modern UI with enhanced card design
 - Powered by `go_router` for modern navigation

@@ -43,6 +43,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - `isElastic` - Check if animation uses elastic/bounce curves
   - Updated `isSlide` and `isScale` to include new animation types
 
+- **3 New PositionedTransitionType Options:**
+  - `bounce` - Bouncy entrance with elastic curve for positioned dialogs
+  - `elastic` - Elastic overshoot effect (scale 0.5 to 1.0)
+  - `zoom` - Smooth zoom with ease-out curve (scale 0.88 to 1.0)
+  - Total positioned combinations now: **90** (9 positions × 10 transition types)
+
+- **Complete Example Coverage:**
+  - Added 36+ new example scenarios covering all 24 animation types
+  - Every DialogAnimation type now has multiple real-world use cases
+  - Enhanced Transform tab with all rotation, bounce, elastic, expand, flip, and combined animations
+
 ### Improved
 
 - **Example App Enhancements:**
