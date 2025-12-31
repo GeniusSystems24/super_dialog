@@ -28,9 +28,9 @@
 <td width="50%">
 
 ### 🎬 Rich Animations
-- **6 Pre-built animation styles**
-- Slide from any direction
-- Scale & fade effects
+- **24 Pre-built animation styles**
+- Slide, rotation, bounce, elastic
+- Flip & expand effects
 - RTL-aware transitions
 
 </td>
@@ -74,7 +74,7 @@ Add to your `pubspec.yaml`:
 
 ```yaml
 dependencies:
-  super_dialog: ^0.2.2
+  super_dialog: ^0.3.0
 ```
 
 ```bash
@@ -113,6 +113,8 @@ SuperDialog.showPositionedDialog<void>(
 
 ## 🎬 Animation Types
 
+### Slide Animations
+
 <table>
 <tr>
 <th>Animation</th>
@@ -139,6 +141,16 @@ SuperDialog.showPositionedDialog<void>(
 <td>Rises from bottom</td>
 <td>Action sheets, bottom menus</td>
 </tr>
+</table>
+
+### Scale & Fade Animations
+
+<table>
+<tr>
+<th>Animation</th>
+<th>Description</th>
+<th>Best For</th>
+</tr>
 <tr>
 <td><code>centerScale</code></td>
 <td>Scales from 92% with fade</td>
@@ -148,6 +160,141 @@ SuperDialog.showPositionedDialog<void>(
 <td><code>centerFade</code></td>
 <td>Simple fade in/out</td>
 <td>Toasts, status messages</td>
+</tr>
+</table>
+
+### Rotation Animations ✨ NEW
+
+<table>
+<tr>
+<th>Animation</th>
+<th>Description</th>
+<th>Best For</th>
+</tr>
+<tr>
+<td><code>rotateIn</code></td>
+<td>Rotates -15° to 0° with fade</td>
+<td>Fun notifications, casual dialogs</td>
+</tr>
+<tr>
+<td><code>rotateScale</code></td>
+<td>Combines rotation + scale + fade</td>
+<td>Important announcements, special dialogs</td>
+</tr>
+</table>
+
+### Bounce Animations ✨ NEW
+
+<table>
+<tr>
+<th>Animation</th>
+<th>Description</th>
+<th>Best For</th>
+</tr>
+<tr>
+<td><code>bounceIn</code></td>
+<td>Elastic bounce scale effect</td>
+<td>Success messages, celebrations</td>
+</tr>
+<tr>
+<td><code>bounceSlidBottom</code></td>
+<td>Slides from bottom with bounce</td>
+<td>Action sheets with personality</td>
+</tr>
+</table>
+
+### Elastic Animations ✨ NEW
+
+<table>
+<tr>
+<th>Animation</th>
+<th>Description</th>
+<th>Best For</th>
+</tr>
+<tr>
+<td><code>elasticIn</code></td>
+<td>Elastic scale with overshoot</td>
+<td>Interactive dialogs, game UIs</td>
+</tr>
+<tr>
+<td><code>elasticSlideBottom</code></td>
+<td>Slides up with elastic overshoot</td>
+<td>Modern bottom sheets</td>
+</tr>
+</table>
+
+### Expand Animations ✨ NEW
+
+<table>
+<tr>
+<th>Animation</th>
+<th>Description</th>
+<th>Best For</th>
+</tr>
+<tr>
+<td><code>expandVertical</code></td>
+<td>Expands 0% to 100% height</td>
+<td>Dropdown menus, expandable panels</td>
+</tr>
+<tr>
+<td><code>expandHorizontal</code></td>
+<td>Expands 0% to 100% width</td>
+<td>Side panels, horizontal menus</td>
+</tr>
+<tr>
+<td><code>expandCenter</code></td>
+<td>Expands uniformly from center</td>
+<td>Centered modals, overlays</td>
+</tr>
+</table>
+
+### Flip Animations ✨ NEW
+
+<table>
+<tr>
+<th>Animation</th>
+<th>Description</th>
+<th>Best For</th>
+</tr>
+<tr>
+<td><code>flipHorizontal</code></td>
+<td>3D flip around X-axis</td>
+<td>Revealing information, flip cards</td>
+</tr>
+<tr>
+<td><code>flipVertical</code></td>
+<td>3D flip around Y-axis</td>
+<td>Card reveals, page transitions</td>
+</tr>
+</table>
+
+### Combined Animations ✨ NEW
+
+<table>
+<tr>
+<th>Animation</th>
+<th>Description</th>
+<th>Best For</th>
+</tr>
+<tr>
+<td><code>slideRotateBottom</code></td>
+<td>Slide from bottom + rotation</td>
+<td>Modern mobile UIs, action sheets</td>
+</tr>
+<tr>
+<td><code>slideRotateTop</code></td>
+<td>Slide from top + rotation</td>
+<td>Notifications, top banners</td>
+</tr>
+<tr>
+<td><code>slideScaleStart</code></td>
+<td>Slide from start + scale</td>
+<td>Navigation panels, side menus</td>
+</tr>
+<tr>
+<td><code>slideScaleEnd</code></td>
+<td>Slide from end + scale</td>
+<td>Settings panels, detail views</td>
 </tr>
 </table>
 
@@ -368,6 +515,69 @@ SuperDialog.showAnimatedAdaptiveDialog(
 ```
 </details>
 
+<details>
+<summary><b>🎯 Rotation Animation</b></summary>
+
+```dart
+SuperDialog.showAnimatedDialog(
+  context,
+  (context) => const FunNotification(),
+  animation: DialogAnimation.rotateIn,
+  config: const SuperDialogConfig(
+    openDuration: Duration(milliseconds: 400),
+    openCurve: Curves.easeOutBack,
+  ),
+);
+```
+</details>
+
+<details>
+<summary><b>🎈 Bounce Effect</b></summary>
+
+```dart
+SuperDialog.showAnimatedDialog(
+  context,
+  (context) => const SuccessDialog(),
+  animation: DialogAnimation.bounceIn,
+  config: const SuperDialogConfig(
+    openDuration: Duration(milliseconds: 600),
+  ),
+);
+```
+</details>
+
+<details>
+<summary><b>🔄 Flip Animation</b></summary>
+
+```dart
+SuperDialog.showAnimatedDialog(
+  context,
+  (context) => const FlipCard(),
+  animation: DialogAnimation.flipVertical,
+  config: const SuperDialogConfig(
+    openDuration: Duration(milliseconds: 500),
+    openCurve: Curves.easeInOut,
+  ),
+);
+```
+</details>
+
+<details>
+<summary><b>📏 Expand Effect</b></summary>
+
+```dart
+SuperDialog.showAnimatedDialog(
+  context,
+  (context) => const ExpandingPanel(),
+  animation: DialogAnimation.expandVertical,
+  config: const SuperDialogConfig(
+    openDuration: Duration(milliseconds: 350),
+    openCurve: Curves.easeOutCubic,
+  ),
+);
+```
+</details>
+
 ---
 
 ## 🧪 Demo App
@@ -378,10 +588,11 @@ SuperDialog.showAnimatedAdaptiveDialog(
 
 The package includes a comprehensive example app with:
 
-- **18+ animation scenarios** (6 animation types × 3 variants)
+- **50+ animation demonstrations** (24 animation types)
 - **63 positioned combinations** (9 positions × 7 transition types)
 - Light/Dark theme support
-- Beautiful, modern UI
+- Beautiful, modern UI with enhanced card design
+- Powered by `go_router` for modern navigation
 
 ### Run Locally
 

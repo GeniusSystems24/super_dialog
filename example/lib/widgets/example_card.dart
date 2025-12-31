@@ -87,44 +87,79 @@ class _ExampleCardState extends State<ExampleCard>
             duration: const Duration(milliseconds: 200),
             decoration: BoxDecoration(
               color: cardColor,
-              borderRadius: BorderRadius.circular(20),
+              borderRadius: BorderRadius.circular(24),
               border: Border.all(
                 color: _isHovered
-                    ? widget.scenario.accentColor.withValues(alpha: 0.5)
-                    : borderColor.withValues(alpha: 0.5),
-                width: _isHovered ? 2 : 1,
+                    ? widget.scenario.accentColor.withValues(alpha: 0.6)
+                    : borderColor.withValues(alpha: 0.3),
+                width: _isHovered ? 2.5 : 1.5,
               ),
               boxShadow: [
                 BoxShadow(
                   color: _isHovered
-                      ? widget.scenario.accentColor.withValues(alpha: 0.15)
-                      : Colors.black.withValues(alpha: 0.05),
-                  blurRadius: _isHovered ? 20 : 8,
-                  offset: Offset(0, _isHovered ? 8 : 4),
+                      ? widget.scenario.accentColor.withValues(alpha: 0.2)
+                      : Colors.black.withValues(alpha: 0.06),
+                  blurRadius: _isHovered ? 24 : 12,
+                  offset: Offset(0, _isHovered ? 10 : 6),
+                  spreadRadius: _isHovered ? 2 : 0,
                 ),
+                if (_isHovered)
+                  BoxShadow(
+                    color: widget.scenario.accentColor.withValues(alpha: 0.1),
+                    blurRadius: 40,
+                    offset: const Offset(0, 15),
+                    spreadRadius: 4,
+                  ),
               ],
             ),
             child: Padding(
-              padding: const EdgeInsets.all(20),
+              padding: const EdgeInsets.all(24),
               child: Row(
                 children: [
-                  // Icon Container
+                  // Icon Container with Gradient
                   AnimatedContainer(
                     duration: const Duration(milliseconds: 200),
-                    padding: const EdgeInsets.all(14),
+                    padding: const EdgeInsets.all(16),
                     decoration: BoxDecoration(
-                      color: widget.scenario.accentColor.withValues(
-                        alpha: _isHovered ? 0.15 : 0.1,
-                      ),
-                      borderRadius: BorderRadius.circular(14),
+                      gradient: _isHovered
+                          ? LinearGradient(
+                              colors: [
+                                widget.scenario.accentColor.withValues(
+                                  alpha: 0.2,
+                                ),
+                                widget.scenario.accentColor.withValues(
+                                  alpha: 0.1,
+                                ),
+                              ],
+                              begin: Alignment.topLeft,
+                              end: Alignment.bottomRight,
+                            )
+                          : null,
+                      color: _isHovered
+                          ? null
+                          : widget.scenario.accentColor.withValues(
+                              alpha: 0.12,
+                            ),
+                      borderRadius: BorderRadius.circular(16),
+                      boxShadow: _isHovered
+                          ? [
+                              BoxShadow(
+                                color: widget.scenario.accentColor.withValues(
+                                  alpha: 0.3,
+                                ),
+                                blurRadius: 12,
+                                offset: const Offset(0, 4),
+                              ),
+                            ]
+                          : null,
                     ),
                     child: Icon(
                       widget.scenario.icon,
                       color: widget.scenario.accentColor,
-                      size: 24,
+                      size: 28,
                     ),
                   ),
-                  const SizedBox(width: 16),
+                  const SizedBox(width: 20),
                   // Content
                   Expanded(
                     child: Column(
@@ -136,41 +171,62 @@ class _ExampleCardState extends State<ExampleCard>
                               child: Text(
                                 widget.scenario.title,
                                 style: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w600,
+                                  fontSize: 17,
+                                  fontWeight: FontWeight.w700,
                                   color: textColor,
+                                  letterSpacing: -0.3,
                                 ),
                               ),
                             ),
-                            Container(
+                            AnimatedContainer(
+                              duration: const Duration(milliseconds: 200),
                               padding: const EdgeInsets.symmetric(
-                                horizontal: 10,
-                                vertical: 4,
+                                horizontal: 12,
+                                vertical: 6,
                               ),
                               decoration: BoxDecoration(
-                                color: widget.scenario.accentColor.withValues(
-                                  alpha: 0.1,
+                                gradient: _isHovered
+                                    ? LinearGradient(
+                                        colors: [
+                                          widget.scenario.accentColor
+                                              .withValues(alpha: 0.15),
+                                          widget.scenario.accentColor
+                                              .withValues(alpha: 0.08),
+                                        ],
+                                      )
+                                    : null,
+                                color: _isHovered
+                                    ? null
+                                    : widget.scenario.accentColor.withValues(
+                                        alpha: 0.12,
+                                      ),
+                                borderRadius: BorderRadius.circular(10),
+                                border: Border.all(
+                                  color: widget.scenario.accentColor
+                                      .withValues(alpha: 0.2),
+                                  width: 1,
                                 ),
-                                borderRadius: BorderRadius.circular(8),
                               ),
                               child: Text(
                                 widget.scenario.animationLabel,
                                 style: TextStyle(
-                                  fontSize: 11,
-                                  fontWeight: FontWeight.w600,
+                                  fontSize: 11.5,
+                                  fontWeight: FontWeight.w700,
                                   color: widget.scenario.accentColor,
+                                  letterSpacing: 0.3,
                                 ),
                               ),
                             ),
                           ],
                         ),
-                        const SizedBox(height: 6),
+                        const SizedBox(height: 8),
                         Text(
                           widget.scenario.description,
                           style: TextStyle(
-                            fontSize: 13,
+                            fontSize: 13.5,
                             color: secondaryColor,
-                            height: 1.4,
+                            height: 1.5,
+                            letterSpacing: -0.1,
                           ),
                           maxLines: 2,
                           overflow: TextOverflow.ellipsis,

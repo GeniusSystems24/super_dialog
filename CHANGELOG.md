@@ -5,6 +5,68 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.3.0] - 2025-12-31
+
+### Added
+
+- **18 New Animation Types** - Massive expansion of animation options:
+
+  **Rotation Animations:**
+  - `rotateIn` - Rotates in with fade effect (-15° to 0°)
+  - `rotateScale` - Combines rotation with scale (0.7 to 1.0)
+
+  **Bounce Animations:**
+  - `bounceIn` - Elastic bounce scale effect
+  - `bounceSlidBottom` - Slides from bottom with bounce curve
+
+  **Elastic Animations:**
+  - `elasticIn` - Elastic scale with overshoot effect
+  - `elasticSlideBottom` - Slides up with elastic overshoot
+
+  **Expand Animations:**
+  - `expandVertical` - Expands from center vertically
+  - `expandHorizontal` - Expands from center horizontally
+  - `expandCenter` - Expands uniformly from center
+
+  **Flip Animations:**
+  - `flipHorizontal` - 3D flip around X-axis
+  - `flipVertical` - 3D flip around Y-axis
+
+  **Combined Animations:**
+  - `slideRotateBottom` - Slide from bottom with rotation
+  - `slideRotateTop` - Slide from top with rotation
+  - `slideScaleStart` - Slide from start with scale
+  - `slideScaleEnd` - Slide from end with scale
+
+- **Enhanced Animation Extension Methods:**
+  - `isRotation` - Check if animation involves rotation
+  - `isElastic` - Check if animation uses elastic/bounce curves
+  - Updated `isSlide` and `isScale` to include new animation types
+
+### Improved
+
+- **Example App Enhancements:**
+  - Migrated to `go_router` for modern, declarative routing
+  - Added `go_router_builder` for type-safe navigation
+  - Significantly improved card design with:
+    - Enhanced hover effects with gradient backgrounds
+    - Better shadow system with multiple layers
+    - Improved typography with better spacing and weights
+    - Smoother animations and transitions
+    - More prominent accent color highlighting
+
+- **Better Organization:**
+  - Categorized all animations in enum with clear section comments
+  - Improved documentation with use cases for each animation type
+  - Enhanced code structure for better maintainability
+
+### Documentation
+
+- Updated README with all new animation types
+- Expanded animation descriptions with visual effects details
+- Added comprehensive examples for new animations
+- Updated package description to reflect new capabilities
+
 ## [0.2.0] - 2025-12-24T19:52:58+03:00
 
 ### Added

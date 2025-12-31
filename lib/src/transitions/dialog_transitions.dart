@@ -17,6 +17,9 @@ Widget _buildDialogTransition(
   Widget child,
 ) {
   switch (animationType) {
+    // ========================================================================
+    // SLIDE ANIMATIONS
+    // ========================================================================
     case DialogAnimation.startToEnd:
       final textDirection = Directionality.of(context);
       final begin = textDirection == TextDirection.rtl
@@ -57,6 +60,9 @@ Widget _buildDialogTransition(
         child,
       );
 
+    // ========================================================================
+    // SCALE & FADE ANIMATIONS
+    // ========================================================================
     case DialogAnimation.centerScale:
       return FadeTransition(
         opacity: animation,
@@ -68,6 +74,258 @@ Widget _buildDialogTransition(
 
     case DialogAnimation.centerFade:
       return FadeTransition(opacity: animation, child: child);
+
+    // ========================================================================
+    // ROTATION ANIMATIONS
+    // ========================================================================
+    case DialogAnimation.rotateIn:
+      return FadeTransition(
+        opacity: animation,
+        child: RotationTransition(
+          turns: animation.drive(
+            Tween<double>(begin: -0.042, end: 0.0), // -15 degrees to 0
+          ),
+          child: child,
+        ),
+      );
+
+    case DialogAnimation.rotateScale:
+      return FadeTransition(
+        opacity: animation,
+        child: ScaleTransition(
+          scale: animation.drive(Tween<double>(begin: 0.7, end: 1.0)),
+          child: RotationTransition(
+            turns: animation.drive(
+              Tween<double>(begin: -0.042, end: 0.0), // -15 degrees to 0
+            ),
+            child: child,
+          ),
+        ),
+      );
+
+    // ========================================================================
+    // BOUNCE ANIMATIONS
+    // ========================================================================
+    case DialogAnimation.bounceIn:
+      return FadeTransition(
+        opacity: animation,
+        child: ScaleTransition(
+          scale: CurvedAnimation(
+            parent: animation,
+            curve: Curves.elasticOut,
+          ),
+          child: child,
+        ),
+      );
+
+    case DialogAnimation.bounceSlidBottom:
+      final curvedAnimation = CurvedAnimation(
+        parent: animation,
+        curve: Curves.elasticOut,
+      );
+      return Align(
+        alignment: Alignment.bottomCenter,
+        child: SlideTransition(
+          position: curvedAnimation.drive(
+            Tween<Offset>(begin: const Offset(0, 1), end: Offset.zero),
+          ),
+          child: FadeTransition(opacity: animation, child: child),
+        ),
+      );
+
+    // ========================================================================
+    // ELASTIC ANIMATIONS
+    // ========================================================================
+    case DialogAnimation.elasticIn:
+      return FadeTransition(
+        opacity: animation,
+        child: ScaleTransition(
+          scale: CurvedAnimation(
+            parent: animation,
+            curve: Curves.easeOutBack,
+          ).drive(Tween<double>(begin: 0.5, end: 1.0)),
+          child: child,
+        ),
+      );
+
+    case DialogAnimation.elasticSlideBottom:
+      final curvedAnimation = CurvedAnimation(
+        parent: animation,
+        curve: Curves.easeOutBack,
+      );
+      return Align(
+        alignment: Alignment.bottomCenter,
+        child: SlideTransition(
+          position: curvedAnimation.drive(
+            Tween<Offset>(begin: const Offset(0, 1), end: Offset.zero),
+          ),
+          child: FadeTransition(opacity: animation, child: child),
+        ),
+      );
+
+    // ========================================================================
+    // EXPAND ANIMATIONS
+    // ========================================================================
+    case DialogAnimation.expandVertical:
+      return FadeTransition(
+        opacity: animation,
+        child: Align(
+          alignment: Alignment.center,
+          child: ScaleTransition(
+            scaleY: animation.drive(Tween<double>(begin: 0.0, end: 1.0)),
+            child: child,
+          ),
+        ),
+      );
+
+    case DialogAnimation.expandHorizontal:
+      return FadeTransition(
+        opacity: animation,
+        child: Align(
+          alignment: Alignment.center,
+          child: ScaleTransition(
+            scaleX: animation.drive(Tween<double>(begin: 0.0, end: 1.0)),
+            child: child,
+          ),
+        ),
+      );
+
+    case DialogAnimation.expandCenter:
+      return FadeTransition(
+        opacity: animation,
+        child: ScaleTransition(
+          scale: animation.drive(
+            Tween<double>(begin: 0.0, end: 1.0).chain(
+              CurveTween(curve: Curves.easeOutCubic),
+            ),
+          ),
+          child: child,
+        ),
+      );
+
+    // ========================================================================
+    // FLIP ANIMATIONS
+    // ========================================================================
+    case DialogAnimation.flipHorizontal:
+      return FadeTransition(
+        opacity: animation,
+        child: AnimatedBuilder(
+          animation: animation,
+          builder: (context, child) {
+            final angle = animation.value * 3.14159; // 0 to π (180 degrees)
+            return Transform(
+              transform: Matrix4.identity()
+                ..setEntry(3, 2, 0.001) // perspective
+                ..rotateX(3.14159 - angle), // Start from back (π) to front (0)
+              alignment: Alignment.center,
+              child: child,
+            );
+          },
+          child: child,
+        ),
+      );
+
+    case DialogAnimation.flipVertical:
+      return FadeTransition(
+        opacity: animation,
+        child: AnimatedBuilder(
+          animation: animation,
+          builder: (context, child) {
+            final angle = animation.value * 3.14159; // 0 to π (180 degrees)
+            return Transform(
+              transform: Matrix4.identity()
+                ..setEntry(3, 2, 0.001) // perspective
+                ..rotateY(3.14159 - angle), // Start from back (π) to front (0)
+              alignment: Alignment.center,
+              child: child,
+            );
+          },
+          child: child,
+        ),
+      );
+
+    // ========================================================================
+    // COMBINED ANIMATIONS
+    // ========================================================================
+    case DialogAnimation.slideRotateBottom:
+      return Align(
+        alignment: Alignment.bottomCenter,
+        child: SlideTransition(
+          position: animation.drive(
+            Tween<Offset>(begin: const Offset(0, 1), end: Offset.zero),
+          ),
+          child: FadeTransition(
+            opacity: animation,
+            child: RotationTransition(
+              turns: animation.drive(
+                Tween<double>(begin: -0.028, end: 0.0), // -10 degrees to 0
+              ),
+              child: child,
+            ),
+          ),
+        ),
+      );
+
+    case DialogAnimation.slideRotateTop:
+      return Align(
+        alignment: Alignment.topCenter,
+        child: SlideTransition(
+          position: animation.drive(
+            Tween<Offset>(begin: const Offset(0, -1), end: Offset.zero),
+          ),
+          child: FadeTransition(
+            opacity: animation,
+            child: RotationTransition(
+              turns: animation.drive(
+                Tween<double>(begin: 0.028, end: 0.0), // 10 degrees to 0
+              ),
+              child: child,
+            ),
+          ),
+        ),
+      );
+
+    case DialogAnimation.slideScaleStart:
+      final textDirection = Directionality.of(context);
+      final begin = textDirection == TextDirection.rtl
+          ? const Offset(1, 0)
+          : const Offset(-1, 0);
+      return Align(
+        alignment: AlignmentDirectional.centerStart,
+        child: SlideTransition(
+          position: animation.drive(
+            Tween<Offset>(begin: begin, end: Offset.zero),
+          ),
+          child: FadeTransition(
+            opacity: animation,
+            child: ScaleTransition(
+              scale: animation.drive(Tween<double>(begin: 0.8, end: 1.0)),
+              child: child,
+            ),
+          ),
+        ),
+      );
+
+    case DialogAnimation.slideScaleEnd:
+      final textDirection = Directionality.of(context);
+      final begin = textDirection == TextDirection.rtl
+          ? const Offset(-1, 0)
+          : const Offset(1, 0);
+      return Align(
+        alignment: AlignmentDirectional.centerEnd,
+        child: SlideTransition(
+          position: animation.drive(
+            Tween<Offset>(begin: begin, end: Offset.zero),
+          ),
+          child: FadeTransition(
+            opacity: animation,
+            child: ScaleTransition(
+              scale: animation.drive(Tween<double>(begin: 0.8, end: 1.0)),
+              child: child,
+            ),
+          ),
+        ),
+      );
   }
 }
 
