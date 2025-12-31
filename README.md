@@ -7,6 +7,9 @@
 [![pub package](https://img.shields.io/pub/v/super_dialog.svg?style=for-the-badge&logo=dart&logoColor=white&labelColor=0175C2&color=02569B)](https://pub.dev/packages/super_dialog)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge)](https://opensource.org/licenses/MIT)
 [![Flutter](https://img.shields.io/badge/Flutter-3.10+-02569B?style=for-the-badge&logo=flutter&logoColor=white)](https://flutter.dev)
+[![likes](https://img.shields.io/pub/likes/super_dialog)](https://pub.dev/packages/super_dialog/score)
+[![popularity](https://img.shields.io/pub/popularity/super_dialog)](https://pub.dev/packages/super_dialog/score)
+[![points](https://img.shields.io/pub/points/super_dialog)](https://pub.dev/packages/super_dialog/score)
 [![Platform](https://img.shields.io/badge/Platform-All-blueviolet?style=for-the-badge)](https://flutter.dev)
 [![Live Demo](https://img.shields.io/badge/🚀_Live_Demo-View_Online-success?style=for-the-badge)](https://geniussystems24.github.io/super_dialog)
 

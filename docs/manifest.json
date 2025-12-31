@@ -1,7 +1,7 @@
 {
     "name": "super_dialog_example",
     "short_name": "super_dialog_example",
-    "start_url": "/super_dialog/",
+    "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
     "theme_color": "#0175C2",
