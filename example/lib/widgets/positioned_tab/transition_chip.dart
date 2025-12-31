@@ -40,6 +40,12 @@ class _TransitionChipState extends State<TransitionChip>
         return const Color(0xFFEC4899);
       case PositionedTransitionType.scaleFade:
         return const Color(0xFF14B8A6);
+      case PositionedTransitionType.bounce:
+        return const Color(0xFFEF4444);
+      case PositionedTransitionType.elastic:
+        return const Color(0xFFF59E0B);
+      case PositionedTransitionType.zoom:
+        return const Color(0xFF10B981);
     }
   }
 
@@ -208,6 +214,24 @@ class _TransitionChipState extends State<TransitionChip>
             break;
           case PositionedTransitionType.scaleFade:
             scale = 0.3 + (0.7 * progress);
+            opacity = progress;
+            break;
+          case PositionedTransitionType.bounce:
+            // Bouncy scale animation with elastic curve
+            final bounceProgress = Curves.elasticOut.transform(progress);
+            scale = 0.3 + (0.7 * bounceProgress);
+            opacity = progress;
+            break;
+          case PositionedTransitionType.elastic:
+            // Elastic overshoot from 0.5 to 1.0
+            final elasticProgress = Curves.easeOutBack.transform(progress);
+            scale = 0.5 + (0.5 * elasticProgress);
+            opacity = progress;
+            break;
+          case PositionedTransitionType.zoom:
+            // Smooth zoom from 0.88 to 1.0
+            final zoomProgress = Curves.easeOutBack.transform(progress);
+            scale = 0.88 + (0.12 * zoomProgress);
             opacity = progress;
             break;
         }
