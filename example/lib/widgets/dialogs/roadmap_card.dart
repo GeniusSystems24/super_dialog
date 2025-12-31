@@ -10,76 +10,82 @@ class RoadmapCard extends StatelessWidget {
     final cardColor = isDark ? AppColors.darkCard : AppColors.lightCard;
     final textColor = isDark ? AppColors.darkText : AppColors.lightText;
 
-    return Center(
-      child: Container(
-        margin: const EdgeInsets.symmetric(horizontal: 24),
-        padding: const EdgeInsets.all(28),
-        decoration: BoxDecoration(
-          color: cardColor,
-          borderRadius: BorderRadius.circular(28),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withValues(alpha: 0.2),
-              blurRadius: 28,
-              offset: const Offset(0, 20),
-            ),
-          ],
-        ),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              children: [
-                Container(
-                  padding: const EdgeInsets.all(12),
-                  decoration: BoxDecoration(
-                    gradient: const LinearGradient(
-                      colors: AppColors.accentGradient,
-                    ),
-                    borderRadius: BorderRadius.circular(14),
-                    boxShadow: [
-                      BoxShadow(
-                        color: AppColors.accent.withValues(alpha: 0.3),
-                        blurRadius: 10,
-                        offset: const Offset(0, 4),
+    return Card(
+      clipBehavior: Clip.none,
+      color: Colors.transparent,
+      shadowColor: Colors.transparent,
+      elevation: 0,
+      child: Center(
+        child: Container(
+          margin: const EdgeInsets.symmetric(horizontal: 24),
+          padding: const EdgeInsets.all(28),
+          decoration: BoxDecoration(
+            color: cardColor,
+            borderRadius: BorderRadius.circular(28),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withValues(alpha: 0.2),
+                blurRadius: 28,
+                offset: const Offset(0, 20),
+              ),
+            ],
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                children: [
+                  Container(
+                    padding: const EdgeInsets.all(12),
+                    decoration: BoxDecoration(
+                      gradient: const LinearGradient(
+                        colors: AppColors.accentGradient,
                       ),
-                    ],
+                      borderRadius: BorderRadius.circular(14),
+                      boxShadow: [
+                        BoxShadow(
+                          color: AppColors.accent.withValues(alpha: 0.3),
+                          blurRadius: 10,
+                          offset: const Offset(0, 4),
+                        ),
+                      ],
+                    ),
+                    child: const Icon(
+                      Icons.map_rounded,
+                      color: Colors.white,
+                      size: 22,
+                    ),
                   ),
-                  child: const Icon(
-                    Icons.map_rounded,
-                    color: Colors.white,
-                    size: 22,
+                  const SizedBox(width: 16),
+                  Text(
+                    'Roadmap checkpoints',
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w700,
+                      color: textColor,
+                    ),
                   ),
-                ),
-                const SizedBox(width: 16),
-                Text(
-                  'Roadmap checkpoints',
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.w700,
-                    color: textColor,
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 24),
-            const _RoadmapStep(
-              label: 'Finalize Q4 policy updates',
-              eta: 'Due Sep 14',
-              status: StepStatus.completed,
-            ),
-            const _RoadmapStep(
-              label: 'Roll out self-service portal',
-              eta: 'Due Sep 20',
-              status: StepStatus.inProgress,
-            ),
-            const _RoadmapStep(
-              label: 'Publish compliance checklist',
-              eta: 'Due Sep 29',
-              status: StepStatus.pending,
-            ),
-          ],
+                ],
+              ),
+              const SizedBox(height: 24),
+              const _RoadmapStep(
+                label: 'Finalize Q4 policy updates',
+                eta: 'Due Sep 14',
+                status: StepStatus.completed,
+              ),
+              const _RoadmapStep(
+                label: 'Roll out self-service portal',
+                eta: 'Due Sep 20',
+                status: StepStatus.inProgress,
+              ),
+              const _RoadmapStep(
+                label: 'Publish compliance checklist',
+                eta: 'Due Sep 29',
+                status: StepStatus.pending,
+              ),
+            ],
+          ),
         ),
       ),
     );

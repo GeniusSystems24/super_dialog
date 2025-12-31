@@ -46,116 +46,122 @@ class CodeViewerDialog extends StatelessWidget {
     final textColor = isDark ? AppColors.darkText : AppColors.lightText;
     final color = accentColor ?? AppColors.primary;
 
-    return Center(
-      child: Container(
-        margin: const EdgeInsets.all(24),
-        constraints: const BoxConstraints(maxWidth: 600, maxHeight: 500),
-        decoration: BoxDecoration(
-          color: cardColor,
-          borderRadius: BorderRadius.circular(24),
-          boxShadow: [
-            BoxShadow(
-              color: color.withValues(alpha: 0.25),
-              blurRadius: 30,
-              offset: const Offset(0, 15),
-            ),
-          ],
-        ),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // Header
-            Container(
-              padding: const EdgeInsets.all(20),
-              decoration: BoxDecoration(
-                color: color.withValues(alpha: 0.1),
-                borderRadius: const BorderRadius.vertical(
-                  top: Radius.circular(24),
+    return Card(
+      clipBehavior: Clip.none,
+      color: Colors.transparent,
+      shadowColor: Colors.transparent,
+      elevation: 0,
+      child: Center(
+        child: Container(
+          margin: const EdgeInsets.all(24),
+          constraints: const BoxConstraints(maxWidth: 600, maxHeight: 500),
+          decoration: BoxDecoration(
+            color: cardColor,
+            borderRadius: BorderRadius.circular(24),
+            boxShadow: [
+              BoxShadow(
+                color: color.withValues(alpha: 0.25),
+                blurRadius: 30,
+                offset: const Offset(0, 15),
+              ),
+            ],
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // Header
+              Container(
+                padding: const EdgeInsets.all(20),
+                decoration: BoxDecoration(
+                  color: color.withValues(alpha: 0.1),
+                  borderRadius: const BorderRadius.vertical(
+                    top: Radius.circular(24),
+                  ),
+                ),
+                child: Row(
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.all(10),
+                      decoration: BoxDecoration(
+                        color: color.withValues(alpha: 0.15),
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: Icon(Icons.code_rounded, color: color, size: 22),
+                    ),
+                    const SizedBox(width: 14),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Code Example',
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w700,
+                              color: textColor,
+                            ),
+                          ),
+                          const SizedBox(height: 2),
+                          Text(
+                            title,
+                            style: TextStyle(
+                              fontSize: 12,
+                              color: textColor.withValues(alpha: 0.6),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    IconButton(
+                      onPressed: () => Navigator.of(context).pop(),
+                      icon: Icon(
+                        Icons.close_rounded,
+                        color: textColor.withValues(alpha: 0.5),
+                      ),
+                    ),
+                  ],
                 ),
               ),
-              child: Row(
-                children: [
-                  Container(
-                    padding: const EdgeInsets.all(10),
-                    decoration: BoxDecoration(
-                      color: color.withValues(alpha: 0.15),
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    child: Icon(Icons.code_rounded, color: color, size: 22),
-                  ),
-                  const SizedBox(width: 14),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Code Example',
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w700,
-                            color: textColor,
-                          ),
-                        ),
-                        const SizedBox(height: 2),
-                        Text(
-                          title,
-                          style: TextStyle(
-                            fontSize: 12,
-                            color: textColor.withValues(alpha: 0.6),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  IconButton(
-                    onPressed: () => Navigator.of(context).pop(),
-                    icon: Icon(
-                      Icons.close_rounded,
-                      color: textColor.withValues(alpha: 0.5),
-                    ),
-                  ),
-                ],
-              ),
-            ),
 
-            // Code View
-            Container(
-              margin: const EdgeInsets.all(16),
-              child: SyntaxView(
-                code: code,
-                syntax: Syntax.DART,
-                syntaxTheme: getSyntaxTheme(Theme.of(context)),
-                withZoom: false,
-                withLinesCount: false,
-                expanded: false,
+              // Code View
+              Container(
+                margin: const EdgeInsets.all(16),
+                child: SyntaxView(
+                  code: code,
+                  syntax: Syntax.DART,
+                  syntaxTheme: getSyntaxTheme(Theme.of(context)),
+                  withZoom: false,
+                  withLinesCount: false,
+                  expanded: false,
+                ),
               ),
-            ),
 
-            // Footer with Copy Button
-            Padding(
-              padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: FilledButton.icon(
-                      onPressed: () => _copyCode(context),
-                      icon: const Icon(Icons.copy_rounded, size: 18),
-                      label: const Text('Copy Code'),
-                      style: FilledButton.styleFrom(
-                        backgroundColor: color,
-                        foregroundColor: Colors.white,
-                        padding: const EdgeInsets.symmetric(vertical: 14),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12),
+              // Footer with Copy Button
+              Padding(
+                padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: FilledButton.icon(
+                        onPressed: () => _copyCode(context),
+                        icon: const Icon(Icons.copy_rounded, size: 18),
+                        label: const Text('Copy Code'),
+                        style: FilledButton.styleFrom(
+                          backgroundColor: color,
+                          foregroundColor: Colors.white,
+                          padding: const EdgeInsets.symmetric(vertical: 14),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12),
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

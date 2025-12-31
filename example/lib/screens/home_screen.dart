@@ -3,9 +3,9 @@
 import 'package:flutter/material.dart';
 import 'package:super_dialog/super_dialog.dart';
 import '../theme/app_theme.dart';
-import '../widgets/example_card.dart';
+import '../models/models.dart';
 import '../widgets/dialogs/dialogs.dart';
-import '../models/example_scenario.dart';
+import 'tabs/tabs.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({
@@ -25,15 +25,16 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   late TabController _tabController;
   late List<ExampleScenario> _scenarios;
 
-  // Categories now include Positioned
-  final List<_TabCategory> _tabs = [
-    _TabCategory(title: 'Slide', icon: Icons.swap_horiz_rounded),
-    _TabCategory(title: 'Reveal', icon: Icons.swap_vert_rounded),
-    _TabCategory(title: 'Transform', icon: Icons.blur_on_rounded),
-    _TabCategory(title: 'Positioned', icon: Icons.grid_3x3_rounded),
+  // Tab categories
+  final List<TabCategory> _tabs = const [
+    TabCategory(title: 'Slide', icon: Icons.swap_horiz_rounded),
+    TabCategory(title: 'Reveal', icon: Icons.swap_vert_rounded),
+    TabCategory(title: 'Transform', icon: Icons.blur_on_rounded),
+    TabCategory(title: 'Positioned', icon: Icons.grid_3x3_rounded),
   ];
 
-  final List<AnimationCategory> _animationCategories = [
+  // Animation categories for the first 3 tabs
+  final List<AnimationCategory> _animationCategories = const [
     AnimationCategory(
       title: 'Slide',
       icon: Icons.swap_horiz_rounded,
@@ -51,35 +52,17 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     ),
   ];
 
-  // All positions for Positioned tab
-  static const List<DialogPosition> allPositions = [
-    DialogPosition.topStart,
-    DialogPosition.topCenter,
-    DialogPosition.topEnd,
-    DialogPosition.centerStart,
-    DialogPosition.center,
-    DialogPosition.centerEnd,
-    DialogPosition.bottomStart,
-    DialogPosition.bottomCenter,
-    DialogPosition.bottomEnd,
-  ];
-
-  // All transition types
-  static const List<PositionedTransitionType> allTransitionTypes = [
-    PositionedTransitionType.slide,
-    PositionedTransitionType.slideFade,
-    PositionedTransitionType.slideScale,
-    PositionedTransitionType.slideFadeScale,
-    PositionedTransitionType.fade,
-    PositionedTransitionType.scale,
-    PositionedTransitionType.scaleFade,
-  ];
-
   @override
   void initState() {
     super.initState();
     _tabController = TabController(length: _tabs.length, vsync: this);
     _initScenarios();
+  }
+
+  @override
+  void dispose() {
+    _tabController.dispose();
+    super.dispose();
   }
 
   void _initScenarios() {
@@ -400,228 +383,39 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     );
   }
 
-  List<ExampleScenario> _getScenariosForCategory(AnimationCategory category) {
-    return _scenarios
-        .where((s) => category.animations.contains(s.animation))
-        .toList();
-  }
-
-  @override
-  void dispose() {
-    _tabController.dispose();
-    super.dispose();
-  }
-
-  // ===========================================================================
-  // POSITIONED TAB HELPERS
-  // ===========================================================================
-  Color _getPositionColor(DialogPosition position) {
-    switch (position) {
-      case DialogPosition.topStart:
-        return AppColors.error;
-      case DialogPosition.topCenter:
-        return AppColors.warning;
-      case DialogPosition.topEnd:
-        return AppColors.success;
-      case DialogPosition.centerStart:
-        return AppColors.info;
-      case DialogPosition.center:
-        return AppColors.primary;
-      case DialogPosition.centerEnd:
-        return AppColors.accent;
-      case DialogPosition.bottomStart:
-        return const Color(0xFF8B5CF6);
-      case DialogPosition.bottomCenter:
-        return const Color(0xFFEC4899);
-      case DialogPosition.bottomEnd:
-        return const Color(0xFF14B8A6);
-      case DialogPosition.offScreen:
-        return AppColors.lightTextSecondary;
-    }
-  }
-
-  IconData _getTransitionIcon(PositionedTransitionType type) {
-    switch (type) {
-      case PositionedTransitionType.slide:
-        return Icons.arrow_forward_rounded;
-      case PositionedTransitionType.slideFade:
-        return Icons.blur_linear_rounded;
-      case PositionedTransitionType.slideScale:
-        return Icons.zoom_in_rounded;
-      case PositionedTransitionType.slideFadeScale:
-        return Icons.auto_awesome_rounded;
-      case PositionedTransitionType.fade:
-        return Icons.gradient_rounded;
-      case PositionedTransitionType.scale:
-        return Icons.zoom_out_map_rounded;
-      case PositionedTransitionType.scaleFade:
-        return Icons.filter_vintage_rounded;
-    }
-  }
-
-  String _getTransitionLabel(PositionedTransitionType type) {
-    switch (type) {
-      case PositionedTransitionType.slide:
-        return 'Slide';
-      case PositionedTransitionType.slideFade:
-        return 'Slide + Fade';
-      case PositionedTransitionType.slideScale:
-        return 'Slide + Scale';
-      case PositionedTransitionType.slideFadeScale:
-        return 'Slide + Fade + Scale';
-      case PositionedTransitionType.fade:
-        return 'Fade Only';
-      case PositionedTransitionType.scale:
-        return 'Scale Only';
-      case PositionedTransitionType.scaleFade:
-        return 'Scale + Fade';
-    }
-  }
-
-  /// Generates code snippet for positioned dialog.
-  String _generatePositionedCode({
-    required DialogPosition startPosition,
-    required DialogPosition endPosition,
-    PositionedTransitionType transitionType =
-        PositionedTransitionType.slideFade,
-  }) {
-    final startPosName = startPosition.toString().split('.').last;
-    final endPosName = endPosition.toString().split('.').last;
-    final transTypeName = transitionType.toString().split('.').last;
-
-    return '''SuperDialog.showPositionedDialog<void>(
-  context,
-  (context) => const MyDialog(),
-  startPosition: DialogPosition.$startPosName,
-  endPosition: DialogPosition.$endPosName,
-  transitionType: PositionedTransitionType.$transTypeName,
-  barrierDismissible: true,
-);''';
-  }
-
-  /// Shows the code viewer dialog for positioned dialogs.
-  void _showPositionedCodeDialog({
-    required String title,
-    required DialogPosition startPosition,
-    required DialogPosition endPosition,
-    PositionedTransitionType transitionType =
-        PositionedTransitionType.slideFade,
-    Color? accentColor,
-  }) {
-    final code = _generatePositionedCode(
-      startPosition: startPosition,
-      endPosition: endPosition,
-      transitionType: transitionType,
-    );
-    SuperDialog.showAnimatedDialog<void>(
-      context,
-      (context) => CodeViewerDialog(
-        title: title,
-        code: code,
-        accentColor: accentColor ?? AppColors.primary,
-      ),
-      animation: DialogAnimation.centerScale,
-      barrierDismissible: true,
-      barrierColor: Colors.black.withValues(alpha: 0.6),
-      barrierBlur: 5,
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text(
-          'Super Dialog Examples',
-          style: TextStyle(
-            fontSize: 18,
-            fontWeight: FontWeight.w600,
-          ),
-        ),
-        actions: [
-          IconButton(
-            onPressed: widget.onThemeToggle,
-            icon: Icon(
-              widget.isDarkMode
-                  ? Icons.light_mode_rounded
-                  : Icons.dark_mode_rounded,
-            ),
-            tooltip: 'Toggle theme',
-          ),
-        ],
-        elevation: 0,
-        backgroundColor:
-            isDark ? AppColors.darkSurface : AppColors.lightSurface,
-        bottom: PreferredSize(
-          preferredSize: const Size.fromHeight(1),
-          child: Container(
-            height: 1,
-            color: isDark
-                ? AppColors.darkBorder
-                : AppColors.lightBorder,
-          ),
-        ),
-      ),
+      appBar: _buildAppBar(isDark),
       body: Column(
         children: [
-          // Tab Bar
-          Container(
-            color: isDark ? AppColors.darkSurface : AppColors.lightSurface,
-            decoration: BoxDecoration(
-              border: Border(
-                bottom: BorderSide(
-                  color: isDark ? AppColors.darkBorder : AppColors.lightBorder,
-                  width: 1,
-                ),
-              ),
-            ),
-            child: TabBar(
-              controller: _tabController,
-              labelColor: AppColors.primary,
-              unselectedLabelColor: isDark
-                  ? AppColors.darkTextSecondary
-                  : AppColors.lightTextSecondary,
-              indicatorColor: AppColors.primary,
-              indicatorSize: TabBarIndicatorSize.label,
-              isScrollable: true,
-              labelStyle: const TextStyle(
-                fontSize: 14,
-                fontWeight: FontWeight.w600,
-              ),
-              unselectedLabelStyle: const TextStyle(
-                fontSize: 14,
-                fontWeight: FontWeight.w500,
-              ),
-              tabs: _tabs
-                  .map((tab) => Tab(
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Icon(tab.icon, size: 18),
-                            const SizedBox(width: 6),
-                            Text(tab.title),
-                          ],
-                        ),
-                      ))
-                  .toList(),
-            ),
-          ),
-
-          // Content
+          _buildTabBar(isDark),
           Expanded(
             child: TabBarView(
               controller: _tabController,
               children: [
                 // Slide Tab
-                _buildAnimationList(_animationCategories[0]),
+                AnimationListView(
+                  category: _animationCategories[0],
+                  scenarios: _scenarios,
+                  onScenarioTap: _openScenario,
+                ),
                 // Reveal Tab
-                _buildAnimationList(_animationCategories[1]),
+                AnimationListView(
+                  category: _animationCategories[1],
+                  scenarios: _scenarios,
+                  onScenarioTap: _openScenario,
+                ),
                 // Transform Tab
-                _buildAnimationList(_animationCategories[2]),
+                AnimationListView(
+                  category: _animationCategories[2],
+                  scenarios: _scenarios,
+                  onScenarioTap: _openScenario,
+                ),
                 // Positioned Tab
-                _buildPositionedTab(),
+                const PositionedTabView(),
               ],
             ),
           ),
@@ -630,536 +424,75 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     );
   }
 
-  Widget _buildAnimationList(AnimationCategory category) {
-    final scenarios = _getScenariosForCategory(category);
-    return ListView.separated(
-      padding: const EdgeInsets.all(16),
-      itemCount: scenarios.length,
-      separatorBuilder: (context, index) => const SizedBox(height: 12),
-      itemBuilder: (context, index) {
-        final scenario = scenarios[index];
-        return ExampleCard(
-          scenario: scenario,
-          onTap: () => _openScenario(scenario),
-        );
-      },
-    );
-  }
-
-  // ===========================================================================
-  // POSITIONED TAB
-  // ===========================================================================
-  Widget _buildPositionedTab() {
-    return ListView(
-      padding: const EdgeInsets.all(20),
-      children: [
-        // Position Grid Section
-        _buildSectionHeader(
-          icon: Icons.grid_3x3_rounded,
-          title: 'Position Grid (9 positions)',
-          subtitle: 'Tap any position to show dialog there',
-        ),
-        const SizedBox(height: 16),
-        _buildPositionGrid(),
-        const SizedBox(height: 28),
-
-        // Transition Types Section
-        _buildSectionHeader(
-          icon: Icons.animation_rounded,
-          title: 'Transition Types (7 types)',
-          subtitle: 'Different animation combinations',
-        ),
-        const SizedBox(height: 16),
-        Wrap(
-          spacing: 8,
-          runSpacing: 8,
-          children: allTransitionTypes.map((type) {
-            return _buildTransitionChip(type);
-          }).toList(),
-        ),
-        const SizedBox(height: 28),
-
-        // Combinations Grid
-        _buildSectionHeader(
-          icon: Icons.apps_rounded,
-          title: 'All Combinations (63 total)',
-          subtitle: '9 positions × 7 transitions',
-        ),
-        const SizedBox(height: 16),
-        ...allTransitionTypes.map((type) {
-          return _buildCombinationSection(type);
-        }),
-      ],
-    );
-  }
-
-  Widget _buildSectionHeader({
-    required IconData icon,
-    required String title,
-    required String subtitle,
-  }) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-    final textColor = isDark ? AppColors.darkText : AppColors.lightText;
-    final secondaryColor = isDark
-        ? AppColors.darkTextSecondary
-        : AppColors.lightTextSecondary;
-
-    return Row(
-      children: [
-        Container(
-          padding: const EdgeInsets.all(10),
-          decoration: BoxDecoration(
-            gradient: const LinearGradient(colors: AppColors.primaryGradient),
-            borderRadius: BorderRadius.circular(12),
-          ),
-          child: Icon(icon, color: Colors.white, size: 18),
-        ),
-        const SizedBox(width: 12),
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                title,
-                style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w700,
-                  color: textColor,
-                ),
-              ),
-              Text(
-                subtitle,
-                style: TextStyle(fontSize: 12, color: secondaryColor),
-              ),
-            ],
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildPositionGrid() {
-    return GridView.builder(
-      shrinkWrap: true,
-      physics: const NeverScrollableScrollPhysics(),
-      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 3,
-        mainAxisSpacing: 10,
-        crossAxisSpacing: 10,
-        childAspectRatio: 1.2,
+  PreferredSizeWidget _buildAppBar(bool isDark) {
+    return AppBar(
+      title: const Text(
+        'Super Dialog Examples',
+        style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
       ),
-      itemCount: allPositions.length,
-      itemBuilder: (context, index) {
-        final position = allPositions[index];
-        return _buildPositionButton(position);
-      },
-    );
-  }
-
-  Widget _buildPositionButton(DialogPosition position) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-    final cardColor = isDark ? AppColors.darkCard : AppColors.lightCard;
-    final secondaryColor = isDark
-        ? AppColors.darkTextSecondary
-        : AppColors.lightTextSecondary;
-    final color = _getPositionColor(position);
-
-    return Material(
-      color: cardColor,
-      borderRadius: BorderRadius.circular(14),
-      child: Container(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(14),
-          border: Border.all(color: color.withValues(alpha: 0.3)),
+      actions: [
+        IconButton(
+          onPressed: widget.onThemeToggle,
+          icon: Icon(
+            widget.isDarkMode
+                ? Icons.light_mode_rounded
+                : Icons.dark_mode_rounded,
+          ),
+          tooltip: 'Toggle theme',
         ),
-        child: Column(
-          children: [
-            // Main content - tappable area
-            Expanded(
-              child: InkWell(
-                onTap: () {
-                  SuperDialog.showPositionedDialog<void>(
-                    context,
-                    (context) => PositionedInfoCard(
-                      position: position.displayName,
-                      accentColor: color,
-                    ),
-                    startPosition: DialogPosition.offScreen,
-                    endPosition: position,
-                    transitionType: PositionedTransitionType.slideFade,
-                    barrierDismissible: true,
-                    barrierColor: Colors.black.withValues(alpha: 0.4),
-                  );
-                },
-                borderRadius: const BorderRadius.vertical(
-                  top: Radius.circular(14),
-                ),
-                child: Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Container(
-                        width: 10,
-                        height: 10,
-                        decoration: BoxDecoration(
-                          color: color,
-                          shape: BoxShape.circle,
-                          boxShadow: [
-                            BoxShadow(
-                              color: color.withValues(alpha: 0.5),
-                              blurRadius: 6,
-                            ),
-                          ],
-                        ),
-                      ),
-                      const SizedBox(height: 6),
-                      Text(
-                        position.displayName,
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontSize: 9,
-                          fontWeight: FontWeight.w600,
-                          color: isDark
-                              ? AppColors.darkText
-                              : AppColors.lightText,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-            // Code button
-            InkWell(
-              onTap: () => _showPositionedCodeDialog(
-                title: position.displayName,
-                startPosition: DialogPosition.offScreen,
-                endPosition: position,
-                transitionType: PositionedTransitionType.slideFade,
-                accentColor: color,
-              ),
-              borderRadius: const BorderRadius.vertical(
-                bottom: Radius.circular(14),
-              ),
-              child: Container(
-                padding: const EdgeInsets.symmetric(vertical: 4),
-                decoration: BoxDecoration(
-                  color: color.withValues(alpha: 0.1),
-                  borderRadius: const BorderRadius.vertical(
-                    bottom: Radius.circular(14),
-                  ),
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(Icons.code_rounded, size: 12, color: secondaryColor),
-                    const SizedBox(width: 3),
-                    Text(
-                      'Code',
-                      style: TextStyle(fontSize: 8, color: secondaryColor),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ],
+      ],
+      elevation: 0,
+      backgroundColor: isDark ? AppColors.darkSurface : AppColors.lightSurface,
+      bottom: PreferredSize(
+        preferredSize: const Size.fromHeight(1),
+        child: Container(
+          height: 1,
+          color: isDark ? AppColors.darkBorder : AppColors.lightBorder,
         ),
       ),
     );
   }
 
-  Widget _buildTransitionChip(PositionedTransitionType type) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-    final cardColor = isDark ? AppColors.darkCard : AppColors.lightCard;
-    final textColor = isDark ? AppColors.darkText : AppColors.lightText;
-    final secondaryColor = isDark
-        ? AppColors.darkTextSecondary
-        : AppColors.lightTextSecondary;
-
-    return Material(
-      color: cardColor,
-      borderRadius: BorderRadius.circular(10),
-      child: Container(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10),
-          border: Border.all(color: AppColors.primary.withValues(alpha: 0.2)),
+  Widget _buildTabBar(bool isDark) {
+    return Container(
+      decoration: BoxDecoration(
+        color: isDark ? AppColors.darkSurface : AppColors.lightSurface,
+        border: Border(
+          bottom: BorderSide(
+            color: isDark ? AppColors.darkBorder : AppColors.lightBorder,
+            width: 1,
+          ),
         ),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            // Main content - tappable
-            InkWell(
-              onTap: () {
-                SuperDialog.showPositionedDialog<void>(
-                  context,
-                  (context) =>
-                      const PositionedCornerDialog(fromCorner: 'Bottom'),
-                  startPosition: DialogPosition.bottomCenter,
-                  endPosition: DialogPosition.center,
-                  transitionType: type,
-                  barrierDismissible: true,
-                  barrierColor: Colors.black.withValues(alpha: 0.5),
-                );
-              },
-              borderRadius: const BorderRadius.horizontal(
-                left: Radius.circular(10),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 12,
-                  vertical: 8,
-                ),
+      ),
+      child: TabBar(
+        controller: _tabController,
+        labelColor: AppColors.primary,
+        unselectedLabelColor: isDark
+            ? AppColors.darkTextSecondary
+            : AppColors.lightTextSecondary,
+        indicatorColor: AppColors.primary,
+        indicatorSize: TabBarIndicatorSize.label,
+        isScrollable: true,
+        labelStyle: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
+        unselectedLabelStyle: const TextStyle(
+          fontSize: 14,
+          fontWeight: FontWeight.w500,
+        ),
+        tabs: _tabs
+            .map(
+              (tab) => Tab(
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Icon(
-                      _getTransitionIcon(type),
-                      size: 16,
-                      color: AppColors.primary,
-                    ),
-                    const SizedBox(width: 8),
-                    Text(
-                      _getTransitionLabel(type),
-                      style: TextStyle(
-                        fontSize: 12,
-                        fontWeight: FontWeight.w600,
-                        color: textColor,
-                      ),
-                    ),
+                    Icon(tab.icon, size: 18),
+                    const SizedBox(width: 6),
+                    Text(tab.title),
                   ],
                 ),
               ),
-            ),
-            // Code button
-            Container(
-              width: 1,
-              height: 24,
-              color: AppColors.primary.withValues(alpha: 0.15),
-            ),
-            InkWell(
-              onTap: () => _showPositionedCodeDialog(
-                title: _getTransitionLabel(type),
-                startPosition: DialogPosition.bottomCenter,
-                endPosition: DialogPosition.center,
-                transitionType: type,
-                accentColor: AppColors.primary,
-              ),
-              borderRadius: const BorderRadius.horizontal(
-                right: Radius.circular(10),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
-                child: Icon(
-                  Icons.code_rounded,
-                  size: 16,
-                  color: secondaryColor,
-                ),
-              ),
-            ),
-          ],
-        ),
+            )
+            .toList(),
       ),
     );
   }
-
-  Widget _buildCombinationSection(PositionedTransitionType type) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-    final cardColor = isDark ? AppColors.darkCard : AppColors.lightCard;
-    final textColor = isDark ? AppColors.darkText : AppColors.lightText;
-    final secondaryColor = isDark
-        ? AppColors.darkTextSecondary
-        : AppColors.lightTextSecondary;
-
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        // Header
-        Container(
-          margin: const EdgeInsets.only(bottom: 10, top: 4),
-          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-          decoration: BoxDecoration(
-            color: AppColors.primary.withValues(alpha: 0.1),
-            borderRadius: BorderRadius.circular(8),
-          ),
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Icon(
-                _getTransitionIcon(type),
-                size: 14,
-                color: AppColors.primary,
-              ),
-              const SizedBox(width: 6),
-              Text(
-                _getTransitionLabel(type),
-                style: TextStyle(
-                  fontSize: 12,
-                  fontWeight: FontWeight.w700,
-                  color: textColor,
-                ),
-              ),
-            ],
-          ),
-        ),
-
-        // 3x3 Grid
-        GridView.builder(
-          shrinkWrap: true,
-          physics: const NeverScrollableScrollPhysics(),
-          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 3,
-            mainAxisSpacing: 6,
-            crossAxisSpacing: 6,
-            childAspectRatio: 1.2,
-          ),
-          itemCount: allPositions.length,
-          itemBuilder: (context, index) {
-            final position = allPositions[index];
-            final color = _getPositionColor(position);
-
-            return Material(
-              color: cardColor,
-              borderRadius: BorderRadius.circular(8),
-              child: Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(8),
-                  border: Border.all(color: color.withValues(alpha: 0.2)),
-                ),
-                child: Column(
-                  children: [
-                    // Main area
-                    Expanded(
-                      child: InkWell(
-                        onTap: () {
-                          SuperDialog.showPositionedDialog<void>(
-                            context,
-                            (context) => PositionedInfoCard(
-                              position:
-                                  '${position.displayName}\n${_getTransitionLabel(type)}',
-                              accentColor: color,
-                            ),
-                            startPosition: DialogPosition.offScreen,
-                            endPosition: position,
-                            transitionType: type,
-                            barrierDismissible: true,
-                            barrierColor: Colors.black.withValues(alpha: 0.4),
-                          );
-                        },
-                        borderRadius: const BorderRadius.vertical(
-                          top: Radius.circular(8),
-                        ),
-                        child: Center(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Container(
-                                width: 6,
-                                height: 6,
-                                decoration: BoxDecoration(
-                                  color: color,
-                                  shape: BoxShape.circle,
-                                ),
-                              ),
-                              const SizedBox(height: 2),
-                              Text(
-                                position.displayName.replaceAll(' ', '\n'),
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  fontSize: 7,
-                                  fontWeight: FontWeight.w500,
-                                  color: secondaryColor,
-                                  height: 1.1,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                    // Code button
-                    InkWell(
-                      onTap: () => _showPositionedCodeDialog(
-                        title:
-                            '${position.displayName} - ${_getTransitionLabel(type)}',
-                        startPosition: DialogPosition.offScreen,
-                        endPosition: position,
-                        transitionType: type,
-                        accentColor: color,
-                      ),
-                      borderRadius: const BorderRadius.vertical(
-                        bottom: Radius.circular(8),
-                      ),
-                      child: Container(
-                        width: double.infinity,
-                        padding: const EdgeInsets.symmetric(vertical: 3),
-                        decoration: BoxDecoration(
-                          color: color.withValues(alpha: 0.08),
-                          borderRadius: const BorderRadius.vertical(
-                            bottom: Radius.circular(8),
-                          ),
-                        ),
-                        child: Icon(
-                          Icons.code_rounded,
-                          size: 10,
-                          color: secondaryColor,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            );
-          },
-        ),
-        const SizedBox(height: 14),
-      ],
-    );
-  }
-}
-
-// =============================================================================
-// HELPER CLASSES
-// =============================================================================
-class _TabCategory {
-  final String title;
-  final IconData icon;
-
-  _TabCategory({required this.title, required this.icon});
-}
-
-class AnimationCategory {
-  final String title;
-  final IconData icon;
-  final List<DialogAnimation> animations;
-
-  AnimationCategory({
-    required this.title,
-    required this.icon,
-    required this.animations,
-  });
-}
-
-class _TabBarDelegate extends SliverPersistentHeaderDelegate {
-  final Widget child;
-
-  const _TabBarDelegate({required this.child});
-
-  @override
-  Widget build(
-    BuildContext context,
-    double shrinkOffset,
-    bool overlapsContent,
-  ) {
-    return SizedBox.expand(child: child);
-  }
-
-  @override
-  double get maxExtent => 50;
-
-  @override
-  double get minExtent => 50;
-
-  @override
-  bool shouldRebuild(covariant _TabBarDelegate oldDelegate) =>
-      child != oldDelegate.child;
 }

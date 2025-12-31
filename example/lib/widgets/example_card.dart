@@ -43,8 +43,9 @@ class _ExampleCardState extends State<ExampleCard> {
     final secondaryColor = isDark
         ? const Color(0xFFB0B0B0)
         : const Color(0xFF666666);
-    final borderColor =
-        isDark ? const Color(0xFF2A2A2A) : const Color(0xFFE0E0E0);
+    final borderColor = isDark
+        ? const Color(0xFF2A2A2A)
+        : const Color(0xFFE0E0E0);
 
     final hasCode = widget.scenario.generatedCodeSnippet.isNotEmpty;
 
@@ -82,8 +83,7 @@ class _ExampleCardState extends State<ExampleCard> {
                 Container(
                   padding: const EdgeInsets.all(12),
                   decoration: BoxDecoration(
-                    color:
-                        widget.scenario.accentColor.withValues(alpha: 0.1),
+                    color: widget.scenario.accentColor.withValues(alpha: 0.1),
                     borderRadius: BorderRadius.circular(8),
                   ),
                   child: Icon(
@@ -120,8 +120,9 @@ class _ExampleCardState extends State<ExampleCard> {
                               vertical: 3,
                             ),
                             decoration: BoxDecoration(
-                              color: widget.scenario.accentColor
-                                  .withValues(alpha: 0.1),
+                              color: widget.scenario.accentColor.withValues(
+                                alpha: 0.1,
+                              ),
                               borderRadius: BorderRadius.circular(4),
                             ),
                             child: Text(

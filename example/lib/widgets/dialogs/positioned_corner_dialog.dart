@@ -16,137 +16,143 @@ class PositionedCornerDialog extends StatelessWidget {
         ? AppColors.darkTextSecondary
         : AppColors.lightTextSecondary;
 
-    return Center(
-      child: Container(
-        margin: const EdgeInsets.all(24),
-        constraints: const BoxConstraints(maxWidth: 380),
-        decoration: BoxDecoration(
-          color: cardColor,
-          borderRadius: BorderRadius.circular(24),
-          boxShadow: [
-            BoxShadow(
-              color: AppColors.primary.withValues(alpha: 0.2),
-              blurRadius: 30,
-              offset: const Offset(0, 15),
+    return Card(
+      clipBehavior: Clip.none,
+      color: Colors.transparent,
+      shadowColor: Colors.transparent,
+      elevation: 0,
+      child: Center(
+        child: Container(
+          margin: const EdgeInsets.all(24),
+          constraints: const BoxConstraints(maxWidth: 380),
+          decoration: BoxDecoration(
+            color: cardColor,
+            borderRadius: BorderRadius.circular(24),
+            boxShadow: [
+              BoxShadow(
+                color: AppColors.primary.withValues(alpha: 0.2),
+                blurRadius: 30,
+                offset: const Offset(0, 15),
+              ),
+            ],
+            border: Border.all(
+              color: AppColors.primary.withValues(alpha: 0.3),
+              width: 2,
             ),
-          ],
-          border: Border.all(
-            color: AppColors.primary.withValues(alpha: 0.3),
-            width: 2,
           ),
-        ),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            // Header
-            Container(
-              padding: const EdgeInsets.all(24),
-              decoration: const BoxDecoration(
-                gradient: LinearGradient(colors: AppColors.primaryGradient),
-                borderRadius: BorderRadius.vertical(top: Radius.circular(22)),
-              ),
-              child: Row(
-                children: [
-                  Container(
-                    padding: const EdgeInsets.all(12),
-                    decoration: BoxDecoration(
-                      color: Colors.white.withValues(alpha: 0.2),
-                      borderRadius: BorderRadius.circular(14),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              // Header
+              Container(
+                padding: const EdgeInsets.all(24),
+                decoration: const BoxDecoration(
+                  gradient: LinearGradient(colors: AppColors.primaryGradient),
+                  borderRadius: BorderRadius.vertical(top: Radius.circular(22)),
+                ),
+                child: Row(
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.all(12),
+                      decoration: BoxDecoration(
+                        color: Colors.white.withValues(alpha: 0.2),
+                        borderRadius: BorderRadius.circular(14),
+                      ),
+                      child: const Icon(
+                        Icons.arrow_outward_rounded,
+                        color: Colors.white,
+                        size: 24,
+                      ),
                     ),
-                    child: const Icon(
-                      Icons.arrow_outward_rounded,
-                      color: Colors.white,
-                      size: 24,
-                    ),
-                  ),
-                  const SizedBox(width: 16),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const Text(
-                          'Positioned Dialog',
-                          style: TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.w700,
-                            color: Colors.white,
+                    const SizedBox(width: 16),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Text(
+                            'Positioned Dialog',
+                            style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.w700,
+                              color: Colors.white,
+                            ),
                           ),
-                        ),
-                        const SizedBox(height: 4),
-                        Text(
-                          'From $fromCorner',
-                          style: TextStyle(
-                            fontSize: 13,
-                            color: Colors.white.withValues(alpha: 0.8),
+                          const SizedBox(height: 4),
+                          Text(
+                            'From $fromCorner',
+                            style: TextStyle(
+                              fontSize: 13,
+                              color: Colors.white.withValues(alpha: 0.8),
+                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
-                  ),
-                ],
-              ),
-            ),
-
-            // Content
-            Padding(
-              padding: const EdgeInsets.all(24),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Custom Position Transition',
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w600,
-                      color: textColor,
-                    ),
-                  ),
-                  const SizedBox(height: 12),
-                  Text(
-                    'This dialog slid in from the $fromCorner corner to the center of the screen using showPositionedDialog().',
-                    style: TextStyle(
-                      fontSize: 14,
-                      color: secondaryColor,
-                      height: 1.5,
-                    ),
-                  ),
-                  const SizedBox(height: 20),
-                  _buildInfoRow(
-                    context,
-                    icon: Icons.play_arrow_rounded,
-                    label: 'Start Position',
-                    value: fromCorner,
-                  ),
-                  const SizedBox(height: 12),
-                  _buildInfoRow(
-                    context,
-                    icon: Icons.stop_rounded,
-                    label: 'End Position',
-                    value: 'Center',
-                  ),
-                  const SizedBox(height: 12),
-                  _buildInfoRow(
-                    context,
-                    icon: Icons.animation_rounded,
-                    label: 'Transition',
-                    value: 'Slide + Fade',
-                  ),
-                ],
-              ),
-            ),
-
-            // Footer
-            Padding(
-              padding: const EdgeInsets.fromLTRB(24, 0, 24, 24),
-              child: SizedBox(
-                width: double.infinity,
-                child: FilledButton(
-                  onPressed: () => Navigator.of(context).pop(),
-                  child: const Text('Got it!'),
+                  ],
                 ),
               ),
-            ),
-          ],
+
+              // Content
+              Padding(
+                padding: const EdgeInsets.all(24),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Custom Position Transition',
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600,
+                        color: textColor,
+                      ),
+                    ),
+                    const SizedBox(height: 12),
+                    Text(
+                      'This dialog slid in from the $fromCorner corner to the center of the screen using showPositionedDialog().',
+                      style: TextStyle(
+                        fontSize: 14,
+                        color: secondaryColor,
+                        height: 1.5,
+                      ),
+                    ),
+                    const SizedBox(height: 20),
+                    _buildInfoRow(
+                      context,
+                      icon: Icons.play_arrow_rounded,
+                      label: 'Start Position',
+                      value: fromCorner,
+                    ),
+                    const SizedBox(height: 12),
+                    _buildInfoRow(
+                      context,
+                      icon: Icons.stop_rounded,
+                      label: 'End Position',
+                      value: 'Center',
+                    ),
+                    const SizedBox(height: 12),
+                    _buildInfoRow(
+                      context,
+                      icon: Icons.animation_rounded,
+                      label: 'Transition',
+                      value: 'Slide + Fade',
+                    ),
+                  ],
+                ),
+              ),
+
+              // Footer
+              Padding(
+                padding: const EdgeInsets.fromLTRB(24, 0, 24, 24),
+                child: SizedBox(
+                  width: double.infinity,
+                  child: FilledButton(
+                    onPressed: () => Navigator.of(context).pop(),
+                    child: const Text('Got it!'),
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
