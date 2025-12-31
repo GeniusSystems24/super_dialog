@@ -532,145 +532,85 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
     return Scaffold(
-      body: CustomScrollView(
-        slivers: [
-          // App Bar
-          SliverAppBar(
-            expandedHeight: 210,
-            floating: false,
-            pinned: true,
-            backgroundColor: isDark
-                ? AppColors.darkSurface
-                : AppColors.lightSurface,
-            flexibleSpace: FlexibleSpaceBar(
-              background: Container(
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                    colors: isDark
-                        ? [AppColors.darkSurface, AppColors.darkBackground]
-                        : [
-                            AppColors.primary.withValues(alpha: 0.1),
-                            AppColors.lightBackground,
-                          ],
-                  ),
-                ),
-                child: SafeArea(
-                  child: Padding(
-                    padding: const EdgeInsets.fromLTRB(24, 60, 24, 24),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          children: [
-                            Container(
-                              padding: const EdgeInsets.all(12),
-                              decoration: BoxDecoration(
-                                gradient: const LinearGradient(
-                                  colors: AppColors.primaryGradient,
-                                ),
-                                borderRadius: BorderRadius.circular(16),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: AppColors.primary.withValues(
-                                      alpha: 0.3,
-                                    ),
-                                    blurRadius: 12,
-                                    offset: const Offset(0, 4),
-                                  ),
-                                ],
-                              ),
-                              child: const Icon(
-                                Icons.animation_rounded,
-                                color: Colors.white,
-                                size: 28,
-                              ),
-                            ),
-                            const Spacer(),
-                            IconButton(
-                              onPressed: widget.onThemeToggle,
-                              icon: AnimatedSwitcher(
-                                duration: const Duration(milliseconds: 300),
-                                child: Icon(
-                                  widget.isDarkMode
-                                      ? Icons.light_mode_rounded
-                                      : Icons.dark_mode_rounded,
-                                  key: ValueKey(widget.isDarkMode),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                        const Spacer(),
-                        Text(
-                          'Super Dialog',
-                          style: TextStyle(
-                            fontSize: 28,
-                            fontWeight: FontWeight.w700,
-                            color: isDark
-                                ? AppColors.darkText
-                                : AppColors.lightText,
-                          ),
-                        ),
-                        const SizedBox(height: 6),
-                        Text(
-                          'Beautiful animated dialogs for Flutter',
-                          style: TextStyle(
-                            fontSize: 14,
-                            color: isDark
-                                ? AppColors.darkTextSecondary
-                                : AppColors.lightTextSecondary,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
+      appBar: AppBar(
+        title: const Text(
+          'Super Dialog Examples',
+          style: TextStyle(
+            fontSize: 18,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+        actions: [
+          IconButton(
+            onPressed: widget.onThemeToggle,
+            icon: Icon(
+              widget.isDarkMode
+                  ? Icons.light_mode_rounded
+                  : Icons.dark_mode_rounded,
+            ),
+            tooltip: 'Toggle theme',
+          ),
+        ],
+        elevation: 0,
+        backgroundColor:
+            isDark ? AppColors.darkSurface : AppColors.lightSurface,
+        bottom: PreferredSize(
+          preferredSize: const Size.fromHeight(1),
+          child: Container(
+            height: 1,
+            color: isDark
+                ? AppColors.darkBorder
+                : AppColors.lightBorder,
+          ),
+        ),
+      ),
+      body: Column(
+        children: [
+          // Tab Bar
+          Container(
+            color: isDark ? AppColors.darkSurface : AppColors.lightSurface,
+            decoration: BoxDecoration(
+              border: Border(
+                bottom: BorderSide(
+                  color: isDark ? AppColors.darkBorder : AppColors.lightBorder,
+                  width: 1,
                 ),
               ),
             ),
-          ),
-
-          // Tab Bar
-          SliverPersistentHeader(
-            pinned: true,
-            delegate: _TabBarDelegate(
-              child: Container(
-                color: isDark ? AppColors.darkSurface : AppColors.lightSurface,
-                child: TabBar(
-                  controller: _tabController,
-                  labelColor: AppColors.primary,
-                  unselectedLabelColor: isDark
-                      ? AppColors.darkTextSecondary
-                      : AppColors.lightTextSecondary,
-                  indicatorColor: AppColors.primary,
-                  indicatorSize: TabBarIndicatorSize.label,
-                  isScrollable: true,
-                  labelStyle: const TextStyle(
-                    fontSize: 13,
-                    fontWeight: FontWeight.w600,
-                  ),
-                  tabs: _tabs
-                      .map(
-                        (tab) => Tab(
-                          child: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Icon(tab.icon, size: 18),
-                              const SizedBox(width: 6),
-                              Text(tab.title),
-                            ],
-                          ),
-                        ),
-                      )
-                      .toList(),
-                ),
+            child: TabBar(
+              controller: _tabController,
+              labelColor: AppColors.primary,
+              unselectedLabelColor: isDark
+                  ? AppColors.darkTextSecondary
+                  : AppColors.lightTextSecondary,
+              indicatorColor: AppColors.primary,
+              indicatorSize: TabBarIndicatorSize.label,
+              isScrollable: true,
+              labelStyle: const TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.w600,
               ),
+              unselectedLabelStyle: const TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.w500,
+              ),
+              tabs: _tabs
+                  .map((tab) => Tab(
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Icon(tab.icon, size: 18),
+                            const SizedBox(width: 6),
+                            Text(tab.title),
+                          ],
+                        ),
+                      ))
+                  .toList(),
             ),
           ),
 
           // Content
-          SliverFillRemaining(
+          Expanded(
             child: TabBarView(
               controller: _tabController,
               children: [
@@ -692,17 +632,15 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
 
   Widget _buildAnimationList(AnimationCategory category) {
     final scenarios = _getScenariosForCategory(category);
-    return ListView.builder(
-      padding: const EdgeInsets.all(20),
+    return ListView.separated(
+      padding: const EdgeInsets.all(16),
       itemCount: scenarios.length,
+      separatorBuilder: (context, index) => const SizedBox(height: 12),
       itemBuilder: (context, index) {
         final scenario = scenarios[index];
-        return Padding(
-          padding: const EdgeInsets.only(bottom: 16),
-          child: ExampleCard(
-            scenario: scenario,
-            onTap: () => _openScenario(scenario),
-          ),
+        return ExampleCard(
+          scenario: scenario,
+          onTap: () => _openScenario(scenario),
         );
       },
     );
