@@ -1,188 +1,150 @@
 import 'package:flutter/material.dart';
+import 'package:super_dialog/super_dialog.dart';
+
 import '../../theme/app_theme.dart';
+import 'dialog_demo_components.dart';
 
 class RoadmapCard extends StatelessWidget {
   const RoadmapCard({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-    final cardColor = isDark ? AppColors.darkCard : AppColors.lightCard;
-    final textColor = isDark ? AppColors.darkText : AppColors.lightText;
-
-    return Card(
-      clipBehavior: Clip.none,
-      color: Colors.transparent,
-      shadowColor: Colors.transparent,
-      elevation: 0,
-      child: Center(
-        child: Container(
-          margin: const EdgeInsets.symmetric(horizontal: 24),
-          padding: const EdgeInsets.all(28),
-          decoration: BoxDecoration(
-            color: cardColor,
-            borderRadius: BorderRadius.circular(28),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withValues(alpha: 0.2),
-                blurRadius: 28,
-                offset: const Offset(0, 20),
-              ),
-            ],
-          ),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                children: [
-                  Container(
-                    padding: const EdgeInsets.all(12),
-                    decoration: BoxDecoration(
-                      gradient: const LinearGradient(
-                        colors: AppColors.accentGradient,
-                      ),
-                      borderRadius: BorderRadius.circular(14),
-                      boxShadow: [
-                        BoxShadow(
-                          color: AppColors.accent.withValues(alpha: 0.3),
-                          blurRadius: 10,
-                          offset: const Offset(0, 4),
-                        ),
-                      ],
-                    ),
-                    child: const Icon(
-                      Icons.map_rounded,
-                      color: Colors.white,
-                      size: 22,
-                    ),
-                  ),
-                  const SizedBox(width: 16),
-                  Text(
-                    'Roadmap checkpoints',
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.w700,
-                      color: textColor,
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 24),
-              const _RoadmapStep(
-                label: 'Finalize Q4 policy updates',
-                eta: 'Due Sep 14',
-                status: StepStatus.completed,
-              ),
-              const _RoadmapStep(
-                label: 'Roll out self-service portal',
-                eta: 'Due Sep 20',
-                status: StepStatus.inProgress,
-              ),
-              const _RoadmapStep(
-                label: 'Publish compliance checklist',
-                eta: 'Due Sep 29',
-                status: StepStatus.pending,
-              ),
-            ],
-          ),
+    return SuperDialogSurface(
+      width: 640,
+      title: 'Implementation Milestones',
+      subtitle: 'ERP rollout · Wave 2 · Manufacturing and procurement',
+      icon: Icons.route_outlined,
+      iconColor: AppColors.primary,
+      content: const DemoPanel(
+        child: Column(
+          children: [
+            _Milestone(
+              title: 'Master data validation',
+              detail: 'Completed 11 Jul · 4,820 records',
+              state: 'Complete',
+              color: AppColors.success,
+              icon: Icons.check_rounded,
+            ),
+            DemoDivider(),
+            _Milestone(
+              title: 'Integration testing',
+              detail: 'In progress · 84 of 96 scenarios passed',
+              state: 'In progress',
+              color: AppColors.primary,
+              icon: Icons.sync_rounded,
+            ),
+            DemoDivider(),
+            _Milestone(
+              title: 'Business readiness review',
+              detail: 'Scheduled 22 Jul · 18 process owners',
+              state: 'Upcoming',
+              color: AppColors.warning,
+              icon: Icons.calendar_today_outlined,
+            ),
+            DemoDivider(),
+            _Milestone(
+              title: 'Production cutover',
+              detail: 'Planned 02 Aug · 36-hour window',
+              state: 'Planned',
+              color: AppColors.purple,
+              icon: Icons.rocket_launch_outlined,
+            ),
+          ],
         ),
       ),
+      actions: [
+        OutlinedButton(
+          onPressed: () => Navigator.of(context).pop(),
+          child: const Text('Open project'),
+        ),
+        FilledButton(
+          onPressed: () => Navigator.of(context).pop(),
+          child: const Text('Acknowledge'),
+        ),
+      ],
     );
   }
 }
 
-enum StepStatus { completed, inProgress, pending }
-
-class _RoadmapStep extends StatelessWidget {
-  const _RoadmapStep({
-    required this.label,
-    required this.eta,
-    required this.status,
+class _Milestone extends StatelessWidget {
+  const _Milestone({
+    required this.title,
+    required this.detail,
+    required this.state,
+    required this.color,
+    required this.icon,
   });
 
-  final String label;
-  final String eta;
-  final StepStatus status;
+  final String title;
+  final String detail;
+  final String state;
+  final Color color;
+  final IconData icon;
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-    final textColor = isDark ? AppColors.darkText : AppColors.lightText;
-    final secondaryColor = isDark
-        ? AppColors.darkTextSecondary
-        : AppColors.lightTextSecondary;
-
-    Color statusColor;
-    IconData statusIcon;
-    String statusLabel;
-
-    switch (status) {
-      case StepStatus.completed:
-        statusColor = AppColors.success;
-        statusIcon = Icons.check_circle_rounded;
-        statusLabel = 'Done';
-        break;
-      case StepStatus.inProgress:
-        statusColor = AppColors.info;
-        statusIcon = Icons.play_circle_rounded;
-        statusLabel = 'Active';
-        break;
-      case StepStatus.pending:
-        statusColor = AppColors.warning;
-        statusIcon = Icons.schedule_rounded;
-        statusLabel = 'Pending';
-        break;
-    }
-
-    return Container(
-      margin: const EdgeInsets.only(bottom: 14),
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: statusColor.withValues(alpha: 0.08),
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: statusColor.withValues(alpha: 0.2)),
-      ),
-      child: Row(
-        children: [
-          Icon(statusIcon, size: 22, color: statusColor),
-          const SizedBox(width: 14),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  label,
-                  style: TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w600,
-                    color: textColor,
-                  ),
+    final theme = Theme.of(context);
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: AppSpacing.md),
+      child: LayoutBuilder(
+        builder: (context, constraints) {
+          final compact = constraints.maxWidth < 420;
+          final identity = Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Container(
+                width: 34,
+                height: 34,
+                alignment: Alignment.center,
+                decoration: BoxDecoration(
+                  color: color.withValues(alpha: 0.12),
+                  borderRadius: BorderRadius.circular(AppRadii.control),
                 ),
-                const SizedBox(height: 4),
-                Text(
-                  eta,
-                  style: TextStyle(fontSize: 12, color: secondaryColor),
+                child: Icon(icon, size: 17, color: color),
+              ),
+              const SizedBox(width: AppSpacing.md),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text(
+                      title,
+                      style: theme.textTheme.bodyMedium?.copyWith(
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                    Text(
+                      detail,
+                      style: theme.textTheme.bodySmall?.copyWith(
+                        color: theme.colorScheme.onSurfaceVariant,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          );
+          if (compact) {
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: <Widget>[
+                identity,
+                const SizedBox(height: AppSpacing.sm),
+                Align(
+                  alignment: AlignmentDirectional.centerEnd,
+                  child: DemoStatusChip(label: state, color: color),
                 ),
               ],
-            ),
-          ),
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-            decoration: BoxDecoration(
-              color: statusColor.withValues(alpha: 0.15),
-              borderRadius: BorderRadius.circular(6),
-            ),
-            child: Text(
-              statusLabel,
-              style: TextStyle(
-                fontSize: 11,
-                fontWeight: FontWeight.w600,
-                color: statusColor,
-              ),
-            ),
-          ),
-        ],
+            );
+          }
+          return Row(
+            children: <Widget>[
+              Expanded(child: identity),
+              const SizedBox(width: AppSpacing.md),
+              DemoStatusChip(label: state, color: color),
+            ],
+          );
+        },
       ),
     );
   }

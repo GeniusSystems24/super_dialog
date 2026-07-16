@@ -15,15 +15,15 @@ class SlideScenarios {
       // ========================================================================
 
       ExampleScenario(
-        title: 'Start Drawer - Planner',
+        title: 'Start Drawer · Leave Request',
         description:
-            'Full schedule builder sliding from the start edge with form controls.',
+            'Employee self-service request form sliding from the start edge.',
         animation: DialogAnimation.startToEnd,
         category: 'Slide',
         icon: Icons.calendar_month_rounded,
         accentColor: AppColors.primary,
         constraints: const BoxConstraints(maxWidth: 720),
-        barrierColor: Colors.black.withValues(alpha: 0.25),
+        barrierColor: const Color(0x8C000000),
         barrierDismissible: true,
         builder: (context) =>
             const AddTimeOffDialog(alignment: Alignment.centerLeft),
@@ -38,15 +38,15 @@ class SlideScenarios {
       ),
 
       ExampleScenario(
-        title: 'Half Width Checklist',
-        description: 'Uses FractionallySizedBox to occupy half the viewport.',
+        title: 'Onboarding Checklist',
+        description: 'Half-width task checklist for controlled onboarding activities.',
         animation: DialogAnimation.startToEnd,
         category: 'Slide',
         icon: Icons.checklist_rounded,
         accentColor: AppColors.accent,
-        barrierColor: Colors.black.withValues(alpha: 0.20),
+        barrierColor: const Color(0x8C000000),
         barrierDismissible: true,
-        builder: (context) => const FractionallySizedBox(
+        builder: (context) => const DemoAdaptivePanel(
           widthFactor: 0.5,
           alignment: AlignmentDirectional.centerStart,
           child: NotesPanel(
@@ -67,13 +67,13 @@ class SlideScenarios {
       ),
 
       ExampleScenario(
-        title: 'Filter Controls',
-        description: 'Compact filter surface that arrives from the start edge.',
+        title: 'ERP Worklist Filters',
+        description: 'Filter an ERP document worklist by status, period, and owner.',
         animation: DialogAnimation.startToEnd,
         category: 'Slide',
         icon: Icons.filter_list_rounded,
         accentColor: AppColors.success,
-        barrierColor: Colors.black.withValues(alpha: 0.15),
+        barrierColor: const Color(0x8C000000),
         barrierDismissible: true,
         builder: (context) => const FilterPanel(),
         codeSnippet: '''SuperDialog.showAnimatedDialog<void>(
@@ -85,16 +85,16 @@ class SlideScenarios {
       ),
 
       ExampleScenario(
-        title: 'Navigation Menu',
-        description: 'Full-height navigation drawer with menu items.',
+        title: 'Module Navigation',
+        description: 'Full-height module navigation for finance and operations.',
         animation: DialogAnimation.startToEnd,
         category: 'Slide',
         icon: Icons.menu_rounded,
         accentColor: AppColors.info,
         constraints: const BoxConstraints(maxWidth: 320),
-        barrierColor: Colors.black.withValues(alpha: 0.30),
+        barrierColor: const Color(0x8C000000),
         barrierDismissible: true,
-        builder: (context) => const FractionallySizedBox(
+        builder: (context) => const DemoAdaptivePanel(
           widthFactor: 0.35,
           alignment: AlignmentDirectional.centerStart,
           child: NotesPanel(
@@ -106,14 +106,14 @@ class SlideScenarios {
       ),
 
       ExampleScenario(
-        title: 'User Profile Sidebar',
-        description: 'Profile information panel sliding from start.',
+        title: 'Employee Master Sidebar',
+        description: 'Employee master-data panel sliding from the start edge.',
         animation: DialogAnimation.startToEnd,
         category: 'Slide',
         icon: Icons.person_rounded,
-        accentColor: const Color(0xFF8B5CF6),
+        accentColor: const Color(0xFF7C5CFC),
         constraints: const BoxConstraints(maxWidth: 400),
-        barrierColor: Colors.black.withValues(alpha: 0.22),
+        barrierColor: const Color(0x8C000000),
         barrierDismissible: true,
         builder: (context) =>
             const AddTimeOffDialog(alignment: Alignment.centerLeft),
@@ -124,30 +124,30 @@ class SlideScenarios {
       // ========================================================================
 
       ExampleScenario(
-        title: 'End Drawer - Planner',
+        title: 'End Drawer · Leave Request',
         description:
-            'Mirrored schedule builder that slides in from the end edge.',
+            'Mirrored employee request form sliding from the end edge.',
         animation: DialogAnimation.endToStart,
         category: 'Slide',
         icon: Icons.event_note_rounded,
         accentColor: AppColors.info,
         constraints: const BoxConstraints(maxWidth: 720),
-        barrierColor: Colors.black.withValues(alpha: 0.25),
+        barrierColor: const Color(0x8C000000),
         barrierDismissible: true,
         builder: (context) =>
             const AddTimeOffDialog(alignment: Alignment.centerRight),
       ),
 
       ExampleScenario(
-        title: 'Activity Feed',
-        description: 'Half-width activity feed pinned to the end side.',
+        title: 'Document Audit Trail',
+        description: 'Half-width immutable document audit trail pinned to the end side.',
         animation: DialogAnimation.endToStart,
         category: 'Slide',
         icon: Icons.history_rounded,
         accentColor: AppColors.info,
-        barrierColor: Colors.black.withValues(alpha: 0.20),
+        barrierColor: const Color(0x8C000000),
         barrierDismissible: true,
-        builder: (context) => const FractionallySizedBox(
+        builder: (context) => const DemoAdaptivePanel(
           widthFactor: 0.5,
           alignment: AlignmentDirectional.centerEnd,
           child: NotesPanel(
@@ -163,49 +163,49 @@ class SlideScenarios {
       ),
 
       ExampleScenario(
-        title: 'Analytics Panel',
+        title: 'Operations Analytics Panel',
         description:
-            'A metrics panel with quick stats sliding from the end edge.',
+            'Operational KPIs and exception metrics sliding from the end edge.',
         animation: DialogAnimation.endToStart,
         category: 'Slide',
         icon: Icons.insights_rounded,
         accentColor: AppColors.success,
-        barrierColor: Colors.black.withValues(alpha: 0.18),
+        barrierColor: const Color(0x8C000000),
         barrierDismissible: true,
         builder: (context) => const AnalyticsPanel(),
       ),
 
       ExampleScenario(
-        title: 'Shopping Cart',
-        description: 'E-commerce cart panel sliding from end.',
+        title: 'Purchase Requisition Cart',
+        description: 'Draft purchase requisition lines sliding from the end edge.',
         animation: DialogAnimation.endToStart,
         category: 'Slide',
-        icon: Icons.shopping_cart_rounded,
-        accentColor: const Color(0xFFEC4899),
+        icon: Icons.playlist_add_rounded,
+        accentColor: const Color(0xFFEF4444),
         constraints: const BoxConstraints(maxWidth: 450),
-        barrierColor: Colors.black.withValues(alpha: 0.28),
+        barrierColor: const Color(0x8C000000),
         barrierDismissible: true,
-        builder: (context) => const FractionallySizedBox(
+        builder: (context) => const DemoAdaptivePanel(
           widthFactor: 0.4,
           alignment: AlignmentDirectional.centerEnd,
           child: NotesPanel(
-            accentColor: Color(0xFFEC4899),
-            title: 'Cart',
+            accentColor: Color(0xFFEF4444),
+            title: 'Requisition',
             items: ['Product A', 'Product B', 'Product C'],
           ),
         ),
       ),
 
       ExampleScenario(
-        title: 'Notifications Center',
-        description: 'Notification list sliding from end edge.',
+        title: 'Workflow Notifications',
+        description: 'Approval, posting, and exception notifications sliding from the end edge.',
         animation: DialogAnimation.endToStart,
         category: 'Slide',
         icon: Icons.notifications_rounded,
         accentColor: AppColors.warning,
-        barrierColor: Colors.black.withValues(alpha: 0.20),
+        barrierColor: const Color(0x8C000000),
         barrierDismissible: true,
-        builder: (context) => const FractionallySizedBox(
+        builder: (context) => const DemoAdaptivePanel(
           widthFactor: 0.45,
           alignment: AlignmentDirectional.centerEnd,
           child: NotesPanel(

@@ -1,107 +1,49 @@
 import 'package:flutter/material.dart';
+import 'package:super_dialog/super_dialog.dart';
+
 import '../../theme/app_theme.dart';
+import 'dialog_demo_components.dart';
 
 class CenterReminderCard extends StatelessWidget {
   const CenterReminderCard({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-    final cardColor = isDark ? AppColors.darkCard : AppColors.lightCard;
-    final textColor = isDark ? AppColors.darkText : AppColors.lightText;
-
-    return Card(
-      clipBehavior: Clip.none,
-      color: Colors.transparent,
-      shadowColor: Colors.transparent,
-      elevation: 0,
-      child: Center(
-        child: Container(
-          margin: const EdgeInsets.symmetric(horizontal: 24),
-          padding: const EdgeInsets.all(24),
-          decoration: BoxDecoration(
-            color: cardColor,
-            borderRadius: BorderRadius.circular(24),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withValues(alpha: 0.18),
-                blurRadius: 24,
-                offset: const Offset(0, 16),
-              ),
-            ],
-            border: Border.all(
-              color: AppColors.accent.withValues(alpha: 0.3),
-              width: 2,
-            ),
+    return SuperDialogSurface(
+      width: 470,
+      title: 'Approval Reminder',
+      subtitle: 'Quarterly access certification',
+      icon: Icons.notifications_active_outlined,
+      iconColor: AppColors.warning,
+      content: const Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          DemoMetric(
+            label: 'Reviews remaining',
+            value: '14 users',
+            icon: Icons.manage_accounts_outlined,
+            color: AppColors.warning,
+            caption: 'Due tomorrow at 17:00',
           ),
-          child: Row(
-            children: [
-              Container(
-                padding: const EdgeInsets.all(14),
-                decoration: BoxDecoration(
-                  gradient: const LinearGradient(
-                    colors: AppColors.accentGradient,
-                  ),
-                  borderRadius: BorderRadius.circular(16),
-                  boxShadow: [
-                    BoxShadow(
-                      color: AppColors.accent.withValues(alpha: 0.3),
-                      blurRadius: 10,
-                      offset: const Offset(0, 4),
-                    ),
-                  ],
-                ),
-                child: const Icon(
-                  Icons.lightbulb_rounded,
-                  color: Colors.white,
-                  size: 24,
-                ),
-              ),
-              const SizedBox(width: 18),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    const Text(
-                      'Quick Reminder',
-                      style: TextStyle(
-                        fontSize: 11,
-                        fontWeight: FontWeight.w600,
-                        color: AppColors.accent,
-                        letterSpacing: 0.5,
-                      ),
-                    ),
-                    const SizedBox(height: 6),
-                    Text(
-                      'Finalize the September staffing plan before approving new PTO requests.',
-                      style: TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w500,
-                        color: textColor,
-                        height: 1.5,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              const SizedBox(width: 12),
-              Container(
-                padding: const EdgeInsets.all(8),
-                decoration: BoxDecoration(
-                  color: AppColors.accent.withValues(alpha: 0.1),
-                  shape: BoxShape.circle,
-                ),
-                child: const Icon(
-                  Icons.close_rounded,
-                  color: AppColors.accent,
-                  size: 18,
-                ),
-              ),
-            ],
+          SizedBox(height: AppSpacing.lg),
+          DemoNotice(
+            message:
+                'Complete the review to maintain segregation-of-duties compliance for the Finance role group.',
+            color: AppColors.primary,
+            icon: Icons.policy_outlined,
           ),
-        ),
+        ],
       ),
+      actions: [
+        OutlinedButton(
+          onPressed: () => Navigator.of(context).pop(),
+          child: const Text('Remind me later'),
+        ),
+        FilledButton(
+          onPressed: () => Navigator.of(context).pop(),
+          child: const Text('Open review'),
+        ),
+      ],
     );
   }
 }

@@ -1,76 +1,84 @@
 import 'package:flutter/material.dart';
+
 import '../../theme/app_theme.dart';
+import 'dialog_demo_components.dart';
 
 class TopMiniAlert extends StatelessWidget {
   const TopMiniAlert({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      clipBehavior: Clip.none,
-      color: Colors.transparent,
-      shadowColor: Colors.transparent,
-      elevation: 0,
-      child: Align(
+    final theme = Theme.of(context);
+    return Align(
+      alignment: Alignment.topCenter,
+      child: DemoFloatingSurface(
+        maxWidth: 560,
         alignment: Alignment.topCenter,
-        child: Container(
-          margin: const EdgeInsets.symmetric(horizontal: 24, vertical: 40),
-          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-          decoration: BoxDecoration(
-            gradient: const LinearGradient(
-              colors: [Color(0xFF1E293B), Color(0xFF0F172A)],
-            ),
-            borderRadius: BorderRadius.circular(18),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withValues(alpha: 0.35),
-                blurRadius: 28,
-                offset: const Offset(0, 16),
-              ),
-            ],
-          ),
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Container(
-                padding: const EdgeInsets.all(8),
-                decoration: BoxDecoration(
-                  color: AppColors.warning.withValues(alpha: 0.2),
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: const Icon(
-                  Icons.warning_amber_rounded,
-                  color: AppColors.warning,
-                  size: 20,
-                ),
-              ),
-              const SizedBox(width: 16),
-              const Text(
-                'Only 3 review days left for Q4',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.w600,
-                  fontSize: 15,
-                ),
-              ),
-              const SizedBox(width: 16),
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                decoration: BoxDecoration(
-                  color: Colors.white.withValues(alpha: 0.1),
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                child: const Text(
-                  'Urgent',
-                  style: TextStyle(
+        padding: const EdgeInsets.symmetric(
+          horizontal: AppSpacing.lg,
+          vertical: AppSpacing.md,
+        ),
+        accentColor: AppColors.error,
+        child: LayoutBuilder(
+          builder: (context, constraints) {
+            final compact = constraints.maxWidth < 430;
+            final message = Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                const Padding(
+                  padding: EdgeInsets.only(top: 2),
+                  child: Icon(
+                    Icons.error_outline_rounded,
+                    size: 20,
                     color: AppColors.error,
-                    fontWeight: FontWeight.w700,
-                    fontSize: 12,
                   ),
                 ),
-              ),
-            ],
-          ),
+                const SizedBox(width: AppSpacing.md),
+                Expanded(
+                  child: Text(
+                    '3 purchase orders are blocked by missing budget approval.',
+                    style: theme.textTheme.bodyMedium?.copyWith(
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ),
+              ],
+            );
+            final actions = Wrap(
+              alignment: WrapAlignment.end,
+              crossAxisAlignment: WrapCrossAlignment.center,
+              spacing: AppSpacing.sm,
+              children: <Widget>[
+                TextButton(
+                  onPressed: () => Navigator.of(context).pop(),
+                  child: const Text('Review'),
+                ),
+                IconButton(
+                  onPressed: () => Navigator.of(context).maybePop(),
+                  tooltip: 'Close',
+                  icon: const Icon(Icons.close_rounded, size: 16),
+                ),
+              ],
+            );
+
+            if (compact) {
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: <Widget>[
+                  message,
+                  const SizedBox(height: AppSpacing.sm),
+                  actions,
+                ],
+              );
+            }
+            return Row(
+              children: <Widget>[
+                Expanded(child: message),
+                const SizedBox(width: AppSpacing.sm),
+                actions,
+              ],
+            );
+          },
         ),
       ),
     );

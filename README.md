@@ -6,14 +6,14 @@
 
 [![pub package](https://img.shields.io/pub/v/super_dialog.svg?style=for-the-badge&logo=dart&logoColor=white&labelColor=0175C2&color=02569B)](https://pub.dev/packages/super_dialog)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge)](https://opensource.org/licenses/MIT)
-[![Flutter](https://img.shields.io/badge/Flutter-3.10+-02569B?style=for-the-badge&logo=flutter&logoColor=white)](https://flutter.dev)
+[![Flutter](https://img.shields.io/badge/Flutter-3.32+-02569B?style=for-the-badge&logo=flutter&logoColor=white)](https://flutter.dev)
 [![likes](https://img.shields.io/pub/likes/super_dialog)](https://pub.dev/packages/super_dialog/score)
 [![popularity](https://img.shields.io/pub/popularity/super_dialog)](https://pub.dev/packages/super_dialog/score)
 [![points](https://img.shields.io/pub/points/super_dialog)](https://pub.dev/packages/super_dialog/score)
 [![Platform](https://img.shields.io/badge/Platform-All-blueviolet?style=for-the-badge)](https://flutter.dev)
 [![Live Demo](https://img.shields.io/badge/🚀_Live_Demo-View_Online-success?style=for-the-badge)](https://geniussystems24.github.io/super_dialog)
 
-*A powerful, flexible, and beautifully animated dialog toolkit for Flutter.*  
+*A powerful, flexible, and beautifully animated dialog toolkit for Flutter.*
 *Create stunning dialogs with smooth slide, scale, and fade animations.*
 
 ---
@@ -31,7 +31,7 @@
 <td width="50%">
 
 ### 🎬 Rich Animations
-- **24 Pre-built animation styles**
+- **21 Pre-built animation styles**
 - Slide, rotation, bounce, elastic
 - Flip & expand effects
 - RTL-aware transitions
@@ -63,7 +63,7 @@
 - Simple, intuitive API
 - Full TypeScript-like generics
 - Lifecycle callbacks
-- Zero dependencies
+- Dependency-free core theme
 
 </td>
 </tr>
@@ -77,7 +77,7 @@ Add to your `pubspec.yaml`:
 
 ```yaml
 dependencies:
-  super_dialog: ^0.3.0
+  super_dialog: ^0.4.0
 ```
 
 ```bash
@@ -97,6 +97,72 @@ SuperDialog.showAnimatedDialog<void>(
   context,
   (context) => const MyCustomDialog(),
   animation: DialogAnimation.bottomToTop,
+);
+```
+
+
+### GeniusLink / `super_core` Design Theme
+
+Version 0.4 adds a first-class dialog theme sourced from
+[`super_core`](https://pub.dev/packages/super_core), which is now a runtime
+dependency. It provides the
+`#4A7CFF` accent, neutral light/dark surfaces, 4px spacing rhythm, compact
+4/8/12px radii, and restrained overlay motion.
+
+```dart
+import 'package:super_core/super_core.dart' as core;
+
+MaterialApp(
+  theme: core.SuperMaterialThemeData.light(),
+  darkTheme: core.SuperMaterialThemeData.dark(),
+);
+```
+
+Use the ready-made surface when you want the package to style the dialog body
+as well as its route:
+
+```dart
+SuperDialog.showAnimatedDialog<void>(
+  context,
+  (context) => SuperDialogSurface(
+    title: 'Post Journal Entry',
+    subtitle: 'Review the details before continuing',
+    icon: Icons.receipt_long_outlined,
+    content: const Text('This entry will be marked as final.'),
+    actions: [
+      OutlinedButton(
+        onPressed: () => Navigator.of(context).pop(),
+        child: const Text('Cancel'),
+      ),
+      FilledButton(
+        onPressed: () => Navigator.of(context).pop(),
+        child: const Text('Post Entry'),
+      ),
+    ],
+  ),
+  animation: DialogAnimation.centerScale,
+);
+```
+
+`SuperDialogThemeData` also controls the default barrier color, barrier blur,
+opening duration, and closing duration. Explicit method arguments still take
+precedence.
+
+Import `super_core` with an alias because both libraries expose a symbol named
+`SuperDialog`. The package automatically reads the active `SuperPalette`; no
+duplicate color or spacing configuration is required:
+
+```dart
+import 'package:super_core/super_core.dart' as core;
+import 'package:super_dialog/super_dialog.dart';
+
+final base = core.SuperMaterialThemeData.light(
+  palette: core.SuperPalette.greenPalette,
+);
+
+MaterialApp(
+  theme: base,
+  home: const MyApp(),
 );
 ```
 
@@ -594,18 +660,23 @@ SuperDialog.showAnimatedDialog(
 
 The package includes a comprehensive example app with:
 
-- **50+ animation demonstrations** (24 animation types)
+- **50+ animation demonstrations** (21 animation types)
 - **90 positioned combinations** (9 positions × 10 transition types)
 - Light/Dark theme support
 - Beautiful, modern UI with enhanced card design
-- Powered by `go_router` for modern navigation
+- Powered by generated, strongly typed routes from `go_router_builder`
 
 ### Run Locally
 
 ```bash
 cd example
+flutter pub get
+dart run build_runner build --delete-conflicting-outputs
 flutter run
 ```
+
+The generated route file is committed. Run the builder again after changing
+route annotations.
 
 ---
 
@@ -613,8 +684,8 @@ flutter run
 
 | Requirement | Version |
 |:------------|:--------|
-| Dart SDK | `≥3.10.3` |
-| Flutter | `≥1.17.0` |
+| Dart SDK | `≥3.9.0` |
+| Flutter | `≥3.32.0` |
 
 ### Supported Platforms
 

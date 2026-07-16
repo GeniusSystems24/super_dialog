@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:super_dialog/super_dialog.dart';
+
 import '../../models/positioned_constants.dart';
 import '../../theme/app_theme.dart';
 import '../dialogs/dialogs.dart';
 
-/// Premium combination section with expandable design and visual representations.
 class CombinationSection extends StatefulWidget {
   const CombinationSection({
     super.key,
@@ -16,555 +16,342 @@ class CombinationSection extends StatefulWidget {
   final void Function({
     required DialogPosition position,
     required PositionedTransitionType type,
-  })
-  onCodeTap;
+  }) onCodeTap;
 
   @override
   State<CombinationSection> createState() => _CombinationSectionState();
 }
 
-class _CombinationSectionState extends State<CombinationSection>
-    with SingleTickerProviderStateMixin {
-  bool _isExpanded = false;
-  late AnimationController _iconAnimController;
+class _CombinationSectionState extends State<CombinationSection> {
+  bool _expanded = false;
 
-  Color _getTypeColor(PositionedTransitionType type) {
-    switch (type) {
-      case PositionedTransitionType.slide:
-        return AppColors.primary;
-      case PositionedTransitionType.slideFade:
-        return AppColors.info;
-      case PositionedTransitionType.slideScale:
-        return AppColors.success;
-      case PositionedTransitionType.slideFadeScale:
-        return const Color(0xFF8B5CF6);
-      case PositionedTransitionType.fade:
-        return AppColors.warning;
-      case PositionedTransitionType.scale:
-        return const Color(0xFFEC4899);
-      case PositionedTransitionType.scaleFade:
-        return const Color(0xFF14B8A6);
-      case PositionedTransitionType.bounce:
-        return const Color(0xFFEF4444);
-      case PositionedTransitionType.elastic:
-        return const Color(0xFFF59E0B);
-      case PositionedTransitionType.zoom:
-        return const Color(0xFF10B981);
-    }
-  }
+  Color get _accent => switch (widget.type) {
+        PositionedTransitionType.slide => AppColors.primary,
+        PositionedTransitionType.slideFade => AppColors.info,
+        PositionedTransitionType.slideScale => AppColors.success,
+        PositionedTransitionType.slideFadeScale => AppColors.purple,
+        PositionedTransitionType.fade => AppColors.warning,
+        PositionedTransitionType.scale => AppColors.error,
+        PositionedTransitionType.scaleFade => AppColors.teal,
+        PositionedTransitionType.bounce => AppColors.error,
+        PositionedTransitionType.elastic => AppColors.warning,
+        PositionedTransitionType.zoom => AppColors.success,
+      };
 
-  /// Gets description for transition type.
-  String _getTypeDescription(PositionedTransitionType type) {
-    switch (type) {
-      case PositionedTransitionType.slide:
-        return 'Dialog slides into position';
-      case PositionedTransitionType.slideFade:
-        return 'Slides while fading in';
-      case PositionedTransitionType.slideScale:
-        return 'Slides while scaling up';
-      case PositionedTransitionType.slideFadeScale:
-        return 'Slides with fade and scale';
-      case PositionedTransitionType.fade:
-        return 'Fades in at position';
-      case PositionedTransitionType.scale:
-        return 'Scales up at position';
-      case PositionedTransitionType.scaleFade:
-        return 'Scales while fading in';
-      case PositionedTransitionType.bounce:
-        return 'Bouncy elastic entrance';
-      case PositionedTransitionType.elastic:
-        return 'Elastic overshoot effect';
-      case PositionedTransitionType.zoom:
-        return 'Smooth zoom with bounce';
-    }
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    _iconAnimController = AnimationController(
-      duration: const Duration(milliseconds: 800),
-      vsync: this,
-    );
-  }
-
-  @override
-  void dispose() {
-    _iconAnimController.dispose();
-    super.dispose();
-  }
-
-  void _toggle() {
-    setState(() => _isExpanded = !_isExpanded);
-    if (_isExpanded) {
-      _iconAnimController.reset();
-      _iconAnimController.forward();
-    }
-  }
+  String get _description => switch (widget.type) {
+        PositionedTransitionType.slide => 'Direct spatial movement between two viewport anchors.',
+        PositionedTransitionType.slideFade => 'Spatial movement with a quieter opacity transition.',
+        PositionedTransitionType.slideScale => 'Movement plus subtle scale for contextual panels.',
+        PositionedTransitionType.slideFadeScale => 'Combined movement, opacity, and scale treatment.',
+        PositionedTransitionType.fade => 'Low-distraction entrance for lightweight feedback.',
+        PositionedTransitionType.scale => 'Centered emphasis without directional movement.',
+        PositionedTransitionType.scaleFade => 'Soft scale emphasis for confirmations and summaries.',
+        PositionedTransitionType.bounce => 'Expressive feedback for non-blocking success states.',
+        PositionedTransitionType.elastic => 'Elastic emphasis for demonstrative showcase surfaces.',
+        PositionedTransitionType.zoom => 'Compact zoom entrance for inspectors and detail cards.',
+      };
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-    final color = _getTypeColor(widget.type);
-    final textColor = isDark ? AppColors.darkText : AppColors.lightText;
-
+    final theme = Theme.of(context);
+    final accent = _accent;
     return Container(
-      margin: const EdgeInsets.only(bottom: 14),
+      margin: const EdgeInsets.only(bottom: AppSpacing.md),
       decoration: BoxDecoration(
-        color: isDark
-            ? AppColors.darkCard.withValues(alpha: 0.6)
-            : AppColors.lightCard,
-        borderRadius: BorderRadius.circular(18),
+        color: theme.colorScheme.surface,
+        borderRadius: BorderRadius.circular(AppRadii.card),
         border: Border.all(
-          color: _isExpanded
-              ? color.withValues(alpha: 0.4)
-              : (isDark ? AppColors.darkBorder : AppColors.lightBorder),
-          width: _isExpanded ? 1.5 : 1,
+          color: _expanded
+              ? accent.withValues(alpha: 0.52)
+              : theme.colorScheme.outline,
         ),
-        boxShadow: [
-          BoxShadow(
-            color: _isExpanded
-                ? color.withValues(alpha: 0.15)
-                : Colors.black.withValues(alpha: isDark ? 0.15 : 0.05),
-            blurRadius: _isExpanded ? 16 : 8,
-            offset: const Offset(0, 4),
-          ),
-        ],
       ),
       child: Column(
-        children: [
-          // Header - clickable to expand
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: <Widget>[
           InkWell(
-            onTap: _toggle,
-            borderRadius: BorderRadius.vertical(
-              top: const Radius.circular(18),
-              bottom: _isExpanded ? Radius.zero : const Radius.circular(18),
-            ),
+            onTap: () => setState(() => _expanded = !_expanded),
+            borderRadius: BorderRadius.circular(AppRadii.card),
             child: Padding(
-              padding: const EdgeInsets.all(14),
-              child: Row(
-                children: [
-                  // Animated transition preview icon
-                  _buildAnimatedPreview(color, isDark),
-                  const SizedBox(width: 14),
-                  // Title and description
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          PositionedConstants.getTransitionLabel(widget.type),
-                          style: TextStyle(
-                            fontSize: 14,
+              padding: const EdgeInsets.all(AppSpacing.lg),
+              child: LayoutBuilder(
+                builder: (context, constraints) {
+                  final compact = constraints.maxWidth < 500;
+                  final identity = Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Container(
+                        width: 42,
+                        height: 42,
+                        alignment: Alignment.center,
+                        decoration: BoxDecoration(
+                          color: accent.withValues(alpha: 0.12),
+                          borderRadius: BorderRadius.circular(AppRadii.card),
+                        ),
+                        child: Icon(
+                          PositionedConstants.getTransitionIcon(widget.type),
+                          color: accent,
+                          size: 20,
+                        ),
+                      ),
+                      const SizedBox(width: AppSpacing.md),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            Text(
+                              PositionedConstants.getTransitionLabel(widget.type),
+                              style: theme.textTheme.titleMedium?.copyWith(
+                                fontWeight: FontWeight.w700,
+                              ),
+                            ),
+                            const SizedBox(height: AppSpacing.xs),
+                            Text(
+                              _description,
+                              style: theme.textTheme.bodySmall?.copyWith(
+                                color: theme.colorScheme.onSurfaceVariant,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  );
+                  final controls = Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: AppSpacing.sm,
+                          vertical: AppSpacing.xs,
+                        ),
+                        decoration: BoxDecoration(
+                          color: accent.withValues(alpha: 0.10),
+                          borderRadius: BorderRadius.circular(AppRadii.pill),
+                        ),
+                        child: Text(
+                          '9 positions',
+                          style: theme.textTheme.labelSmall?.copyWith(
+                            color: accent,
                             fontWeight: FontWeight.w700,
-                            color: textColor,
-                            letterSpacing: -0.2,
                           ),
                         ),
-                        const SizedBox(height: 2),
-                        Text(
-                          _getTypeDescription(widget.type),
-                          style: TextStyle(
-                            fontSize: 11,
-                            color: isDark
-                                ? AppColors.darkTextSecondary
-                                : AppColors.lightTextSecondary,
-                          ),
+                      ),
+                      const SizedBox(width: AppSpacing.sm),
+                      AnimatedRotation(
+                        turns: _expanded ? 0.5 : 0,
+                        duration: const Duration(milliseconds: 180),
+                        child: const Icon(Icons.keyboard_arrow_down_rounded),
+                      ),
+                    ],
+                  );
+                  if (compact) {
+                    return Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: <Widget>[
+                        identity,
+                        const SizedBox(height: AppSpacing.md),
+                        Align(
+                          alignment: AlignmentDirectional.centerEnd,
+                          child: controls,
                         ),
                       ],
-                    ),
-                  ),
-                  // Position count badge
-                  Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 10,
-                      vertical: 4,
-                    ),
-                    decoration: BoxDecoration(
-                      color: color.withValues(alpha: 0.15),
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    child: Text(
-                      '9',
-                      style: TextStyle(
-                        fontSize: 12,
-                        fontWeight: FontWeight.w700,
-                        color: color,
-                      ),
-                    ),
-                  ),
-                  const SizedBox(width: 10),
-                  // Expand/collapse icon
-                  AnimatedRotation(
-                    turns: _isExpanded ? 0.5 : 0,
-                    duration: const Duration(milliseconds: 200),
-                    child: Icon(
-                      Icons.keyboard_arrow_down_rounded,
-                      color: isDark
-                          ? AppColors.darkTextSecondary
-                          : AppColors.lightTextSecondary,
-                      size: 22,
-                    ),
-                  ),
-                ],
+                    );
+                  }
+                  return Row(
+                    children: <Widget>[
+                      Expanded(child: identity),
+                      const SizedBox(width: AppSpacing.lg),
+                      controls,
+                    ],
+                  );
+                },
               ),
             ),
           ),
-
-          // Grid content - expandable
           AnimatedCrossFade(
             firstChild: const SizedBox.shrink(),
             secondChild: Padding(
-              padding: const EdgeInsets.fromLTRB(14, 0, 14, 14),
+              padding: const EdgeInsets.fromLTRB(
+                AppSpacing.lg,
+                0,
+                AppSpacing.lg,
+                AppSpacing.lg,
+              ),
               child: Column(
-                children: [
-                  // Separator line
-                  Container(
-                    height: 1,
-                    margin: const EdgeInsets.only(bottom: 14),
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        colors: [
-                          Colors.transparent,
-                          color.withValues(alpha: 0.3),
-                          Colors.transparent,
-                        ],
-                      ),
-                    ),
+                children: <Widget>[
+                  Divider(color: accent.withValues(alpha: 0.28)),
+                  const SizedBox(height: AppSpacing.md),
+                  _CombinationGrid(
+                    type: widget.type,
+                    onCodeTap: widget.onCodeTap,
                   ),
-                  _buildPositionPreviewGrid(context, color, isDark),
                 ],
               ),
             ),
-            crossFadeState: _isExpanded
+            crossFadeState: _expanded
                 ? CrossFadeState.showSecond
                 : CrossFadeState.showFirst,
-            duration: const Duration(milliseconds: 250),
+            duration: const Duration(milliseconds: 200),
             sizeCurve: Curves.easeInOut,
           ),
         ],
       ),
     );
   }
+}
 
-  /// Builds the animated preview showing the transition effect.
-  Widget _buildAnimatedPreview(Color color, bool isDark) {
-    return AnimatedBuilder(
-      animation: _iconAnimController,
-      builder: (context, child) {
-        final progress = Curves.easeInOut.transform(_iconAnimController.value);
+class _CombinationGrid extends StatelessWidget {
+  const _CombinationGrid({
+    required this.type,
+    required this.onCodeTap,
+  });
 
-        double opacity = 1.0;
-        double scale = 1.0;
-        Offset offset = Offset.zero;
+  final PositionedTransitionType type;
+  final void Function({
+    required DialogPosition position,
+    required PositionedTransitionType type,
+  }) onCodeTap;
 
-        switch (widget.type) {
-          case PositionedTransitionType.slide:
-            offset = Offset.lerp(const Offset(-1, 0), Offset.zero, progress)!;
-            break;
-          case PositionedTransitionType.slideFade:
-            offset = Offset.lerp(const Offset(-1, 0), Offset.zero, progress)!;
-            opacity = progress;
-            break;
-          case PositionedTransitionType.slideScale:
-            offset = Offset.lerp(const Offset(-1, 0), Offset.zero, progress)!;
-            scale = 0.5 + (0.5 * progress);
-            break;
-          case PositionedTransitionType.slideFadeScale:
-            offset = Offset.lerp(const Offset(-1, 0), Offset.zero, progress)!;
-            opacity = progress;
-            scale = 0.5 + (0.5 * progress);
-            break;
-          case PositionedTransitionType.fade:
-            opacity = progress;
-            break;
-          case PositionedTransitionType.scale:
-            scale = 0.3 + (0.7 * progress);
-            break;
-          case PositionedTransitionType.scaleFade:
-            scale = 0.3 + (0.7 * progress);
-            opacity = progress;
-            break;
-          case PositionedTransitionType.bounce:
-            // Bouncy scale animation with elastic curve
-            final bounceProgress = Curves.elasticOut.transform(progress);
-            scale = 0.3 + (0.7 * bounceProgress);
-            opacity = progress;
-            break;
-          case PositionedTransitionType.elastic:
-            // Elastic overshoot from 0.5 to 1.0
-            final elasticProgress = Curves.easeOutBack.transform(progress);
-            scale = 0.5 + (0.5 * elasticProgress);
-            opacity = progress;
-            break;
-          case PositionedTransitionType.zoom:
-            // Smooth zoom from 0.88 to 1.0
-            final zoomProgress = Curves.easeOutBack.transform(progress);
-            scale = 0.88 + (0.12 * zoomProgress);
-            opacity = progress;
-            break;
-        }
-
-        return Container(
-          width: 44,
-          height: 34,
-          decoration: BoxDecoration(
-            color: isDark
-                ? AppColors.darkBackground
-                : AppColors.lightDivider.withValues(alpha: 0.5),
-            borderRadius: BorderRadius.circular(8),
-            border: Border.all(color: color.withValues(alpha: 0.3)),
+  @override
+  Widget build(BuildContext context) {
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final columns = constraints.maxWidth < 500 ? 2 : 3;
+        return GridView.builder(
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
+          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: columns,
+            mainAxisSpacing: AppSpacing.sm,
+            crossAxisSpacing: AppSpacing.sm,
+            childAspectRatio: columns == 2 ? 1.20 : 1.08,
           ),
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(7),
-            child: Transform.translate(
-              offset: Offset(offset.dx * 14, offset.dy * 10),
-              child: Transform.scale(
-                scale: scale,
-                child: Opacity(
-                  opacity: opacity.clamp(0.0, 1.0),
-                  child: Center(
-                    child: Container(
-                      width: 20,
-                      height: 14,
-                      decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                          begin: Alignment.topLeft,
-                          end: Alignment.bottomRight,
-                          colors: [color, color.withValues(alpha: 0.7)],
-                        ),
-                        borderRadius: BorderRadius.circular(3),
-                        boxShadow: [
-                          BoxShadow(
-                            color: color.withValues(alpha: 0.4),
-                            blurRadius: 6,
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ),
+          itemCount: PositionedConstants.allPositions.length,
+          itemBuilder: (context, index) {
+            final position = PositionedConstants.allPositions[index];
+            return _CombinationTile(
+              position: position,
+              type: type,
+              accent: PositionedConstants.getPositionColor(position),
+              onCodeTap: () => onCodeTap(position: position, type: type),
+            );
+          },
         );
       },
-    );
-  }
-
-  /// Builds a 3x3 grid showing all position combinations.
-  Widget _buildPositionPreviewGrid(
-    BuildContext context,
-    Color typeColor,
-    bool isDark,
-  ) {
-    return GridView.builder(
-      shrinkWrap: true,
-      physics: const NeverScrollableScrollPhysics(),
-      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 3,
-        mainAxisSpacing: 10,
-        crossAxisSpacing: 10,
-        childAspectRatio: 1.0,
-      ),
-      itemCount: PositionedConstants.allPositions.length,
-      itemBuilder: (context, index) {
-        final position = PositionedConstants.allPositions[index];
-        final posColor = PositionedConstants.getPositionColor(position);
-
-        return _PositionPreviewButton(
-          position: position,
-          transitionType: widget.type,
-          positionColor: posColor,
-          isDark: isDark,
-          onTap: () => _showCombinationDialog(context, position, posColor),
-          onCodeTap: () =>
-              widget.onCodeTap(position: position, type: widget.type),
-        );
-      },
-    );
-  }
-
-  void _showCombinationDialog(
-    BuildContext context,
-    DialogPosition position,
-    Color color,
-  ) {
-    SuperDialog.showPositionedDialog<void>(
-      context,
-      (context) => PositionedInfoCard(
-        position:
-            '${position.displayName}\n${PositionedConstants.getTransitionLabel(widget.type)}',
-        accentColor: color,
-      ),
-      startPosition: DialogPosition.offScreen,
-      endPosition: position,
-      transitionType: widget.type,
-      barrierDismissible: true,
-      barrierColor: Colors.black.withValues(alpha: 0.5),
-      barrierBlur: 8,
     );
   }
 }
 
-/// Single position preview button within a combination section.
-class _PositionPreviewButton extends StatefulWidget {
-  const _PositionPreviewButton({
+class _CombinationTile extends StatelessWidget {
+  const _CombinationTile({
     required this.position,
-    required this.transitionType,
-    required this.positionColor,
-    required this.isDark,
-    required this.onTap,
+    required this.type,
+    required this.accent,
     required this.onCodeTap,
   });
 
   final DialogPosition position;
-  final PositionedTransitionType transitionType;
-  final Color positionColor;
-  final bool isDark;
-  final VoidCallback onTap;
+  final PositionedTransitionType type;
+  final Color accent;
   final VoidCallback onCodeTap;
 
-  @override
-  State<_PositionPreviewButton> createState() => _PositionPreviewButtonState();
-}
-
-class _PositionPreviewButtonState extends State<_PositionPreviewButton> {
-  bool _isHovered = false;
-
-  Alignment _getAlignment() {
-    switch (widget.position) {
-      case DialogPosition.topStart:
-        return Alignment.topLeft;
-      case DialogPosition.topCenter:
-        return Alignment.topCenter;
-      case DialogPosition.topEnd:
-        return Alignment.topRight;
-      case DialogPosition.centerStart:
-        return Alignment.centerLeft;
-      case DialogPosition.center:
-        return Alignment.center;
-      case DialogPosition.centerEnd:
-        return Alignment.centerRight;
-      case DialogPosition.bottomStart:
-        return Alignment.bottomLeft;
-      case DialogPosition.bottomCenter:
-        return Alignment.bottomCenter;
-      case DialogPosition.bottomEnd:
-        return Alignment.bottomRight;
-      case DialogPosition.offScreen:
-        return Alignment.center;
-    }
-  }
+  Alignment get _alignment => switch (position) {
+        DialogPosition.topStart => Alignment.topLeft,
+        DialogPosition.topCenter => Alignment.topCenter,
+        DialogPosition.topEnd => Alignment.topRight,
+        DialogPosition.centerStart => Alignment.centerLeft,
+        DialogPosition.center => Alignment.center,
+        DialogPosition.centerEnd => Alignment.centerRight,
+        DialogPosition.bottomStart => Alignment.bottomLeft,
+        DialogPosition.bottomCenter => Alignment.bottomCenter,
+        DialogPosition.bottomEnd => Alignment.bottomRight,
+        DialogPosition.offScreen => Alignment.center,
+      };
 
   @override
   Widget build(BuildContext context) {
-    return MouseRegion(
-      onEnter: (_) => setState(() => _isHovered = true),
-      onExit: (_) => setState(() => _isHovered = false),
-      child: AnimatedContainer(
-        duration: const Duration(milliseconds: 150),
-        decoration: BoxDecoration(
-          color: widget.isDark
-              ? AppColors.darkBackground.withValues(alpha: 0.5)
-              : AppColors.lightDivider.withValues(alpha: 0.3),
-          borderRadius: BorderRadius.circular(12),
-          border: Border.all(
-            color: _isHovered
-                ? widget.positionColor.withValues(alpha: 0.5)
-                : (widget.isDark
-                      ? AppColors.darkBorder.withValues(alpha: 0.3)
-                      : AppColors.lightBorder.withValues(alpha: 0.5)),
-            width: _isHovered ? 1.5 : 1,
-          ),
-          boxShadow: _isHovered
-              ? [
-                  BoxShadow(
-                    color: widget.positionColor.withValues(alpha: 0.2),
-                    blurRadius: 10,
-                    offset: const Offset(0, 4),
-                  ),
-                ]
-              : [],
-        ),
-        child: Column(
-          children: [
-            // Mini screen preview
-            Expanded(
-              child: InkWell(
-                onTap: widget.onTap,
-                borderRadius: const BorderRadius.vertical(
-                  top: Radius.circular(12),
-                ),
-                child: Container(
-                  margin: const EdgeInsets.all(6),
-                  decoration: BoxDecoration(
-                    color: widget.isDark
-                        ? AppColors.darkCard.withValues(alpha: 0.3)
-                        : Colors.white.withValues(alpha: 0.6),
-                    borderRadius: BorderRadius.circular(6),
-                    border: Border.all(
-                      color: widget.isDark
-                          ? AppColors.darkBorder.withValues(alpha: 0.2)
-                          : AppColors.lightBorder.withValues(alpha: 0.3),
-                    ),
-                  ),
-                  child: Stack(
-                    children: [
-                      // Position indicator
-                      Align(
-                        alignment: _getAlignment(),
-                        child: Container(
-                          margin: const EdgeInsets.all(3),
-                          width: _isHovered ? 16 : 12,
-                          height: _isHovered ? 10 : 8,
-                          decoration: BoxDecoration(
-                            gradient: LinearGradient(
-                              colors: [
-                                widget.positionColor,
-                                widget.positionColor.withValues(alpha: 0.7),
-                              ],
+    final theme = Theme.of(context);
+    return Container(
+      decoration: BoxDecoration(
+        color: theme.colorScheme.surfaceContainerLowest,
+        borderRadius: BorderRadius.circular(AppRadii.control),
+        border: Border.all(color: theme.colorScheme.outline),
+      ),
+      child: Column(
+        children: <Widget>[
+          Expanded(
+            child: InkWell(
+              onTap: () => _show(context),
+              child: Padding(
+                padding: const EdgeInsets.all(AppSpacing.sm),
+                child: Column(
+                  children: <Widget>[
+                    Expanded(
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: theme.colorScheme.surface,
+                          borderRadius: BorderRadius.circular(AppRadii.control),
+                          border: Border.all(color: theme.colorScheme.outline),
+                        ),
+                        child: Align(
+                          alignment: _alignment,
+                          child: Container(
+                            width: 18,
+                            height: 12,
+                            margin: const EdgeInsets.all(AppSpacing.xs),
+                            decoration: BoxDecoration(
+                              color: accent,
+                              borderRadius: BorderRadius.circular(3),
                             ),
-                            borderRadius: BorderRadius.circular(2),
-                            boxShadow: [
-                              BoxShadow(
-                                color: widget.positionColor.withValues(
-                                  alpha: _isHovered ? 0.6 : 0.4,
-                                ),
-                                blurRadius: _isHovered ? 6 : 3,
-                              ),
-                            ],
                           ),
                         ),
                       ),
-                    ],
-                  ),
+                    ),
+                    const SizedBox(height: AppSpacing.xs),
+                    Text(
+                      position.displayName,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: theme.textTheme.labelSmall?.copyWith(
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ),
-            // Position name
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 4),
-              child: Text(
-                widget.position.displayName.replaceAll(' ', '\n'),
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 8,
-                  fontWeight: FontWeight.w600,
-                  color: _isHovered
-                      ? widget.positionColor
-                      : (widget.isDark
-                            ? AppColors.darkTextSecondary
-                            : AppColors.lightTextSecondary),
-                  height: 1.0,
-                ),
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
+          ),
+          SizedBox(
+            height: 40,
+            child: TextButton.icon(
+              onPressed: onCodeTap,
+              icon: Icon(Icons.code_rounded, size: 13, color: accent),
+              label: Text(
+                'Code',
+                style: theme.textTheme.labelSmall?.copyWith(color: accent),
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
+    );
+  }
+
+  void _show(BuildContext context) {
+    SuperDialog.showPositionedDialog<void>(
+      context,
+      (context) => PositionedInfoCard(
+        position:
+            '${position.displayName}\n${PositionedConstants.getTransitionLabel(type)}',
+        accentColor: accent,
+      ),
+      startPosition: DialogPosition.offScreen,
+      endPosition: position,
+      transitionType: type,
+      barrierDismissible: true,
+      barrierColor: const Color(0x8C000000),
+      barrierBlur: 8,
     );
   }
 }

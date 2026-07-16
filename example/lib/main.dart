@@ -1,61 +1,45 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
-import 'screens/home_screen.dart';
+
+import 'router/app_router.dart';
+import 'state/app_theme_controller.dart';
 import 'theme/app_theme.dart';
 
 void main() {
   runApp(const SuperDialogExampleApp());
 }
 
-class SuperDialogExampleApp extends StatefulWidget {
+class SuperDialogExampleApp extends StatelessWidget {
   const SuperDialogExampleApp({super.key});
 
   @override
-  State<SuperDialogExampleApp> createState() => _SuperDialogExampleAppState();
-}
-
-class _SuperDialogExampleAppState extends State<SuperDialogExampleApp> {
-  ThemeMode _themeMode = ThemeMode.light;
-  late final GoRouter _router;
-
-  @override
-  void initState() {
-    super.initState();
-    _router = GoRouter(
-      debugLogDiagnostics: false,
-      initialLocation: '/',
-      routes: [
-        GoRoute(
-          path: '/',
-          name: 'home',
-          builder: (context, state) => HomeScreen(
-            onThemeToggle: _toggleTheme,
-            isDarkMode: _themeMode == ThemeMode.dark,
-          ),
-        ),
-      ],
-    );
-  }
-
-  void _toggleTheme() {
-    setState(() {
-      _themeMode = _themeMode == ThemeMode.light
-          ? ThemeMode.dark
-          : ThemeMode.light;
-      // Refresh the router to update the theme
-      _router.refresh();
-    });
-  }
-
-  @override
   Widget build(BuildContext context) {
-    return MaterialApp.router(
-      title: 'Super Dialog Examples',
-      debugShowCheckedModeBanner: false,
-      themeMode: _themeMode,
-      theme: AppTheme.light,
-      darkTheme: AppTheme.dark,
-      routerConfig: _router,
+    return ValueListenableBuilder<ThemeMode>(
+      valueListenable: appThemeMode,
+      builder: (context, themeMode, child) {
+        return MaterialApp.router(
+          title: 'Super Dialog ERP Examples',
+          debugShowCheckedModeBanner: false,
+          themeMode: themeMode,
+          theme: AppTheme.light,
+          darkTheme: AppTheme.dark,
+          routerConfig: appRouter,
+          builder: (context, child) {
+            return LayoutBuilder(
+              builder: (context, constraints) {
+                final responsiveTheme = AppTheme.forWidth(
+                  Theme.of(context).brightness,
+                  constraints.maxWidth,
+                );
+                return AnimatedTheme(
+                  data: responsiveTheme,
+                  duration: const Duration(milliseconds: 150),
+                  child: child ?? const SizedBox.shrink(),
+                );
+              },
+            );
+          },
+        );
+      },
     );
   }
 }

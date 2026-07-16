@@ -17,6 +17,14 @@ class ExampleScenario {
     this.barrierBlur,
     this.onDismissed,
     this.codeSnippet,
+    this.module,
+    this.reference,
+    this.statusLabel,
+    this.statusColor,
+    this.tags = const <String>[],
+    this.isRecommended = false,
+    this.designPattern,
+    this.designFamily,
   });
 
   final String title;
@@ -35,6 +43,30 @@ class ExampleScenario {
 
   /// The code snippet to display/copy for this example.
   final String? codeSnippet;
+
+  /// Optional ERP module label shown by the showcase UI.
+  final String? module;
+
+  /// Optional business document reference, such as PO-2026-00428.
+  final String? reference;
+
+  /// Optional workflow status label shown on the scenario card.
+  final String? statusLabel;
+
+  /// Optional workflow status color.
+  final Color? statusColor;
+
+  /// Compact capability tags used by ERP workflow cards.
+  final List<String> tags;
+
+  /// Highlights scenarios that demonstrate a recommended dialog pattern.
+  final bool isRecommended;
+
+  /// Optional visual pattern name used by ERP examples.
+  final String? designPattern;
+
+  /// Optional structural layout family used to group design variants.
+  final String? designFamily;
 
   String get animationLabel => animation.toString().split('.').last;
 

@@ -1,155 +1,127 @@
 import 'package:flutter/material.dart';
+
 import '../../theme/app_theme.dart';
+import 'dialog_demo_components.dart';
 
 class BottomQuickAssignSheet extends StatelessWidget {
   const BottomQuickAssignSheet({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-    final cardColor = isDark ? AppColors.darkCard : AppColors.lightCard;
-    final textColor = isDark ? AppColors.darkText : AppColors.lightText;
-    final secondaryColor = isDark
-        ? AppColors.darkTextSecondary
-        : AppColors.lightTextSecondary;
-    final borderColor = isDark ? AppColors.darkBorder : AppColors.lightBorder;
-
-    return Card(
-      clipBehavior: Clip.none,
-      color: Colors.transparent,
-      shadowColor: Colors.transparent,
-      elevation: 0,
-      child: Align(
+    final theme = Theme.of(context);
+    return Align(
+      alignment: Alignment.bottomCenter,
+      child: DemoFloatingSurface(
+        maxWidth: 720,
         alignment: Alignment.bottomCenter,
-        child: Container(
-          margin: const EdgeInsets.all(24),
-          padding: const EdgeInsets.all(28),
-          decoration: BoxDecoration(
-            color: cardColor,
-            borderRadius: BorderRadius.circular(28),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withValues(alpha: 0.2),
-                blurRadius: 30,
-                offset: const Offset(0, -10),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Center(
+              child: Container(
+                width: 40,
+                height: 4,
+                decoration: BoxDecoration(
+                  color: theme.colorScheme.outline,
+                  borderRadius: BorderRadius.circular(AppRadii.pill),
+                ),
               ),
-            ],
-            border: Border.all(color: borderColor.withValues(alpha: 0.5)),
-          ),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
+            ),
+            const SizedBox(height: AppSpacing.lg),
+            Row(
+              children: [
+                Container(
+                  width: 40,
+                  height: 40,
+                  alignment: Alignment.center,
+                  decoration: BoxDecoration(
+                    color: AppColors.primary.withValues(alpha: 0.12),
+                    borderRadius: BorderRadius.circular(AppRadii.card),
+                  ),
+                  child: const Icon(Icons.assignment_ind_outlined, color: AppColors.primary, size: 20),
+                ),
+                const SizedBox(width: AppSpacing.md),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text('Assign Approval Task', style: theme.textTheme.titleLarge),
+                      Text(
+                        'PO-2026-00428 · Purchase order review',
+                        style: theme.textTheme.bodySmall?.copyWith(color: theme.colorScheme.onSurfaceVariant),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: AppSpacing.lg),
+            const DemoPanel(
+              child: Column(
                 children: [
-                  Container(
-                    padding: const EdgeInsets.all(10),
-                    decoration: BoxDecoration(
-                      color: AppColors.success.withValues(alpha: 0.15),
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    child: const Icon(
-                      Icons.person_add_alt_rounded,
-                      color: AppColors.success,
-                      size: 20,
-                    ),
-                  ),
-                  const SizedBox(width: 14),
-                  Text(
-                    'Quick assign reviewer',
-                    style: TextStyle(
-                      fontSize: 17,
-                      fontWeight: FontWeight.w700,
-                      color: textColor,
-                    ),
-                  ),
+                  _AssigneeRow(initials: 'MO', name: 'Maya Ortiz', role: 'Operations Manager', selected: true),
+                  DemoDivider(),
+                  _AssigneeRow(initials: 'AK', name: 'Ahmed Khan', role: 'Procurement Lead'),
+                  DemoDivider(),
+                  _AssigneeRow(initials: 'SL', name: 'Sofia Lee', role: 'Finance Controller'),
                 ],
               ),
-              const SizedBox(height: 22),
-              Container(
-                padding: const EdgeInsets.all(16),
-                decoration: BoxDecoration(
-                  color: isDark
-                      ? AppColors.darkBackground
-                      : AppColors.lightDivider,
-                  borderRadius: BorderRadius.circular(16),
-                  border: Border.all(color: borderColor.withValues(alpha: 0.5)),
+            ),
+            const SizedBox(height: AppSpacing.lg),
+            DemoDialogActions(
+              children: <Widget>[
+                OutlinedButton(
+                  onPressed: () => Navigator.of(context).pop(),
+                  child: const Text('Cancel'),
                 ),
-                child: Row(
-                  children: [
-                    Container(
-                      decoration: BoxDecoration(
-                        gradient: const LinearGradient(
-                          colors: AppColors.accentGradient,
-                        ),
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      child: const CircleAvatar(
-                        radius: 22,
-                        backgroundColor: Colors.transparent,
-                        foregroundColor: Colors.white,
-                        child: Text(
-                          'LS',
-                          style: TextStyle(fontWeight: FontWeight.w600),
-                        ),
-                      ),
-                    ),
-                    const SizedBox(width: 14),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Lisa Smalls',
-                            style: TextStyle(
-                              fontSize: 15,
-                              fontWeight: FontWeight.w600,
-                              color: textColor,
-                            ),
-                          ),
-                          const SizedBox(height: 4),
-                          Text(
-                            'HR Manager',
-                            style: TextStyle(
-                              fontSize: 12,
-                              color: secondaryColor,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Container(
-                      padding: const EdgeInsets.all(8),
-                      decoration: BoxDecoration(
-                        color: AppColors.primary.withValues(alpha: 0.1),
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      child: const Icon(
-                        Icons.expand_more_rounded,
-                        color: AppColors.primary,
-                        size: 20,
-                      ),
-                    ),
-                  ],
+                FilledButton.icon(
+                  onPressed: () => Navigator.of(context).pop(),
+                  icon: const Icon(Icons.send_rounded, size: 16),
+                  label: const Text('Assign task'),
                 ),
-              ),
-              const SizedBox(height: 22),
-              SizedBox(
-                width: double.infinity,
-                child: FilledButton.icon(
-                  onPressed: () {},
-                  icon: const Icon(Icons.send_rounded, size: 18),
-                  label: const Text('Assign and notify'),
-                  style: FilledButton.styleFrom(
-                    backgroundColor: AppColors.success,
-                    foregroundColor: Colors.white,
-                    padding: const EdgeInsets.symmetric(vertical: 16),
-                  ),
-                ),
-              ),
-            ],
-          ),
+              ],
+            ),
+          ],
         ),
+      ),
+    );
+  }
+}
+
+class _AssigneeRow extends StatelessWidget {
+  const _AssigneeRow({
+    required this.initials,
+    required this.name,
+    required this.role,
+    this.selected = false,
+  });
+
+  final String initials;
+  final String name;
+  final String role;
+  final bool selected;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: AppSpacing.sm),
+      child: Row(
+        children: [
+          DemoAvatar(initials: initials),
+          const SizedBox(width: AppSpacing.md),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(name, style: theme.textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.w600)),
+                Text(role, style: theme.textTheme.bodySmall?.copyWith(color: theme.colorScheme.onSurfaceVariant)),
+              ],
+            ),
+          ),
+          Radio<bool>(value: true, groupValue: selected, onChanged: (_) {}),
+        ],
       ),
     );
   }

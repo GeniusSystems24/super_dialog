@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
-import '../../theme/app_theme.dart';
 
-/// A card that appears at specific positions on the screen.
+import '../../theme/app_theme.dart';
+import 'dialog_demo_components.dart';
+
+/// Compact ERP notification card used by positioned-transition examples.
 class PositionedInfoCard extends StatelessWidget {
   const PositionedInfoCard({
     super.key,
@@ -14,70 +16,48 @@ class PositionedInfoCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-    final cardColor = isDark ? AppColors.darkCard : AppColors.lightCard;
-    final textColor = isDark ? AppColors.darkText : AppColors.lightText;
-    final color = accentColor ?? AppColors.accent;
-
-    return Card(
-      clipBehavior: Clip.none,
-      color: Colors.transparent,
-      shadowColor: Colors.transparent,
-      elevation: 0,
-      child: Container(
-        margin: const EdgeInsets.all(16),
-        padding: const EdgeInsets.all(20),
-        constraints: const BoxConstraints(maxWidth: 280),
-        decoration: BoxDecoration(
-          color: cardColor,
-          borderRadius: BorderRadius.circular(20),
-          boxShadow: [
-            BoxShadow(
-              color: color.withValues(alpha: 0.25),
-              blurRadius: 20,
-              offset: const Offset(0, 10),
-            ),
-          ],
-          border: Border.all(color: color.withValues(alpha: 0.4), width: 2),
-        ),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Container(
-              padding: const EdgeInsets.all(14),
-              decoration: BoxDecoration(
-                color: color.withValues(alpha: 0.15),
-                borderRadius: BorderRadius.circular(14),
+    final color = accentColor ?? AppColors.primary;
+    final theme = Theme.of(context);
+    return DemoFloatingSurface(
+      maxWidth: 320,
+      margin: const EdgeInsets.all(AppSpacing.lg),
+      padding: const EdgeInsets.all(AppSpacing.lg),
+      accentColor: color,
+      fillViewport: false,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Row(
+            children: [
+              Container(
+                width: 36,
+                height: 36,
+                alignment: Alignment.center,
+                decoration: BoxDecoration(
+                  color: color.withValues(alpha: 0.12),
+                  borderRadius: BorderRadius.circular(AppRadii.control),
+                ),
+                child: Icon(Icons.notifications_none_rounded, size: 18, color: color),
               ),
-              child: Icon(Icons.place_rounded, color: color, size: 28),
-            ),
-            const SizedBox(height: 16),
-            Text(
-              position,
-              style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.w700,
-                color: textColor,
+              const SizedBox(width: AppSpacing.md),
+              Expanded(
+                child: Text('Workflow notification', style: theme.textTheme.titleMedium),
               ),
-            ),
-            const SizedBox(height: 8),
-            Text(
-              'Dialog positioned at $position',
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                fontSize: 13,
-                color: textColor.withValues(alpha: 0.7),
+              IconButton(
+                onPressed: () => Navigator.of(context).maybePop(),
+                icon: const Icon(Icons.close_rounded, size: 16),
               ),
-            ),
-            const SizedBox(height: 16),
-            TextButton.icon(
-              onPressed: () => Navigator.of(context).pop(),
-              icon: const Icon(Icons.close_rounded, size: 18),
-              label: const Text('Dismiss'),
-              style: TextButton.styleFrom(foregroundColor: color),
-            ),
-          ],
-        ),
+            ],
+          ),
+          const SizedBox(height: AppSpacing.md),
+          Text(
+            'This card is anchored at $position and uses a position-aware transition.',
+            style: theme.textTheme.bodySmall?.copyWith(color: theme.colorScheme.onSurfaceVariant),
+          ),
+          const SizedBox(height: AppSpacing.md),
+          DemoStatusChip(label: position, color: color, icon: Icons.place_outlined),
+        ],
       ),
     );
   }

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+
 import '../../theme/app_theme.dart';
+import 'dialog_demo_components.dart';
 
 class TopAnnouncementBanner extends StatelessWidget {
   const TopAnnouncementBanner({super.key, required this.widthFactor});
@@ -8,114 +10,105 @@ class TopAnnouncementBanner extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-    final cardColor = isDark ? AppColors.darkCard : AppColors.lightCard;
-    final textColor = isDark ? AppColors.darkText : AppColors.lightText;
-    final secondaryColor = isDark
-        ? AppColors.darkTextSecondary
-        : AppColors.lightTextSecondary;
-
-    return Card(
-      clipBehavior: Clip.none,
-      color: Colors.transparent,
-      shadowColor: Colors.transparent,
-      elevation: 0,
-      child: Align(
+    final theme = Theme.of(context);
+    return DemoAdaptivePanel(
+      widthFactor: widthFactor,
+      maxWidth: 1100,
+      alignment: Alignment.topCenter,
+      child: DemoFloatingSurface(
         alignment: Alignment.topCenter,
-        child: FractionallySizedBox(
-          widthFactor: widthFactor,
-          child: Container(
-            margin: const EdgeInsets.symmetric(horizontal: 24, vertical: 40),
-            decoration: BoxDecoration(
-              color: cardColor,
-              borderRadius: BorderRadius.circular(24),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withValues(alpha: 0.15),
-                  blurRadius: 28,
-                  offset: const Offset(0, 16),
+        padding: const EdgeInsets.all(AppSpacing.lg),
+        accentColor: AppColors.warning,
+        child: LayoutBuilder(
+          builder: (context, constraints) {
+            final compact = constraints.maxWidth < 620;
+            final icon = Container(
+              width: 40,
+              height: 40,
+              alignment: Alignment.center,
+              decoration: BoxDecoration(
+                color: AppColors.warning.withValues(alpha: 0.12),
+                borderRadius: BorderRadius.circular(AppRadii.card),
+              ),
+              child: const Icon(
+                Icons.campaign_outlined,
+                color: AppColors.warning,
+                size: 20,
+              ),
+            );
+            final message = Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Wrap(
+                  spacing: AppSpacing.sm,
+                  runSpacing: AppSpacing.sm,
+                  crossAxisAlignment: WrapCrossAlignment.center,
+                  children: <Widget>[
+                    Text(
+                      'Period-close maintenance window',
+                      style: theme.textTheme.titleMedium,
+                    ),
+                    const DemoStatusChip(
+                      label: 'Action required',
+                      color: AppColors.warning,
+                    ),
+                  ],
+                ),
+                const SizedBox(height: AppSpacing.xs),
+                Text(
+                  'Routine financial postings will pause today from 20:00–21:30 UTC while Period 07 validation runs.',
+                  style: theme.textTheme.bodySmall?.copyWith(
+                    color: theme.colorScheme.onSurfaceVariant,
+                  ),
                 ),
               ],
-            ),
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(24),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  // Gradient accent bar
-                  Container(
-                    height: 5,
-                    decoration: const BoxDecoration(
-                      gradient: LinearGradient(colors: AppColors.accentGradient),
-                    ),
+            );
+            final actions = Wrap(
+              alignment: compact ? WrapAlignment.start : WrapAlignment.end,
+              spacing: AppSpacing.sm,
+              runSpacing: AppSpacing.sm,
+              children: <Widget>[
+                TextButton(
+                  onPressed: () => Navigator.of(context).pop(),
+                  child: const Text('View schedule'),
+                ),
+                IconButton(
+                  onPressed: () => Navigator.of(context).maybePop(),
+                  tooltip: 'Close',
+                  icon: const Icon(Icons.close_rounded, size: 16),
+                ),
+              ],
+            );
+
+            if (compact) {
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: <Widget>[
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      icon,
+                      const SizedBox(width: AppSpacing.md),
+                      Expanded(child: message),
+                    ],
                   ),
-                  Padding(
-                    padding: const EdgeInsets.all(24),
-                    child: Row(
-                      children: [
-                        Container(
-                          padding: const EdgeInsets.all(14),
-                          decoration: BoxDecoration(
-                            gradient: const LinearGradient(
-                              colors: AppColors.accentGradient,
-                            ),
-                            borderRadius: BorderRadius.circular(16),
-                            boxShadow: [
-                              BoxShadow(
-                                color: AppColors.accent.withValues(alpha: 0.3),
-                                blurRadius: 10,
-                                offset: const Offset(0, 4),
-                              ),
-                            ],
-                          ),
-                          child: const Icon(
-                            Icons.campaign_rounded,
-                            color: Colors.white,
-                            size: 24,
-                          ),
-                        ),
-                        const SizedBox(width: 20),
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                'Quarterly blackout reminder',
-                                style: TextStyle(
-                                  fontSize: 17,
-                                  fontWeight: FontWeight.w700,
-                                  color: textColor,
-                                ),
-                              ),
-                              const SizedBox(height: 8),
-                              Text(
-                                'Please review PTO requests submitted between Sep 20 - Sep 30 before the blackout period begins.',
-                                style: TextStyle(
-                                  fontSize: 14,
-                                  color: secondaryColor,
-                                  height: 1.5,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        const SizedBox(width: 24),
-                        FilledButton.icon(
-                          onPressed: () {},
-                          icon: const Icon(Icons.visibility_rounded, size: 18),
-                          label: const Text('Review now'),
-                          style: FilledButton.styleFrom(
-                            backgroundColor: AppColors.accent,
-                            foregroundColor: Colors.white,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
+                  const SizedBox(height: AppSpacing.md),
+                  actions,
                 ],
-              ),
-            ),
-          ),
+              );
+            }
+
+            return Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                icon,
+                const SizedBox(width: AppSpacing.md),
+                Expanded(child: message),
+                const SizedBox(width: AppSpacing.md),
+                actions,
+              ],
+            );
+          },
         ),
       ),
     );

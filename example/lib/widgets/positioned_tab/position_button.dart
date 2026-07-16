@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:super_dialog/super_dialog.dart';
+
 import '../../models/positioned_constants.dart';
 import '../../theme/app_theme.dart';
 import '../dialogs/dialogs.dart';
 
-/// Premium position button that visually represents its position on a mini screen.
 class PositionButton extends StatefulWidget {
   const PositionButton({
     super.key,
@@ -20,193 +20,114 @@ class PositionButton extends StatefulWidget {
 }
 
 class _PositionButtonState extends State<PositionButton> {
-  bool _isHovered = false;
+  bool _hovered = false;
 
-  Color get _color => PositionedConstants.getPositionColor(widget.position);
+  Color get _accent => PositionedConstants.getPositionColor(widget.position);
 
-  /// Gets the alignment for the position indicator within the mini screen.
-  Alignment _getPositionAlignment() {
-    switch (widget.position) {
-      case DialogPosition.topStart:
-        return Alignment.topLeft;
-      case DialogPosition.topCenter:
-        return Alignment.topCenter;
-      case DialogPosition.topEnd:
-        return Alignment.topRight;
-      case DialogPosition.centerStart:
-        return Alignment.centerLeft;
-      case DialogPosition.center:
-        return Alignment.center;
-      case DialogPosition.centerEnd:
-        return Alignment.centerRight;
-      case DialogPosition.bottomStart:
-        return Alignment.bottomLeft;
-      case DialogPosition.bottomCenter:
-        return Alignment.bottomCenter;
-      case DialogPosition.bottomEnd:
-        return Alignment.bottomRight;
-      case DialogPosition.offScreen:
-        return Alignment.center;
-    }
-  }
+  Alignment get _alignment => switch (widget.position) {
+        DialogPosition.topStart => Alignment.topLeft,
+        DialogPosition.topCenter => Alignment.topCenter,
+        DialogPosition.topEnd => Alignment.topRight,
+        DialogPosition.centerStart => Alignment.centerLeft,
+        DialogPosition.center => Alignment.center,
+        DialogPosition.centerEnd => Alignment.centerRight,
+        DialogPosition.bottomStart => Alignment.bottomLeft,
+        DialogPosition.bottomCenter => Alignment.bottomCenter,
+        DialogPosition.bottomEnd => Alignment.bottomRight,
+        DialogPosition.offScreen => Alignment.center,
+      };
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-
+    final theme = Theme.of(context);
     return MouseRegion(
-      onEnter: (_) => setState(() => _isHovered = true),
-      onExit: (_) => setState(() => _isHovered = false),
+      onEnter: (_) => setState(() => _hovered = true),
+      onExit: (_) => setState(() => _hovered = false),
       child: AnimatedContainer(
-        duration: const Duration(milliseconds: 200),
+        duration: const Duration(milliseconds: 150),
         decoration: BoxDecoration(
-          color: isDark
-              ? AppColors.darkCard.withValues(alpha: 0.8)
-              : AppColors.lightCard,
-          borderRadius: BorderRadius.circular(16),
+          color: theme.colorScheme.surfaceContainerLowest,
+          borderRadius: BorderRadius.circular(AppRadii.card),
           border: Border.all(
-            color: _isHovered
-                ? _color.withValues(alpha: 0.6)
-                : (isDark ? AppColors.darkBorder : AppColors.lightBorder),
-            width: _isHovered ? 2 : 1,
+            color: _hovered
+                ? _accent.withValues(alpha: 0.62)
+                : theme.colorScheme.outline,
           ),
-          boxShadow: [
-            BoxShadow(
-              color: _isHovered
-                  ? _color.withValues(alpha: 0.2)
-                  : Colors.black.withValues(alpha: isDark ? 0.2 : 0.06),
-              blurRadius: _isHovered ? 16 : 8,
-              offset: const Offset(0, 4),
-            ),
-          ],
+          boxShadow: _hovered
+              ? <BoxShadow>[
+                  BoxShadow(
+                    color: _accent.withValues(alpha: 0.14),
+                    blurRadius: 18,
+                    spreadRadius: -8,
+                    offset: const Offset(0, 8),
+                  ),
+                ]
+              : const <BoxShadow>[],
         ),
-        child: Column(
-          children: [
-            // Mini screen visualization
-            Expanded(
-              child: InkWell(
-                onTap: () => _showPositionedDialog(context),
-                borderRadius: const BorderRadius.vertical(
-                  top: Radius.circular(16),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.all(10),
-                  child: Column(
-                    children: [
-                      // Mini screen with position indicator
-                      Expanded(child: _buildMiniScreen(isDark)),
-                      const SizedBox(height: 6),
-                      // Position name
-                      Text(
-                        widget.position.displayName,
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontSize: 9,
-                          fontWeight: FontWeight.w700,
-                          color: _isHovered
-                              ? _color
-                              : (isDark
-                                    ? AppColors.darkText
-                                    : AppColors.lightText),
-                          letterSpacing: -0.2,
+        child: Material(
+          color: Colors.transparent,
+          child: Column(
+            children: <Widget>[
+              Expanded(
+                child: InkWell(
+                  onTap: () => _showPositionedDialog(context),
+                  borderRadius: const BorderRadius.vertical(
+                    top: Radius.circular(AppRadii.card),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(AppSpacing.sm),
+                    child: Column(
+                      children: <Widget>[
+                        Expanded(child: _MiniViewport(alignment: _alignment, accent: _accent, hovered: _hovered)),
+                        const SizedBox(height: AppSpacing.sm),
+                        Text(
+                          widget.position.displayName,
+                          textAlign: TextAlign.center,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: theme.textTheme.labelMedium?.copyWith(
+                            color: _hovered ? _accent : theme.colorScheme.onSurface,
+                            fontWeight: FontWeight.w700,
+                          ),
                         ),
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+              InkWell(
+                onTap: widget.onCodeTap,
+                borderRadius: const BorderRadius.vertical(
+                  bottom: Radius.circular(AppRadii.card),
+                ),
+                child: Container(
+                  width: double.infinity,
+                  padding: const EdgeInsets.symmetric(vertical: AppSpacing.sm),
+                  decoration: BoxDecoration(
+                    color: _accent.withValues(alpha: 0.09),
+                    borderRadius: const BorderRadius.vertical(
+                      bottom: Radius.circular(AppRadii.card),
+                    ),
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Icon(Icons.code_rounded, size: 14, color: _accent),
+                      const SizedBox(width: AppSpacing.xs),
+                      Text(
+                        'View code',
+                        style: theme.textTheme.labelSmall?.copyWith(
+                          color: _accent,
+                          fontWeight: FontWeight.w700,
+                        ),
                       ),
                     ],
                   ),
                 ),
               ),
-            ),
-            // Code button
-            InkWell(
-              onTap: widget.onCodeTap,
-              borderRadius: const BorderRadius.vertical(
-                bottom: Radius.circular(16),
-              ),
-              child: Container(
-                padding: const EdgeInsets.symmetric(vertical: 6),
-                decoration: BoxDecoration(
-                  color: _color.withValues(alpha: 0.1),
-                  borderRadius: const BorderRadius.vertical(
-                    bottom: Radius.circular(16),
-                  ),
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(Icons.code_rounded, size: 12, color: _color),
-                    const SizedBox(width: 4),
-                    Text(
-                      'Code',
-                      style: TextStyle(
-                        fontSize: 9,
-                        fontWeight: FontWeight.w600,
-                        color: _color,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  /// Builds a mini screen representation showing the position.
-  Widget _buildMiniScreen(bool isDark) {
-    return Container(
-      decoration: BoxDecoration(
-        color: isDark
-            ? AppColors.darkBackground
-            : AppColors.lightDivider.withValues(alpha: 0.5),
-        borderRadius: BorderRadius.circular(8),
-        border: Border.all(
-          color: isDark
-              ? AppColors.darkBorder.withValues(alpha: 0.5)
-              : AppColors.lightBorder.withValues(alpha: 0.5),
-        ),
-      ),
-      child: Stack(
-        children: [
-          // Grid lines for reference
-          Positioned.fill(
-            child: CustomPaint(
-              painter: _GridPainter(
-                color: isDark
-                    ? Colors.white.withValues(alpha: 0.05)
-                    : Colors.black.withValues(alpha: 0.03),
-              ),
-            ),
+            ],
           ),
-          // Position indicator (the dialog representation)
-          Align(
-            alignment: _getPositionAlignment(),
-            child: AnimatedContainer(
-              duration: const Duration(milliseconds: 200),
-              margin: const EdgeInsets.all(4),
-              width: _isHovered ? 18 : 14,
-              height: _isHovered ? 12 : 10,
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                  colors: [_color, _color.withValues(alpha: 0.7)],
-                ),
-                borderRadius: BorderRadius.circular(3),
-                boxShadow: [
-                  BoxShadow(
-                    color: _color.withValues(alpha: _isHovered ? 0.6 : 0.4),
-                    blurRadius: _isHovered ? 8 : 4,
-                    spreadRadius: _isHovered ? 1 : 0,
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ],
+        ),
       ),
     );
   }
@@ -216,43 +137,92 @@ class _PositionButtonState extends State<PositionButton> {
       context,
       (context) => PositionedInfoCard(
         position: widget.position.displayName,
-        accentColor: _color,
+        accentColor: _accent,
       ),
       startPosition: DialogPosition.offScreen,
       endPosition: widget.position,
       transitionType: PositionedTransitionType.slideFade,
       barrierDismissible: true,
-      barrierColor: Colors.black.withValues(alpha: 0.5),
+      barrierColor: const Color(0x8C000000),
       barrierBlur: 8,
     );
   }
 }
 
-/// Custom painter for grid lines.
-class _GridPainter extends CustomPainter {
-  final Color color;
+class _MiniViewport extends StatelessWidget {
+  const _MiniViewport({
+    required this.alignment,
+    required this.accent,
+    required this.hovered,
+  });
 
-  _GridPainter({required this.color});
+  final Alignment alignment;
+  final Color accent;
+  final bool hovered;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    return Container(
+      decoration: BoxDecoration(
+        color: theme.colorScheme.surface,
+        borderRadius: BorderRadius.circular(AppRadii.control),
+        border: Border.all(color: theme.colorScheme.outline),
+      ),
+      child: Stack(
+        children: <Widget>[
+          Positioned.fill(
+            child: CustomPaint(
+              painter: _GridPainter(
+                color: theme.colorScheme.outline.withValues(alpha: 0.52),
+              ),
+            ),
+          ),
+          Align(
+            alignment: alignment,
+            child: AnimatedContainer(
+              duration: const Duration(milliseconds: 150),
+              margin: const EdgeInsets.all(AppSpacing.xs),
+              width: hovered ? 22 : 18,
+              height: hovered ? 15 : 12,
+              decoration: BoxDecoration(
+                color: accent,
+                borderRadius: BorderRadius.circular(3),
+                boxShadow: <BoxShadow>[
+                  BoxShadow(
+                    color: accent.withValues(alpha: hovered ? 0.46 : 0.28),
+                    blurRadius: hovered ? 8 : 4,
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _GridPainter extends CustomPainter {
+  const _GridPainter({required this.color});
+
+  final Color color;
 
   @override
   void paint(Canvas canvas, Size size) {
     final paint = Paint()
       ..color = color
       ..strokeWidth = 0.5;
-
-    // Vertical lines (divide into 3)
-    for (int i = 1; i < 3; i++) {
-      final x = size.width * i / 3;
-      canvas.drawLine(Offset(x, 0), Offset(x, size.height), paint);
-    }
-
-    // Horizontal lines (divide into 3)
-    for (int i = 1; i < 3; i++) {
-      final y = size.height * i / 3;
-      canvas.drawLine(Offset(0, y), Offset(size.width, y), paint);
+    for (var index = 1; index < 3; index++) {
+      final x = size.width * index / 3;
+      final y = size.height * index / 3;
+      canvas
+        ..drawLine(Offset(x, 0), Offset(x, size.height), paint)
+        ..drawLine(Offset(0, y), Offset(size.width, y), paint);
     }
   }
 
   @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
+  bool shouldRepaint(covariant _GridPainter oldDelegate) =>
+      oldDelegate.color != color;
 }

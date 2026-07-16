@@ -1,29 +1,13 @@
 part of '../../super_dialog.dart';
 
-/// Configuration class for super dialog transitions.
+/// Configuration class for Super Dialog transitions.
 ///
-/// This class allows you to customize the timing and curves for
-/// both opening and closing animations.
-///
-/// ## Example
-///
-/// ```dart
-/// const config = SuperDialogConfig(
-///   openDuration: Duration(milliseconds: 400),
-///   closeDuration: Duration(milliseconds: 250),
-///   openCurve: Curves.easeOutCubic,
-///   closeCurve: Curves.easeInCubic,
-/// );
-/// ```
+/// This class allows independent control over opening and closing timing.
 @immutable
 class SuperDialogConfig {
-  /// Creates a configuration for super dialog transitions.
+  /// Creates a transition configuration.
   ///
-  /// All parameters have sensible defaults:
-  /// - [openDuration]: 300ms
-  /// - [closeDuration]: 300ms
-  /// - [openCurve]: [Curves.easeInOut]
-  /// - [closeCurve]: [Curves.easeInOut]
+  /// The default constructor preserves the package's original 300ms easing.
   const SuperDialogConfig({
     this.openDuration = const Duration(milliseconds: 300),
     this.closeDuration = const Duration(milliseconds: 300),
@@ -31,24 +15,26 @@ class SuperDialogConfig {
     this.closeCurve = Curves.easeInOut,
   });
 
-  /// The duration of the opening animation.
+  /// GeniusLink motion preset used by [SuperDialogThemeData].
   ///
-  /// Defaults to 300 milliseconds.
+  /// It uses compact 200ms motion, a decelerating entrance curve, and the
+  /// standard Material/GeniusLink curve when closing.
+  const SuperDialogConfig.geniusLink()
+    : openDuration = core.SuperTokens.durExpand,
+      closeDuration = core.SuperTokens.durBase,
+      openCurve = core.SuperTokens.curveOut,
+      closeCurve = core.SuperTokens.curveStandard;
+
+  /// The duration of the opening animation.
   final Duration openDuration;
 
   /// The curve used for the opening animation.
-  ///
-  /// Defaults to [Curves.easeInOut].
   final Curve openCurve;
 
   /// The duration of the closing animation.
-  ///
-  /// Defaults to 300 milliseconds.
   final Duration closeDuration;
 
   /// The curve used for the closing animation.
-  ///
-  /// Defaults to [Curves.easeInOut].
   final Curve closeCurve;
 
   /// Creates a copy of this config with the given fields replaced.

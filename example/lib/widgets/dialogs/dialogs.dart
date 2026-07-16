@@ -16,3 +16,6 @@ export 'guarded_exit_dialog.dart';
 export 'positioned_corner_dialog.dart';
 export 'positioned_info_card.dart';
 export 'code_viewer_dialog.dart';
+export 'dialog_demo_components.dart';
+export 'erp_dialogs.dart';
+export 'erp_pattern_dialog.dart';

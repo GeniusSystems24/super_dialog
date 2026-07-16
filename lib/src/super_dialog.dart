@@ -40,7 +40,8 @@ abstract class SuperDialog {
 
   /// The default configuration used when no config is provided.
   ///
-  /// Uses 300ms duration with [Curves.easeInOut] for both open and close.
+  /// Preserves the original package defaults when no theme is available.
+  /// Registered [SuperDialogThemeData] values take precedence.
   static const SuperDialogConfig defaultConfig = SuperDialogConfig();
 
   /// Shows an animated dialog with sensible defaults.
@@ -58,7 +59,7 @@ abstract class SuperDialog {
   /// - [useRootNavigator]: Whether to use the root navigator (default: true)
   /// - [useSafeArea]: Whether to wrap in SafeArea (default: true)
   /// - [barrierDismissible]: Whether tapping barrier closes dialog (default: true)
-  /// - [barrierColor]: The barrier color (default: black with 70% opacity)
+  /// - [barrierColor]: The barrier color (defaults to [SuperDialogThemeData])
   /// - [barrierBlur]: Optional Gaussian blur for the barrier
   /// - [onDismissed]: Callback when the dialog is dismissed
   ///
@@ -135,6 +136,7 @@ abstract class SuperDialog {
     double? barrierBlur,
     VoidCallback? onDismissed,
   }) {
+    final dialogTheme = SuperDialogThemeData.of(context);
     final bool resolvedUseRootNavigator = useRootNavigator ?? true;
     final BuildContext navigatorContext = _resolveNavigatorContext(
       context,
@@ -144,25 +146,22 @@ abstract class SuperDialog {
       navigatorContext,
       rootNavigator: resolvedUseRootNavigator,
     );
-    final SuperDialogConfig effectiveConfig = config ?? defaultConfig;
+    final SuperDialogConfig effectiveConfig = config ?? dialogTheme.config;
+    final double effectiveBarrierBlur =
+        barrierBlur ?? dialogTheme.barrierBlur;
     final String barrierLabel = MaterialLocalizations.of(
       navigatorContext,
     ).modalBarrierDismissLabel;
 
-    Widget constrainedBuilder(BuildContext context) {
-      Widget dialog = builder(context);
-      if (constraints != null) {
-        dialog = ConstrainedBox(constraints: constraints, child: dialog);
-      }
-      if (useSafeArea) {
-        dialog = SafeArea(child: dialog);
-      }
-      return dialog;
-    }
-
-    final route = RawDialogRoute<T>(
+    final route = _SuperDialogRoute<T>(
       pageBuilder: (context, animationController, secondaryAnimation) {
-        return constrainedBuilder(context);
+        return _buildDialogPage(
+          context: context,
+          builder: builder,
+          constraints: constraints,
+          useSafeArea: useSafeArea,
+          barrierBlur: effectiveBarrierBlur,
+        );
       },
       transitionBuilder:
           (context, animationController, secondaryAnimation, child) {
@@ -179,9 +178,10 @@ abstract class SuperDialog {
             );
           },
       transitionDuration: effectiveConfig.openDuration,
+      reverseTransitionDuration: effectiveConfig.closeDuration,
       barrierDismissible: barrierDismissible ?? false,
       barrierLabel: barrierLabel,
-      barrierColor: barrierColor ?? const Color(0xB3000000),
+      barrierColor: barrierColor ?? dialogTheme.barrierColor,
       settings: const RouteSettings(name: 'super_dialog'),
     );
 
@@ -244,9 +244,7 @@ abstract class SuperDialog {
       useRootNavigator: useRootNavigator,
       useSafeArea: useSafeArea,
       barrierDismissible: barrierDismissible ?? !cupertinoStyle,
-      barrierColor:
-          barrierColor ??
-          (cupertinoStyle ? const Color(0x66000000) : const Color(0xB3000000)),
+      barrierColor: barrierColor,
       barrierBlur: barrierBlur ?? (cupertinoStyle ? 12.0 : null),
       onDismissed: onDismissed,
     );
@@ -309,6 +307,7 @@ abstract class SuperDialog {
     double? barrierBlur,
     VoidCallback? onDismissed,
   }) {
+    final dialogTheme = SuperDialogThemeData.of(context);
     final bool resolvedUseRootNavigator = useRootNavigator ?? true;
     final BuildContext navigatorContext = _resolveNavigatorContext(
       context,
@@ -318,7 +317,9 @@ abstract class SuperDialog {
       navigatorContext,
       rootNavigator: resolvedUseRootNavigator,
     );
-    final SuperDialogConfig effectiveConfig = config ?? defaultConfig;
+    final SuperDialogConfig effectiveConfig = config ?? dialogTheme.config;
+    final double effectiveBarrierBlur =
+        barrierBlur ?? dialogTheme.barrierBlur;
     final String barrierLabel = MaterialLocalizations.of(
       navigatorContext,
     ).modalBarrierDismissLabel;
@@ -329,20 +330,15 @@ abstract class SuperDialog {
       transitionType: transitionType,
     );
 
-    Widget constrainedBuilder(BuildContext context) {
-      Widget dialog = builder(context);
-      if (constraints != null) {
-        dialog = ConstrainedBox(constraints: constraints, child: dialog);
-      }
-      if (useSafeArea) {
-        dialog = SafeArea(child: dialog);
-      }
-      return dialog;
-    }
-
-    final route = RawDialogRoute<T>(
+    final route = _SuperDialogRoute<T>(
       pageBuilder: (context, animationController, secondaryAnimation) {
-        return constrainedBuilder(context);
+        return _buildDialogPage(
+          context: context,
+          builder: builder,
+          constraints: constraints,
+          useSafeArea: useSafeArea,
+          barrierBlur: effectiveBarrierBlur,
+        );
       },
       transitionBuilder:
           (context, animationController, secondaryAnimation, child) {
@@ -359,9 +355,10 @@ abstract class SuperDialog {
             );
           },
       transitionDuration: effectiveConfig.openDuration,
+      reverseTransitionDuration: effectiveConfig.closeDuration,
       barrierDismissible: barrierDismissible ?? true,
       barrierLabel: barrierLabel,
-      barrierColor: barrierColor ?? const Color(0xB3000000),
+      barrierColor: barrierColor ?? dialogTheme.barrierColor,
       settings: const RouteSettings(name: 'super_dialog_positioned'),
     );
 
@@ -371,6 +368,59 @@ abstract class SuperDialog {
     }
     return future;
   }
+}
+
+Widget _buildDialogPage({
+  required BuildContext context,
+  required WidgetBuilder builder,
+  required BoxConstraints? constraints,
+  required bool useSafeArea,
+  required double barrierBlur,
+}) {
+  Widget dialog = builder(context);
+  if (constraints != null) {
+    dialog = ConstrainedBox(constraints: constraints, child: dialog);
+  }
+  if (useSafeArea) {
+    dialog = SafeArea(child: dialog);
+  }
+  if (barrierBlur <= 0) {
+    return dialog;
+  }
+
+  return Stack(
+    fit: StackFit.expand,
+    children: [
+      Positioned.fill(
+        child: IgnorePointer(
+          child: BackdropFilter(
+            filter: ImageFilter.blur(
+              sigmaX: barrierBlur,
+              sigmaY: barrierBlur,
+            ),
+            child: const ColoredBox(color: Colors.transparent),
+          ),
+        ),
+      ),
+      dialog,
+    ],
+  );
+}
+
+class _SuperDialogRoute<T> extends RawDialogRoute<T> {
+  _SuperDialogRoute({
+    required super.pageBuilder,
+    required super.barrierDismissible,
+    required super.barrierColor,
+    required super.barrierLabel,
+    required super.transitionDuration,
+    required this.reverseTransitionDuration,
+    super.transitionBuilder,
+    super.settings,
+  });
+
+  @override
+  final Duration reverseTransitionDuration;
 }
 
 /// Resolves the appropriate navigator context based on settings.

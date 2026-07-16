@@ -49,11 +49,11 @@ class PositionedConstants {
       case DialogPosition.centerEnd:
         return AppColors.accent;
       case DialogPosition.bottomStart:
-        return const Color(0xFF8B5CF6);
+        return const Color(0xFF7C5CFC);
       case DialogPosition.bottomCenter:
-        return const Color(0xFFEC4899);
+        return const Color(0xFFEF4444);
       case DialogPosition.bottomEnd:
-        return const Color(0xFF14B8A6);
+        return const Color(0xFF1DB88A);
       case DialogPosition.offScreen:
         return AppColors.lightTextSecondary;
     }

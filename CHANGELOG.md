@@ -5,6 +5,30 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.4.0] - 2026-07-16
+
+### Added
+
+- `SuperDialogThemeData`, a `ThemeExtension` backed directly by the published
+  `super_core` palette, surfaces, radii, spacing, shadows, and motion.
+- `SuperDialogSurface`, a `super_core`-backed ready-made modal surface with a
+  compact header, marker or icon badge, scrollable content, and action footer.
+- A `SuperDialogConfig.geniusLink()` motion preset.
+
+### Fixed
+
+- `barrierBlur` now applies an actual backdrop filter instead of being ignored.
+- `closeDuration` now controls the route's reverse transition duration.
+
+### Changed
+
+- Added `super_core: ^1.2.0` as a runtime package dependency.
+- The example app now uses `super_core` from pub.dev and generated typed routes
+  from `go_router_builder` 4.3.1.
+- Example colors, typography, radii, barriers, cards, controls, and code dialog
+  were redesigned to use the shared GeniusLink visual language.
+- Minimum Flutter version is now 3.32.0 to match the Material 3 theme surface.
+
 ## [0.3.0] - 2025-12-31
 
 ### Added
@@ -50,7 +74,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Total positioned combinations now: **90** (9 positions × 10 transition types)
 
 - **Complete Example Coverage:**
-  - Added 36+ new example scenarios covering all 24 animation types
+  - Added 36+ new example scenarios covering all 21 animation types
   - Every DialogAnimation type now has multiple real-world use cases
   - Enhanced Transform tab with all rotation, bounce, elastic, expand, flip, and combined animations
 

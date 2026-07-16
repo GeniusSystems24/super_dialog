@@ -1,16 +1,20 @@
-# super_dialog_example
+# Super Dialog example
 
-A new Flutter project.
+This showcase uses the published `super_core` package for the GeniusLink design
+system and `go_router_builder` for generated, strongly typed navigation.
 
-## Getting Started
+The visual system includes:
 
-This project is a starting point for a Flutter application.
+- the blue `SuperPalette.bluePalette` accent;
+- shared light and dark neutral surfaces;
+- Inter and Manrope typography;
+- a 4px spacing rhythm and compact 4/8/12px radii;
+- restrained borders, shadows, barriers, and motion.
 
-A few resources to get you started if this is your first Flutter project:
+Run it with Flutter 3.38 or newer:
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+```bash
+flutter pub get
+dart run build_runner build --delete-conflicting-outputs
+flutter run
+```
