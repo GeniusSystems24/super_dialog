@@ -147,8 +147,7 @@ abstract class SuperDialog {
       rootNavigator: resolvedUseRootNavigator,
     );
     final SuperDialogConfig effectiveConfig = config ?? dialogTheme.config;
-    final double effectiveBarrierBlur =
-        barrierBlur ?? dialogTheme.barrierBlur;
+    final double effectiveBarrierBlur = barrierBlur ?? dialogTheme.barrierBlur;
     final String barrierLabel = MaterialLocalizations.of(
       navigatorContext,
     ).modalBarrierDismissLabel;
@@ -318,8 +317,7 @@ abstract class SuperDialog {
       rootNavigator: resolvedUseRootNavigator,
     );
     final SuperDialogConfig effectiveConfig = config ?? dialogTheme.config;
-    final double effectiveBarrierBlur =
-        barrierBlur ?? dialogTheme.barrierBlur;
+    final double effectiveBarrierBlur = barrierBlur ?? dialogTheme.barrierBlur;
     final String barrierLabel = MaterialLocalizations.of(
       navigatorContext,
     ).modalBarrierDismissLabel;
@@ -394,10 +392,7 @@ Widget _buildDialogPage({
       Positioned.fill(
         child: IgnorePointer(
           child: BackdropFilter(
-            filter: ImageFilter.blur(
-              sigmaX: barrierBlur,
-              sigmaY: barrierBlur,
-            ),
+            filter: ImageFilter.blur(sigmaX: barrierBlur, sigmaY: barrierBlur),
             child: const ColoredBox(color: Colors.transparent),
           ),
         ),

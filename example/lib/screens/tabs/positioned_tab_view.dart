@@ -315,7 +315,7 @@ class _OverviewCards extends StatelessWidget {
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (context, constraints) {
-        final cards = const <Widget>[
+        const cards = <Widget>[
           _OverviewCard(
             label: 'Positions',
             value: '9',

@@ -18,7 +18,7 @@ dependencies:
   flutter:
     sdk: flutter
   super_dialog: ^0.4.0
-  super_core: ^1.2.0
+  super_core: ^2.1.0
 ```
 
 ```dart
@@ -59,7 +59,7 @@ Future<void> showEntryPosted(BuildContext context) {
       title: 'Entry Posted',
       subtitle: 'JV-2026-0042',
       icon: Icons.check_circle_outline,
-      iconColor: core.SuperTokens.success,
+      iconColor: core.SuperThemeData.of(context).tokens.success,
       content: const Text(
         'The journal entry was posted to FY26 Period 07 and is now visible '
         'in the general ledger.',
@@ -93,9 +93,9 @@ Future<bool> approvePurchaseOrder(BuildContext context) async {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Text('Order total: USD 128,450.00'),
-          SizedBox(height: core.SuperTokens.space2),
+          SizedBox(height: core.SuperThemeData.of(context).tokens.space2),
           Text('Budget remaining after approval: USD 371,550.00'),
-          SizedBox(height: core.SuperTokens.space4),
+          SizedBox(height: core.SuperThemeData.of(context).tokens.space4),
           Text(
             'Approval moves the document to procurement release and records '
             'your user ID in the audit trail.',
@@ -142,7 +142,7 @@ Future<JournalDecision> showJournalPostingDialog(BuildContext context) async {
         children: [
           Text('Debit: USD 42,750.00'),
           Text('Credit: USD 42,750.00'),
-          SizedBox(height: core.SuperTokens.space4),
+          SizedBox(height: core.SuperThemeData.of(context).tokens.space4),
           Text(
             'The entry is balanced. Posting creates an immutable audit event '
             'and updates account balances immediately.',
@@ -190,7 +190,7 @@ Future<bool> requestCreditHoldRelease(BuildContext context) async {
       title: 'Release Credit Hold',
       subtitle: 'C-100284 · Apex Retail Group',
       icon: Icons.credit_card_off_outlined,
-      iconColor: core.SuperTokens.danger,
+      iconColor: core.SuperThemeData.of(context).tokens.danger,
       content: const Text(
         'Current exposure is 114.6% of the approved credit limit. Releasing '
         'the hold permits SO-30291 to continue as a one-time exception.',
@@ -202,7 +202,7 @@ Future<bool> requestCreditHoldRelease(BuildContext context) async {
         ),
         FilledButton(
           style: FilledButton.styleFrom(
-            backgroundColor: core.SuperTokens.danger,
+            backgroundColor: core.SuperThemeData.of(context).tokens.danger,
           ),
           onPressed: () => Navigator.of(dialogContext).pop(true),
           child: const Text('Release once'),
@@ -276,7 +276,7 @@ Future<bool> closeAccountingPeriod(BuildContext context) async {
       title: 'Close Accounting Period',
       subtitle: 'FY26 · Period 07',
       icon: Icons.lock_outline,
-      iconColor: core.SuperTokens.danger,
+      iconColor: core.SuperThemeData.of(context).tokens.danger,
       content: const Text(
         'Closing blocks normal postings for this period. Reopening requires '
         'controller authorization and creates a separate audit event.',
@@ -288,7 +288,7 @@ Future<bool> closeAccountingPeriod(BuildContext context) async {
         ),
         FilledButton(
           style: FilledButton.styleFrom(
-            backgroundColor: core.SuperTokens.danger,
+            backgroundColor: core.SuperThemeData.of(context).tokens.danger,
           ),
           onPressed: () => Navigator.of(dialogContext).pop(true),
           child: const Text('Close period'),
@@ -318,7 +318,7 @@ Future<void> showApprovalQueued(BuildContext context) {
       title: 'Approval Queued',
       subtitle: 'PO-2026-01482',
       icon: Icons.schedule_send_outlined,
-      iconColor: core.SuperTokens.success,
+      iconColor: core.SuperThemeData.of(context).tokens.success,
       content: const Text(
         'The purchase order was sent to the procurement controller.',
       ),
@@ -358,7 +358,7 @@ Future<Map<String, Object?>?> showLedgerFilters(BuildContext context) {
         mainAxisSize: MainAxisSize.min,
         children: [
           TextField(decoration: InputDecoration(labelText: 'Account')),
-          SizedBox(height: core.SuperTokens.space3),
+          SizedBox(height: core.SuperThemeData.of(context).tokens.space3),
           TextField(decoration: InputDecoration(labelText: 'Document number')),
         ],
       ),

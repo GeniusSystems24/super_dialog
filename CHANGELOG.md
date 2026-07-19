@@ -1,3 +1,10 @@
+## 0.4.2
+
+- Upgrade `super_core` dependency to `^2.1.0`.
+- Migrate from removed static `SuperTokens` values to ambient `SuperThemeData.tokens`.
+- Derive dialog spacing, radii, and motion from the active GeniusLink theme.
+- Update the example and bundled AI skills for `super_core` 2.1.0.
+
 # Changelog
 
 All notable changes to this project will be documented in this file.

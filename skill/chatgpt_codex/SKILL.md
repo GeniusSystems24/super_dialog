@@ -14,7 +14,7 @@ version:    0.4.0
 import:     package:super_dialog/super_dialog.dart
 sdk:        dart >=3.9.0
 flutter:    >=3.32.0
-dependency: super_core ^1.2.0
+dependency: super_core ^2.1.0
 ```
 
 Consumer applications that directly use `SuperMaterialThemeData`,
@@ -26,7 +26,7 @@ dependencies:
   flutter:
     sdk: flutter
   super_dialog: ^0.4.0
-  super_core: ^1.2.0
+  super_core: ^2.1.0
 ```
 
 ## Import rule
@@ -102,7 +102,7 @@ SuperDialogSurface(
   title: 'Approve Purchase Order',
   subtitle: 'PO-2026-01482 · Northwind Industrial Supply',
   icon: Icons.approval_outlined,
-  iconColor: core.SuperTokens.success,
+  iconColor: core.SuperThemeData.of(context).tokens.success,
   content: const Text('Review the commercial and budget impact.'),
   actions: const <Widget>[],
   width: 560,
@@ -168,7 +168,7 @@ final mode = core.SuperDeviceMode.forWidth(constraints.maxWidth);
 ```
 
 Never duplicate `super_core` palette, spacing, radius, or motion values inside a
-dialog. Prefer `core.SuperTokens`, `core.SuperText`, and the ambient theme.
+dialog. Prefer `core.SuperThemeData.of(context).tokens`, `core.SuperText`, and the ambient theme.
 
 ---
 
@@ -201,9 +201,9 @@ are appropriate only when the product intentionally uses playful motion.
 5. Explain the business impact before the primary action.
 6. Use semantic colors consistently:
    - primary/accent: normal approval or navigation;
-   - `core.SuperTokens.success`: completed/valid;
-   - `core.SuperTokens.warning`: review required;
-   - `core.SuperTokens.danger`: destructive, blocked, or high risk.
+   - `core.SuperThemeData.of(context).tokens.success`: completed/valid;
+   - `core.SuperThemeData.of(context).tokens.warning`: review required;
+   - `core.SuperThemeData.of(context).tokens.danger`: destructive, blocked, or high risk.
 7. After awaiting a dialog, check `context.mounted` before updating UI.
 8. Keep values such as amount, document number, legal entity, period, and audit
    impact visible in the dialog body.

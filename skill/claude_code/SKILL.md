@@ -22,7 +22,7 @@ system.
 import:     package:super_dialog/super_dialog.dart
 sdk:        dart >=3.9.0
 flutter:    >=3.32.0
-dependency: super_core ^1.2.0
+dependency: super_core ^2.1.0
 ```
 
 Applications that directly import `super_core` must declare it directly:
@@ -30,7 +30,7 @@ Applications that directly import `super_core` must declare it directly:
 ```yaml
 dependencies:
   super_dialog: ^0.4.0
-  super_core: ^1.2.0
+  super_core: ^2.1.0
 ```
 
 ## Import collision — read first
@@ -125,7 +125,7 @@ SuperDialogSurface(
   title: 'Approve Purchase Order',
   subtitle: 'PO-2026-01482',
   icon: Icons.approval_outlined,
-  iconColor: core.SuperTokens.success,
+  iconColor: core.SuperThemeData.of(context).tokens.success,
   markerColor: null,
   content: const Text('Review the order before approval.'),
   actions: const <Widget>[],
@@ -172,7 +172,7 @@ final theme = base.copyWith(extensions: [dialog]);
 ```
 
 Do not duplicate `super_core` colors, spacing, radii, shadows, typography, or
-motion. Use `core.SuperTokens`, `core.SuperText`, the active `ColorScheme`, and
+motion. Use `core.SuperThemeData.of(context).tokens`, `core.SuperText`, the active `ColorScheme`, and
 Material component themes.
 
 ---
@@ -242,7 +242,7 @@ or credit-risk overrides.
 4. Provide an explicit safe exit when the barrier cannot dismiss.
 5. Display document ID, entity, amount, period, status, and business impact.
 6. Use one primary and one secondary action in the normal case.
-7. Use semantic tones from `core.SuperTokens`.
+7. Use semantic tones from `core.SuperThemeData.of(context).tokens`.
 8. Check `context.mounted` after awaiting a result.
 9. Preserve safe areas and scrolling for long content.
 10. Keep a transparent-barrier positioned dialog in mind as still modal.

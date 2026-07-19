@@ -22,12 +22,12 @@ class SuperDialogThemeData extends ThemeExtension<SuperDialogThemeData> {
     required this.barrierColor,
     this.barrierBlur = 0,
     this.config = const SuperDialogConfig.geniusLink(),
-    this.controlRadius = core.SuperTokens.radiusControl,
-    this.cardRadius = core.SuperTokens.radiusCard,
-    this.pillRadius = core.SuperTokens.radiusPill,
+    this.controlRadius = 4,
+    this.cardRadius = 8,
+    this.pillRadius = 12,
     this.dialogWidth = 440,
-    this.insetPadding = const EdgeInsets.all(core.SuperTokens.space6),
-    this.contentPadding = const EdgeInsets.all(core.SuperTokens.space6),
+    this.insetPadding = const EdgeInsets.all(24),
+    this.contentPadding = const EdgeInsets.all(24),
     this.shadow = core.SuperThemeData.popShadow,
   });
 
@@ -71,6 +71,17 @@ class SuperDialogThemeData extends ThemeExtension<SuperDialogThemeData> {
       disabledForegroundColor: superTheme.fg4,
       accentColor: materialTheme.colorScheme.primary,
       barrierColor: const Color(0x8C000000),
+      config: SuperDialogConfig(
+        openDuration: superTheme.tokens.durExpand,
+        closeDuration: superTheme.tokens.durBase,
+        openCurve: superTheme.tokens.curveOut,
+        closeCurve: superTheme.tokens.curveStandard,
+      ),
+      controlRadius: superTheme.tokens.radiusControl,
+      cardRadius: superTheme.tokens.radiusCard,
+      pillRadius: superTheme.tokens.radiusPill,
+      insetPadding: EdgeInsets.all(superTheme.tokens.space6),
+      contentPadding: EdgeInsets.all(superTheme.tokens.space6),
     );
   }
 
@@ -115,7 +126,7 @@ class SuperDialogThemeData extends ThemeExtension<SuperDialogThemeData> {
     secondaryForegroundColor: Color(0xFF424754),
     tertiaryForegroundColor: Color(0xFF64748B),
     disabledForegroundColor: Color(0xFFAEB4C2),
-    accentColor: core.SuperTokens.accent,
+    accentColor: Color(0xFF4A7CFF),
     barrierColor: Color(0x8C000000),
   );
 
@@ -131,7 +142,7 @@ class SuperDialogThemeData extends ThemeExtension<SuperDialogThemeData> {
     secondaryForegroundColor: Color(0xFFC3C6D7),
     tertiaryForegroundColor: Color(0xFF8D90A0),
     disabledForegroundColor: Color(0xFF5A5D68),
-    accentColor: core.SuperTokens.accent,
+    accentColor: Color(0xFF4A7CFF),
     barrierColor: Color(0x8C000000),
   );
 
@@ -207,8 +218,11 @@ class SuperDialogThemeData extends ThemeExtension<SuperDialogThemeData> {
       inputColor: Color.lerp(inputColor, other.inputColor, t)!,
       hoverColor: Color.lerp(hoverColor, other.hoverColor, t)!,
       borderColor: Color.lerp(borderColor, other.borderColor, t)!,
-      strongBorderColor:
-          Color.lerp(strongBorderColor, other.strongBorderColor, t)!,
+      strongBorderColor: Color.lerp(
+        strongBorderColor,
+        other.strongBorderColor,
+        t,
+      )!,
       foregroundColor: Color.lerp(foregroundColor, other.foregroundColor, t)!,
       secondaryForegroundColor: Color.lerp(
         secondaryForegroundColor,

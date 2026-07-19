@@ -435,12 +435,12 @@ class _SidebarFooter extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     if (collapsed) {
-      return Padding(
-        padding: const EdgeInsets.symmetric(vertical: AppSpacing.sm),
+      return const Padding(
+        padding: EdgeInsets.symmetric(vertical: AppSpacing.sm),
         child: Center(
           child: Tooltip(
             message: 'ERP Administrator',
-            child: const _UserAvatar(),
+            child: _UserAvatar(),
           ),
         ),
       );

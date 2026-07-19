@@ -1,5 +1,5 @@
 /// Barrel file for all scenario collections
-library scenarios;
+library;
 
 export 'slide_scenarios.dart';
 export 'reveal_scenarios.dart';

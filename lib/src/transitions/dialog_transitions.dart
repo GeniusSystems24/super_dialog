@@ -110,10 +110,7 @@ Widget _buildDialogTransition(
       return FadeTransition(
         opacity: animation,
         child: ScaleTransition(
-          scale: CurvedAnimation(
-            parent: animation,
-            curve: Curves.elasticOut,
-          ),
+          scale: CurvedAnimation(parent: animation, curve: Curves.elasticOut),
           child: child,
         ),
       );
@@ -209,9 +206,10 @@ Widget _buildDialogTransition(
         opacity: animation,
         child: ScaleTransition(
           scale: animation.drive(
-            Tween<double>(begin: 0.0, end: 1.0).chain(
-              CurveTween(curve: Curves.easeOutCubic),
-            ),
+            Tween<double>(
+              begin: 0.0,
+              end: 1.0,
+            ).chain(CurveTween(curve: Curves.easeOutCubic)),
           ),
           child: child,
         ),
@@ -630,10 +628,7 @@ class PositionedDialogTransitionBuilder {
         child: FadeTransition(
           opacity: animation,
           child: ScaleTransition(
-            scale: CurvedAnimation(
-              parent: animation,
-              curve: Curves.elasticOut,
-            ),
+            scale: CurvedAnimation(parent: animation, curve: Curves.elasticOut),
             child: child,
           ),
         ),

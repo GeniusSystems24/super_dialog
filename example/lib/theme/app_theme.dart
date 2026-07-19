@@ -5,17 +5,17 @@ import 'package:super_navigation_sidebar/super_navigation_sidebar.dart';
 
 /// Shared aliases for the GeniusLink palette used by `super_core`.
 abstract final class AppColors {
-  static const Color primary = core.SuperTokens.accent;
+  static const Color primary = Color(0xFF4A7CFF);
 
-  static const Color accent = core.SuperTokens.warning;
+  static const Color accent = Color(0xFFF97316);
   static const Color accentLight = Color(0xFFFBBF24);
 
-  static const Color success = core.SuperTokens.success;
-  static const Color warning = core.SuperTokens.warning;
-  static const Color error = core.SuperTokens.danger;
-  static const Color info = core.SuperTokens.accent;
+  static const Color success = Color(0xFF1DB88A);
+  static const Color warning = Color(0xFFF97316);
+  static const Color error = Color(0xFFEF4444);
+  static const Color info = Color(0xFF4A7CFF);
   static const Color purple = Color(0xFF7C5CFC);
-  static const Color teal = core.SuperTokens.success;
+  static const Color teal = Color(0xFF1DB88A);
 
   static const Color lightBackground = Color(0xFFF7F8FA);
   static const Color lightSurface = Color(0xFFFFFFFF);
@@ -42,19 +42,19 @@ abstract final class AppColors {
 }
 
 abstract final class AppRadii {
-  static const double control = core.SuperTokens.radiusControl;
-  static const double medium = core.SuperTokens.radiusMd;
-  static const double card = core.SuperTokens.radiusCard;
-  static const double pill = core.SuperTokens.radiusPill;
+  static const double control = 4;
+  static const double medium = 6;
+  static const double card = 8;
+  static const double pill = 12;
 }
 
 abstract final class AppSpacing {
-  static const double xs = core.SuperTokens.space1;
-  static const double sm = core.SuperTokens.space2;
-  static const double md = core.SuperTokens.space3;
-  static const double lg = core.SuperTokens.space4;
-  static const double xl = core.SuperTokens.space6;
-  static const double xxl = core.SuperTokens.space8;
+  static const double xs = 4;
+  static const double sm = 8;
+  static const double md = 12;
+  static const double lg = 16;
+  static const double xl = 24;
+  static const double xxl = 32;
 }
 
 abstract final class AppTheme {

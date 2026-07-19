@@ -20,10 +20,10 @@ class SuperDialogConfig {
   /// It uses compact 200ms motion, a decelerating entrance curve, and the
   /// standard Material/GeniusLink curve when closing.
   const SuperDialogConfig.geniusLink()
-    : openDuration = core.SuperTokens.durExpand,
-      closeDuration = core.SuperTokens.durBase,
-      openCurve = core.SuperTokens.curveOut,
-      closeCurve = core.SuperTokens.curveStandard;
+    : openDuration = const Duration(milliseconds: 200),
+      closeDuration = const Duration(milliseconds: 150),
+      openCurve = const Cubic(0, 0, 0.2, 1),
+      closeCurve = const Cubic(0.4, 0, 0.2, 1);
 
   /// The duration of the opening animation.
   final Duration openDuration;
