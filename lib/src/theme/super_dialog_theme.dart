@@ -77,11 +77,11 @@ class SuperDialogThemeData extends ThemeExtension<SuperDialogThemeData> {
         openCurve: superTheme.tokens.curveOut,
         closeCurve: superTheme.tokens.curveStandard,
       ),
-      controlRadius: superTheme.tokens.radiusControl,
-      cardRadius: superTheme.tokens.radiusCard,
-      pillRadius: superTheme.tokens.radiusPill,
-      insetPadding: EdgeInsets.all(superTheme.tokens.space6),
-      contentPadding: EdgeInsets.all(superTheme.tokens.space6),
+      controlRadius: superTheme.spacing.radiusControl,
+      cardRadius: superTheme.spacing.radiusCard,
+      pillRadius: superTheme.spacing.radiusPill,
+      insetPadding: EdgeInsets.all(superTheme.spacing.space6),
+      contentPadding: EdgeInsets.all(superTheme.spacing.space6),
     );
   }
 

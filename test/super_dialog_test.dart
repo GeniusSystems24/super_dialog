@@ -63,7 +63,7 @@ void main() {
 
     expect(resolved.accentColor, core.SuperPalette.greenPalette.primary);
     expect(resolved.surfaceColor, core.SuperThemeData.light.surface);
-    expect(resolved.cardRadius, core.SuperTokensData.fallback.radiusCard);
+    expect(resolved.cardRadius, core.SuperSpacing.mobile.radiusCard);
   });
 
   testWidgets('SuperDialogSurface reads its registered theme extension', (

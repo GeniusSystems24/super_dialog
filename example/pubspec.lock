@@ -553,10 +553,10 @@ packages:
     dependency: "direct main"
     description:
       name: super_core
-      sha256: "17ace80f9e87acb78d4c40f02f59577122adae3ecbddeee970d70b3de9e9ea78"
+      sha256: "1f53434c52ac598214dd61ac027fea7306edad10118e22c2cd4e6a704ed84e8f"
       url: "https://pub.dev"
     source: hosted
-    version: "2.1.0"
+    version: "3.0.0"
   super_dialog:
     dependency: "direct main"
     description:

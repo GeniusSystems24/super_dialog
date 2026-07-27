@@ -33,13 +33,14 @@ class SuperDialogSurface extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = SuperDialogThemeData.of(context);
-    final tokens = core.SuperThemeData.of(context).tokens;
+    final superTheme = core.SuperThemeData.of(context);
+    final spacing = superTheme.spacing;
     final media = MediaQuery.of(context);
     final compact = media.size.width < 600;
     final veryCompact = media.size.width < 420;
     final hasHeader = title != null || subtitle != null || icon != null;
     final inset = compact
-        ? EdgeInsets.all(veryCompact ? tokens.space2 : tokens.space3)
+        ? EdgeInsets.all(veryCompact ? spacing.space2 : spacing.space3)
         : theme.insetPadding;
     final availableWidth = (media.size.width - inset.horizontal).clamp(
       0.0,
@@ -55,7 +56,7 @@ class SuperDialogSurface extends StatelessWidget {
         .clamp(0.0, availableWidth)
         .toDouble();
     final contentPadding = compact
-        ? EdgeInsets.all(veryCompact ? tokens.space3 : tokens.space4)
+        ? EdgeInsets.all(veryCompact ? spacing.space3 : spacing.space4)
         : theme.contentPadding;
 
     return Dialog(
@@ -106,12 +107,12 @@ class SuperDialogSurface extends StatelessWidget {
                         ScrollViewKeyboardDismissBehavior.onDrag,
                     padding: EdgeInsets.fromLTRB(
                       contentPadding.left,
-                      hasHeader ? tokens.space4 : contentPadding.top,
+                      hasHeader ? spacing.space4 : contentPadding.top,
                       contentPadding.right,
                       actions.isNotEmpty ? 0 : contentPadding.bottom,
                     ),
                     child: DefaultTextStyle.merge(
-                      style: core.SuperText.body.copyWith(
+                      style: superTheme.textTheme.body.copyWith(
                         color: theme.secondaryForegroundColor,
                       ),
                       child: content!,
@@ -142,13 +143,13 @@ class _SuperDialogActions extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final tokens = core.SuperThemeData.of(context).tokens;
+    final spacing = core.SuperThemeData.of(context).spacing;
     if (!stacked) {
       return Wrap(
         alignment: WrapAlignment.end,
         runAlignment: WrapAlignment.end,
-        spacing: tokens.space3,
-        runSpacing: tokens.space2,
+        spacing: spacing.space3,
+        runSpacing: spacing.space2,
         children: actions,
       );
     }
@@ -158,7 +159,7 @@ class _SuperDialogActions extends StatelessWidget {
       children: <Widget>[
         for (var index = actions.length - 1; index >= 0; index--) ...<Widget>[
           SizedBox(width: double.infinity, child: actions[index]),
-          if (index > 0) SizedBox(height: tokens.space2),
+          if (index > 0) SizedBox(height: spacing.space2),
         ],
       ],
     );
@@ -189,7 +190,10 @@ class _SuperDialogHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = SuperDialogThemeData.of(context);
-    final tokens = core.SuperThemeData.of(context).tokens;
+    final superTheme = core.SuperThemeData.of(context);
+    final tokens = superTheme.tokens;
+    final spacing = superTheme.spacing;
+    final sizing = superTheme.sizing;
     final tone = iconColor ?? markerColor ?? theme.accentColor;
 
     return Row(
@@ -200,7 +204,7 @@ class _SuperDialogHeader extends StatelessWidget {
             width: compact ? 36 : 40,
             height: compact ? 36 : 40,
             alignment: Alignment.center,
-            margin: EdgeInsetsDirectional.only(end: tokens.space3),
+            margin: EdgeInsetsDirectional.only(end: spacing.space3),
             decoration: BoxDecoration(
               color: tone.withValues(alpha: 0.14),
               borderRadius: BorderRadius.circular(theme.controlRadius),
@@ -211,7 +215,7 @@ class _SuperDialogHeader extends StatelessWidget {
           Container(
             width: tokens.markerWidth,
             height: compact ? 34 : tokens.markerHeight,
-            margin: EdgeInsetsDirectional.only(top: 2, end: tokens.space4),
+            margin: EdgeInsetsDirectional.only(top: 2, end: spacing.space4),
             decoration: BoxDecoration(
               color: tone,
               borderRadius: BorderRadius.circular(theme.pillRadius),
@@ -224,16 +228,16 @@ class _SuperDialogHeader extends StatelessWidget {
               if (title != null)
                 Text(
                   title!,
-                  style: core.SuperText.heading.copyWith(
+                  style: superTheme.textTheme.heading.copyWith(
                     color: theme.foregroundColor,
                     fontSize: compact ? 15 : null,
                   ),
                 ),
               if (subtitle != null) ...<Widget>[
-                SizedBox(height: tokens.space1),
+                SizedBox(height: spacing.space1),
                 Text(
                   subtitle!,
-                  style: core.SuperText.caption.copyWith(
+                  style: superTheme.textTheme.caption.copyWith(
                     color: theme.tertiaryForegroundColor,
                   ),
                 ),
@@ -242,14 +246,14 @@ class _SuperDialogHeader extends StatelessWidget {
           ),
         ),
         if (showClose) ...<Widget>[
-          SizedBox(width: tokens.space2),
+          SizedBox(width: spacing.space2),
           IconButton(
             onPressed: onClose ?? () => Navigator.of(context).maybePop(),
             tooltip: 'Close',
             icon: const Icon(Icons.close, size: 16),
             style: IconButton.styleFrom(
-              fixedSize: Size.square(tokens.iconButton),
-              minimumSize: Size.square(tokens.iconButton),
+              fixedSize: Size.square(sizing.iconButton),
+              minimumSize: Size.square(sizing.iconButton),
               padding: EdgeInsets.zero,
               foregroundColor: theme.secondaryForegroundColor,
               hoverColor: theme.inputColor,
