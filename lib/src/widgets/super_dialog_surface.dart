@@ -33,6 +33,9 @@ class SuperDialogSurface extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = SuperDialogThemeData.of(context);
+    final materialTheme = Theme.of(context);
+    final superMaterialTheme = core.SuperMaterialThemeData.maybeOf(context);
+    final textTheme = superMaterialTheme?.textTheme ?? materialTheme.textTheme;
     final superTheme = core.SuperThemeData.of(context);
     final spacing = superTheme.spacing;
     final media = MediaQuery.of(context);
@@ -112,9 +115,10 @@ class SuperDialogSurface extends StatelessWidget {
                       actions.isNotEmpty ? 0 : contentPadding.bottom,
                     ),
                     child: DefaultTextStyle.merge(
-                      style: superTheme.textTheme.body.copyWith(
-                        color: theme.secondaryForegroundColor,
-                      ),
+                      style:
+                          (textTheme.bodyMedium ?? const TextStyle()).copyWith(
+                            color: theme.secondaryForegroundColor,
+                          ),
                       child: content!,
                     ),
                   ),
@@ -190,6 +194,9 @@ class _SuperDialogHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = SuperDialogThemeData.of(context);
+    final materialTheme = Theme.of(context);
+    final superMaterialTheme = core.SuperMaterialThemeData.maybeOf(context);
+    final textTheme = superMaterialTheme?.textTheme ?? materialTheme.textTheme;
     final superTheme = core.SuperThemeData.of(context);
     final tokens = superTheme.tokens;
     final spacing = superTheme.spacing;
@@ -228,7 +235,7 @@ class _SuperDialogHeader extends StatelessWidget {
               if (title != null)
                 Text(
                   title!,
-                  style: superTheme.textTheme.heading.copyWith(
+                  style: (textTheme.titleMedium ?? const TextStyle()).copyWith(
                     color: theme.foregroundColor,
                     fontSize: compact ? 15 : null,
                   ),
@@ -237,7 +244,7 @@ class _SuperDialogHeader extends StatelessWidget {
                 SizedBox(height: spacing.space1),
                 Text(
                   subtitle!,
-                  style: superTheme.textTheme.caption.copyWith(
+                  style: (textTheme.bodySmall ?? const TextStyle()).copyWith(
                     color: theme.tertiaryForegroundColor,
                   ),
                 ),

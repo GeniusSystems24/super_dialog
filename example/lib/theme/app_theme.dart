@@ -78,16 +78,25 @@ abstract final class AppTheme {
     required core.SuperDeviceMode mode,
   }) {
     final isDark = brightness == Brightness.dark;
+    final typography = core.SuperTextTheme(
+      bodyFont: GoogleFonts.inter(),
+      otherFont: GoogleFonts.manrope(),
+      isDesktop: mode == core.SuperDeviceMode.desktop,
+    );
     final core.SuperMaterialThemeData base = isDark
         ? core.SuperMaterialThemeData.dark(
             palette: core.SuperPalette.bluePalette,
             mode: mode,
+            textTheme: typography,
+            primaryTextTheme: typography,
           )
         : core.SuperMaterialThemeData.light(
             palette: core.SuperPalette.bluePalette,
             mode: mode,
+            textTheme: typography,
+            primaryTextTheme: typography,
           );
-    final textTheme = _buildTextTheme(base.textTheme);
+    final textTheme = base.textTheme;
     final navigationTheme =
         NavigationSidebarThemeData.fromMaterialTheme(base).copyWith(
       selectionIndicator: NavSelectionIndicator.bar,
@@ -101,8 +110,6 @@ abstract final class AppTheme {
     );
     return base.copyWith(
       extensions: <ThemeExtension<dynamic>>[navigationTheme],
-      textTheme: textTheme,
-      primaryTextTheme: textTheme,
       appBarTheme: AppBarTheme(
         backgroundColor:
             isDark ? AppColors.darkSurface : AppColors.lightSurface,
@@ -110,9 +117,7 @@ abstract final class AppTheme {
         surfaceTintColor: Colors.transparent,
         elevation: 0,
         centerTitle: false,
-        titleTextStyle: GoogleFonts.inter(
-          fontSize: 16,
-          height: 1.3,
+        titleTextStyle: textTheme.titleMedium?.copyWith(
           fontWeight: FontWeight.w700,
           color: isDark ? AppColors.darkText : AppColors.lightText,
         ),
@@ -128,9 +133,7 @@ abstract final class AppTheme {
               borderRadius: BorderRadius.circular(AppRadii.control),
             ),
           ),
-          textStyle: WidgetStatePropertyAll(
-            GoogleFonts.inter(fontSize: 14, fontWeight: FontWeight.w600),
-          ),
+          textStyle: WidgetStatePropertyAll(textTheme.labelLarge),
         ),
       ),
       outlinedButtonTheme: OutlinedButtonThemeData(
@@ -151,9 +154,7 @@ abstract final class AppTheme {
               borderRadius: BorderRadius.circular(AppRadii.control),
             ),
           ),
-          textStyle: WidgetStatePropertyAll(
-            GoogleFonts.inter(fontSize: 14, fontWeight: FontWeight.w600),
-          ),
+          textStyle: WidgetStatePropertyAll(textTheme.labelLarge),
         ),
       ),
       iconButtonTheme: IconButtonThemeData(
@@ -255,67 +256,4 @@ abstract final class AppTheme {
     );
   }
 
-  static TextTheme _buildTextTheme(TextTheme base) {
-    final inter = GoogleFonts.interTextTheme(base);
-    return inter.copyWith(
-      headlineLarge: GoogleFonts.manrope(
-        textStyle: inter.headlineLarge,
-        fontSize: 26,
-        height: 1.15,
-        fontWeight: FontWeight.w700,
-        letterSpacing: -0.65,
-      ),
-      headlineMedium: GoogleFonts.manrope(
-        textStyle: inter.headlineMedium,
-        fontSize: 22,
-        fontWeight: FontWeight.w700,
-      ),
-      headlineSmall: GoogleFonts.inter(
-        textStyle: inter.headlineSmall,
-        fontSize: 18,
-        fontWeight: FontWeight.w700,
-      ),
-      titleLarge: GoogleFonts.inter(
-        textStyle: inter.titleLarge,
-        fontSize: 16,
-        height: 1.3,
-        fontWeight: FontWeight.w700,
-      ),
-      titleMedium: GoogleFonts.inter(
-        textStyle: inter.titleMedium,
-        fontSize: 14,
-        height: 1.4,
-        fontWeight: FontWeight.w600,
-      ),
-      bodyLarge: GoogleFonts.inter(
-        textStyle: inter.bodyLarge,
-        fontSize: 14,
-        height: 1.45,
-        fontWeight: FontWeight.w400,
-      ),
-      bodyMedium: GoogleFonts.inter(
-        textStyle: inter.bodyMedium,
-        fontSize: 14,
-        height: 1.45,
-        fontWeight: FontWeight.w400,
-      ),
-      bodySmall: GoogleFonts.inter(
-        textStyle: inter.bodySmall,
-        fontSize: 12,
-        height: 1.35,
-        fontWeight: FontWeight.w400,
-      ),
-      labelLarge: GoogleFonts.inter(
-        textStyle: inter.labelLarge,
-        fontSize: 14,
-        fontWeight: FontWeight.w600,
-      ),
-      labelMedium: GoogleFonts.inter(
-        textStyle: inter.labelMedium,
-        fontSize: 11,
-        fontWeight: FontWeight.w700,
-        letterSpacing: 0.55,
-      ),
-    );
-  }
 }

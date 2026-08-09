@@ -22,15 +22,15 @@ system.
 import:     package:super_dialog/super_dialog.dart
 sdk:        dart >=3.9.0
 flutter:    >=3.32.0
-dependency: super_core ^2.1.0
+dependency: super_core ^3.3.0
 ```
 
 Applications that directly import `super_core` must declare it directly:
 
 ```yaml
 dependencies:
-  super_dialog: ^0.4.0
-  super_core: ^2.1.0
+  super_dialog: ^0.6.0
+  super_core: ^3.3.0
 ```
 
 ## Import collision — read first
@@ -144,13 +144,29 @@ Return it directly from the presentation builder. Do not nest it inside
 
 Install `core.SuperMaterialThemeData` at the application root:
 
+> **super_core 3.3.0 typography:** both theme factories require
+> `textTheme` and `primaryTextTheme` as `core.SuperTextTheme`. Typography is no
+> longer available from `core.SuperThemeData`; never generate
+> `core.SuperThemeData.of(context).textTheme`. Read it from
+> `core.SuperMaterialThemeData.maybeOf(context)?.textTheme`, falling back to
+> `Theme.of(context).textTheme` only when supporting a plain Material theme.
+> `SuperMaterialThemeData` no longer derives token font metadata from the text
+> theme; use its `fontFamily` argument explicitly only when needed.
+
+
 ```dart
+final typography = core.SuperTextTheme();
+
 MaterialApp(
   theme: core.SuperMaterialThemeData.light(
     palette: core.SuperPalette.bluePalette,
+    textTheme: typography,
+    primaryTextTheme: typography,
   ),
   darkTheme: core.SuperMaterialThemeData.dark(
     palette: core.SuperPalette.bluePalette,
+    textTheme: typography,
+    primaryTextTheme: typography,
   ),
   themeMode: ThemeMode.system,
 )
@@ -163,7 +179,11 @@ normal applications do not need to register `SuperDialogThemeData` manually.
 Register an explicit extension only for dialog-specific behavior:
 
 ```dart
-final base = core.SuperMaterialThemeData.light();
+final typography = core.SuperTextTheme();
+final base = core.SuperMaterialThemeData.light(
+  textTheme: typography,
+  primaryTextTheme: typography,
+);
 final dialog = SuperDialogThemeData.fromSuperTheme(
   base,
   base.superTheme,

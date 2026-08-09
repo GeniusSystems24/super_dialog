@@ -1,6 +1,9 @@
 # super_dialog · Usage examples (v0.4.0)
 
-Runnable patterns for Flutter applications. Because `super_core` also exports a
+Runnable patterns for Flutter applications. These examples follow the
+`super_core` 3.3.0 typography contract: create a `core.SuperTextTheme` before
+building `SuperMaterialThemeData`, pass it as both required text-theme fields,
+and never read `SuperThemeData.textTheme`. Because `super_core` also exports a
 class named `SuperDialog`, the examples alias that package as `core`.
 
 ```dart
@@ -17,8 +20,8 @@ import 'package:super_dialog/super_dialog.dart';
 dependencies:
   flutter:
     sdk: flutter
-  super_dialog: ^0.4.0
-  super_core: ^2.1.0
+  super_dialog: ^0.6.0
+  super_core: ^3.3.0
 ```
 
 ```dart
@@ -29,13 +32,19 @@ class ErpApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final typography = core.SuperTextTheme();
+
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: core.SuperMaterialThemeData.light(
         palette: core.SuperPalette.bluePalette,
+        textTheme: typography,
+        primaryTextTheme: typography,
       ),
       darkTheme: core.SuperMaterialThemeData.dark(
         palette: core.SuperPalette.bluePalette,
+        textTheme: typography,
+        primaryTextTheme: typography,
       ),
       themeMode: ThemeMode.system,
       home: const Scaffold(body: SizedBox.shrink()),
@@ -386,12 +395,17 @@ Future<Map<String, Object?>?> showLedgerFilters(BuildContext context) {
 
 ```dart
 core.SuperMaterialThemeData buildTheme(Brightness brightness) {
+  final typography = core.SuperTextTheme();
   final base = brightness == Brightness.dark
       ? core.SuperMaterialThemeData.dark(
           palette: core.SuperPalette.bluePalette,
+          textTheme: typography,
+          primaryTextTheme: typography,
         )
       : core.SuperMaterialThemeData.light(
           palette: core.SuperPalette.bluePalette,
+          textTheme: typography,
+          primaryTextTheme: typography,
         );
 
   final dialogTheme = SuperDialogThemeData.fromSuperTheme(
@@ -469,9 +483,14 @@ void main() {
   testWidgets('approval dialog returns true', (tester) async {
     bool? result;
 
+    final typography = core.SuperTextTheme();
+
     await tester.pumpWidget(
       MaterialApp(
-        theme: core.SuperMaterialThemeData.light(),
+        theme: core.SuperMaterialThemeData.light(
+          textTheme: typography,
+          primaryTextTheme: typography,
+        ),
         home: Builder(
           builder: (context) => Scaffold(
             body: TextButton(

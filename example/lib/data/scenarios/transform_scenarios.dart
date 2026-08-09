@@ -108,6 +108,7 @@ class TransformScenarios {
         onDismissed: (context) {
           Future.microtask(() async {
             final bool? shouldLeave = await showDialog<bool>(
+              // ignore: use_build_context_synchronously
               context: context,
               barrierDismissible: false,
               builder: (dialogContext) => AlertDialog(

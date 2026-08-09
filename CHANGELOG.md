@@ -1,16 +1,32 @@
-## 0.4.2
-
-- Upgrade `super_core` dependency to `^2.1.0`.
-- Migrate from removed static `SuperTokens` values to ambient `SuperThemeData.tokens`.
-- Derive dialog spacing, radii, and motion from the active GeniusLink theme.
-- Update the example and bundled AI skills for `super_core` 2.1.0.
-
 # Changelog
 
 All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+
+## [0.6.0] - 2026-08-10
+
+### Changed
+
+- Require `super_core: ^3.3.0`.
+- Migrate `SuperDialogSurface` typography away from the removed
+  `SuperThemeData.textTheme` getter to the active `SuperMaterialThemeData`
+  typography, with a standard Material `TextTheme` fallback.
+- Update the example theme to construct responsive `SuperTextTheme` instances
+  before `SuperMaterialThemeData.light` / `.dark` and pass the now-required
+  `textTheme` and `primaryTextTheme` arguments.
+- Remove the example's duplicate post-generation `TextTheme` rebuild so
+  typography remains owned by `super_core`.
+- Update README and bundled Claude/ChatGPT/Codex skills for the `super_core`
+  3.3.0 typography and explicit-font-family contracts.
+
+## 0.4.2
+
+- Upgrade `super_core` dependency to `^2.1.0`.
+- Migrate from removed static `SuperTokens` values to ambient `SuperThemeData.tokens`.
+- Derive dialog spacing, radii, and motion from the active GeniusLink theme.
+- Update the example and bundled AI skills for `super_core` 2.1.0.
 
 ## [0.4.0] - 2026-07-16
 

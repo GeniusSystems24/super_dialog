@@ -1,7 +1,8 @@
 # Super Dialog example
 
-This showcase uses the published `super_core` package for the GeniusLink design
-system and `go_router_builder` for generated, strongly typed navigation.
+This showcase uses `super_core ^3.3.0` for the GeniusLink design system and
+`go_router_builder` for generated, strongly typed navigation. The app constructs
+`SuperTextTheme` explicitly before building each light/dark material theme.
 
 The visual system includes:
 

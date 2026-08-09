@@ -45,8 +45,11 @@ void main() {
     tester,
   ) async {
     late SuperDialogThemeData resolved;
+    final typography = core.SuperTextTheme();
     final theme = core.SuperMaterialThemeData.light(
       palette: core.SuperPalette.greenPalette,
+      textTheme: typography,
+      primaryTextTheme: typography,
     );
 
     await tester.pumpWidget(
@@ -64,6 +67,32 @@ void main() {
     expect(resolved.accentColor, core.SuperPalette.greenPalette.primary);
     expect(resolved.surfaceColor, core.SuperThemeData.light.surface);
     expect(resolved.cardRadius, core.SuperSpacing.mobile.radiusCard);
+  });
+
+  testWidgets('SuperDialogSurface reads SuperMaterialThemeData typography', (
+    tester,
+  ) async {
+    final typography = core.SuperTextTheme();
+
+    await tester.pumpWidget(
+      MaterialApp(
+        theme: core.SuperMaterialThemeData.light(
+          textTheme: typography,
+          primaryTextTheme: typography,
+        ),
+        home: const Scaffold(
+          body: SuperDialogSurface(
+            title: 'Super typography',
+            subtitle: 'Typography comes from SuperMaterialThemeData',
+            content: Text('Body'),
+          ),
+        ),
+      ),
+    );
+
+    expect(find.text('Super typography'), findsOneWidget);
+    expect(find.text('Body'), findsOneWidget);
+    expect(tester.takeException(), isNull);
   });
 
   testWidgets('SuperDialogSurface reads its registered theme extension', (

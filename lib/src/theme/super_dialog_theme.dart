@@ -2,8 +2,9 @@ part of '../../super_dialog.dart';
 
 /// Route and surface settings layered on top of the `super_core` design system.
 ///
-/// Color, spacing, radius, typography, shadow, and motion defaults are sourced
-/// directly from `super_core`. Apps may still register this extension to
+/// Color, spacing, radius, shadow, and motion defaults are sourced directly
+/// from `super_core`. Typography is read from the active
+/// [core.SuperMaterialThemeData] by dialog surfaces. Apps may still register this extension to
 /// override dialog-specific behavior such as barrier blur or transition timing.
 @immutable
 class SuperDialogThemeData extends ThemeExtension<SuperDialogThemeData> {

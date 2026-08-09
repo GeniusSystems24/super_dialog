@@ -553,17 +553,17 @@ packages:
     dependency: "direct main"
     description:
       name: super_core
-      sha256: "1f53434c52ac598214dd61ac027fea7306edad10118e22c2cd4e6a704ed84e8f"
+      sha256: "76f9f1a93438f9d2e8e04ea9047f018ea6603ec38b22d545a2438b6d2d9b60db"
       url: "https://pub.dev"
     source: hosted
-    version: "3.0.0"
+    version: "3.3.0"
   super_dialog:
     dependency: "direct main"
     description:
       path: ".."
       relative: true
     source: path
-    version: "0.4.2"
+    version: "0.5.1"
   super_navigation_sidebar:
     dependency: "direct main"
     description:

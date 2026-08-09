@@ -14,7 +14,7 @@ version:    0.4.0
 import:     package:super_dialog/super_dialog.dart
 sdk:        dart >=3.9.0
 flutter:    >=3.32.0
-dependency: super_core ^2.1.0
+dependency: super_core ^3.3.0
 ```
 
 Consumer applications that directly use `SuperMaterialThemeData`,
@@ -25,8 +25,8 @@ direct dependency.
 dependencies:
   flutter:
     sdk: flutter
-  super_dialog: ^0.4.0
-  super_core: ^2.1.0
+  super_dialog: ^0.6.0
+  super_core: ^3.3.0
 ```
 
 ## Import rule
@@ -147,13 +147,29 @@ for dialog-specific overrides such as barrier blur, width, or animation timing.
 Use `super_core` on the app root. The dialog package automatically derives its
 surface tokens from it.
 
+`super_core` 3.3.0 requires both `textTheme` and `primaryTextTheme` on
+`SuperMaterialThemeData.light` / `.dark`, and both must be `SuperTextTheme`.
+Do not read typography from `core.SuperThemeData.of(context).textTheme`; that
+getter no longer exists. Read the active typography from
+`core.SuperMaterialThemeData.maybeOf(context)?.textTheme` (with a Material
+`Theme.of(context).textTheme` fallback when the Super theme is optional). Also
+do not infer token font metadata from `SuperTextTheme`; pass `fontFamily` to
+`SuperMaterialThemeData` explicitly only when that token-level override is
+intended.
+
 ```dart
+final typography = core.SuperTextTheme();
+
 MaterialApp(
   theme: core.SuperMaterialThemeData.light(
     palette: core.SuperPalette.bluePalette,
+    textTheme: typography,
+    primaryTextTheme: typography,
   ),
   darkTheme: core.SuperMaterialThemeData.dark(
     palette: core.SuperPalette.bluePalette,
+    textTheme: typography,
+    primaryTextTheme: typography,
   ),
   themeMode: ThemeMode.system,
   home: const ErpDashboard(),

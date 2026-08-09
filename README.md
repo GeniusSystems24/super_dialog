@@ -77,7 +77,7 @@ Add to your `pubspec.yaml`:
 
 ```yaml
 dependencies:
-  super_dialog: ^0.4.0
+  super_dialog: ^0.6.0
 ```
 
 ```bash
@@ -103,7 +103,8 @@ SuperDialog.showAnimatedDialog<void>(
 
 ### GeniusLink / `super_core` Design Theme
 
-Version 0.4 adds a first-class dialog theme sourced from
+Version 0.6 uses the `super_core` 3.3 typography contract and keeps the
+first-class dialog theme sourced from
 [`super_core`](https://pub.dev/packages/super_core), which is now a runtime
 dependency. It provides the
 `#4A7CFF` accent, neutral light/dark surfaces, 4px spacing rhythm, compact
@@ -112,9 +113,17 @@ dependency. It provides the
 ```dart
 import 'package:super_core/super_core.dart' as core;
 
+final typography = core.SuperTextTheme();
+
 MaterialApp(
-  theme: core.SuperMaterialThemeData.light(),
-  darkTheme: core.SuperMaterialThemeData.dark(),
+  theme: core.SuperMaterialThemeData.light(
+    textTheme: typography,
+    primaryTextTheme: typography,
+  ),
+  darkTheme: core.SuperMaterialThemeData.dark(
+    textTheme: typography,
+    primaryTextTheme: typography,
+  ),
 );
 ```
 
@@ -150,14 +159,20 @@ precedence.
 
 Import `super_core` with an alias because both libraries expose a symbol named
 `SuperDialog`. The package automatically reads the active `SuperPalette`; no
-duplicate color or spacing configuration is required:
+duplicate color or spacing configuration is required. With `super_core` 3.3.0,
+`textTheme` and `primaryTextTheme` are required `SuperTextTheme` values.
+Typography is read from `SuperMaterialThemeData`, never from
+`SuperThemeData.textTheme`:
 
 ```dart
 import 'package:super_core/super_core.dart' as core;
 import 'package:super_dialog/super_dialog.dart';
 
+final typography = core.SuperTextTheme();
 final base = core.SuperMaterialThemeData.light(
   palette: core.SuperPalette.greenPalette,
+  textTheme: typography,
+  primaryTextTheme: typography,
 );
 
 MaterialApp(
